@@ -1,0 +1,1037 @@
+/* ====================================
+   PREMIUM WEDDING INVITATION V2
+   Cutting-Edge 2024/2025 Design
+   ==================================== */
+
+/* ====================================
+   CSS VARIABLES
+   ==================================== */
+:root {
+    /* Core Palette */
+    --deep-black: #0A0505;
+    --rich-maroon: #1A0808;
+    --burgundy: #722F37;
+    --gold: #D4AF37;
+    --gold-light: #F5E6B8;
+    --gold-dark: #B8942E;
+    --cream: #FFF8E7;
+    --rose: #E8B4B8;
+    --rose-deep: #C97B84;
+
+    /* Event Accents */
+    --haldi: #FFD700;
+    --haldi-glow: rgba(255, 215, 0, 0.3);
+    --sangeet: #E040FB;
+    --sangeet-glow: rgba(224, 64, 251, 0.3);
+    --barat: #FF6B6B;
+    --barat-glow: rgba(255, 107, 107, 0.3);
+    --wedding: linear-gradient(135deg, #FF4757, #D4AF37);
+    --wedding-glow: rgba(255, 71, 87, 0.3);
+
+    /* Typography */
+    --font-display: 'Cinzel', serif;
+    --font-script: 'Great Vibes', cursive;
+    --font-body: 'Cormorant Garamond', serif;
+
+    /* Spacing */
+    --section-padding: 100px;
+
+    /* Transitions */
+    --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ====================================
+   RESET & BASE
+   ==================================== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--deep-black);
+    color: var(--cream);
+    overflow-x: hidden;
+    line-height: 1.7;
+    cursor: none;
+}
+
+::selection {
+    background: var(--gold);
+    color: var(--deep-black);
+}
+
+/* ====================================
+   PRELOADER
+   ==================================== */
+#preloader {
+    position: fixed;
+    inset: 0;
+    background: var(--deep-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-content {
+    text-align: center;
+    position: relative;
+}
+
+.loader-ring {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: var(--gold);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 1.5s linear infinite;
+}
+
+.loader-ring:nth-child(2) {
+    width: 100px;
+    height: 100px;
+    border-top-color: var(--rose);
+    animation-duration: 1.2s;
+    animation-direction: reverse;
+}
+
+.loader-ring:nth-child(3) {
+    width: 80px;
+    height: 80px;
+    border-top-color: var(--gold-light);
+    animation-duration: 0.9s;
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.loader-text {
+    margin-top: 100px;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    opacity: 0.7;
+}
+
+/* ====================================
+   PROGRESS BAR
+   ==================================== */
+#progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold), var(--rose), var(--gold));
+    transition: width 0.1s ease;
+}
+
+.progress-markers {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3rem;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+body:not(.at-top) .progress-markers {
+    opacity: 0.6;
+}
+
+/* ====================================
+   PARTICLES CANVAS
+   ==================================== */
+#particles-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ====================================
+   CURSOR GLOW
+   ==================================== */
+#cursor-glow {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.08), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+}
+
+/* ====================================
+   SECTIONS BASE
+   ==================================== */
+.section {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* ====================================
+   HERO SECTION
+   ==================================== */
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--deep-black);
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+    width: 600px;
+    height: 600px;
+    background: var(--burgundy);
+    top: -20%;
+    left: -10%;
+}
+
+.orb-2 {
+    width: 500px;
+    height: 500px;
+    background: var(--rose-deep);
+    bottom: -20%;
+    right: -10%;
+    animation-delay: -7s;
+}
+
+.orb-3 {
+    width: 300px;
+    height: 300px;
+    background: var(--gold);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.15;
+    animation-delay: -14s;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    25% {
+        transform: translate(30px, -30px) scale(1.05);
+    }
+
+    50% {
+        transform: translate(-20px, 20px) scale(0.95);
+    }
+
+    75% {
+        transform: translate(20px, 10px) scale(1.02);
+    }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 900px;
+    padding: 2rem;
+}
+
+.hero-ornament {
+    margin-bottom: 2rem;
+}
+
+.ornament-svg {
+    width: 200px;
+    height: 60px;
+}
+
+.ornament-svg.flip {
+    transform: scaleY(-1);
+}
+
+.hero-ornament.bottom {
+    margin-top: 2rem;
+    margin-bottom: 0;
+}
+
+.hero-pretext {
+    font-size: 0.9rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 1.5rem;
+}
+
+.hero-title {
+    margin-bottom: 1.5rem;
+}
+
+.title-line {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 600;
+    color: var(--gold);
+    text-shadow: 0 0 60px rgba(212, 175, 55, 0.3);
+    line-height: 1.2;
+}
+
+.title-script {
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-size: clamp(3rem, 10vw, 6rem);
+    color: var(--rose);
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--cream);
+    opacity: 0.8;
+    max-width: 500px;
+    margin: 0 auto 2rem;
+}
+
+/* CTA Button */
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: all 0.4s var(--ease-smooth);
+    cursor: pointer;
+}
+
+.cta-button.primary {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--deep-black);
+    border: none;
+}
+
+.cta-button.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+}
+
+.cta-button svg {
+    width: 18px;
+    height: 18px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(5px);
+    }
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.mouse {
+    width: 26px;
+    height: 40px;
+    border: 2px solid var(--gold);
+    border-radius: 20px;
+    position: relative;
+    opacity: 0.6;
+}
+
+.wheel {
+    width: 4px;
+    height: 8px;
+    background: var(--gold);
+    border-radius: 2px;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scroll 2s infinite;
+}
+
+@keyframes scroll {
+    0% {
+        opacity: 1;
+        top: 8px;
+    }
+
+    100% {
+        opacity: 0;
+        top: 20px;
+    }
+}
+
+/* ====================================
+   HORIZONTAL SCROLL SECTION (DAY 1)
+   ==================================== */
+.horizontal-section {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.horizontal-wrapper {
+    display: flex;
+    height: 100%;
+    width: 300vw;
+    /* 3 panels */
+}
+
+.h-panel {
+    width: 100vw;
+    height: 100%;
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ====================================
+   PANEL BACKGROUNDS
+   ==================================== */
+.panel-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+}
+
+.day1-bg {
+    background: linear-gradient(135deg, var(--rich-maroon), #2A1010);
+}
+
+.haldi-bg {
+    background: linear-gradient(135deg, #2A1A00, #1A0F00);
+}
+
+.haldi-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, var(--haldi-glow), transparent 60%);
+}
+
+.sangeet-bg {
+    background: linear-gradient(135deg, #1A0825, #0D0412);
+}
+
+.sangeet-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, var(--sangeet-glow), transparent 60%);
+}
+
+.day2-bg {
+    background: linear-gradient(135deg, #1A0808, var(--deep-black));
+}
+
+.barat-bg {
+    background: linear-gradient(135deg, #1A0A0A, #0D0505);
+}
+
+.barat-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, var(--barat-glow), transparent 60%);
+}
+
+.wedding-bg {
+    background: linear-gradient(180deg, #1A0505, #0D0202);
+}
+
+.wedding-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, var(--wedding-glow), transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(212, 175, 55, 0.1), transparent 50%);
+}
+
+/* ====================================
+   PANEL CONTENT
+   ==================================== */
+.panel-content {
+    max-width: 1400px;
+    width: 100%;
+    padding: 2rem 4rem;
+    position: relative;
+    z-index: 2;
+}
+
+.panel-content.centered {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.panel-content.split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.panel-content.split.reverse {
+    direction: rtl;
+}
+
+.panel-content.split.reverse>* {
+    direction: ltr;
+}
+
+/* Day Badge */
+.day-badge-large {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.day-num {
+    font-family: var(--font-display);
+    font-size: 6rem;
+    font-weight: 700;
+    color: var(--gold);
+    opacity: 0.2;
+    line-height: 1;
+}
+
+.day-label {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: -1rem;
+}
+
+.panel-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+}
+
+.panel-subtitle {
+    font-size: 1.2rem;
+    color: var(--rose);
+    font-style: italic;
+    margin-bottom: 2rem;
+}
+
+/* Time Range */
+.time-range {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 1rem;
+    color: var(--gold-light);
+}
+
+.time-line {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--rose));
+}
+
+/* Event Meta */
+.event-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.event-icon-large {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.event-time-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-time-block .time-label {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    opacity: 0.7;
+}
+
+.event-time-block .time-value {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--gold);
+}
+
+.sunset-time .time-value {
+    background: linear-gradient(90deg, #FF6B35, #FFD93D);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Event Content */
+.event-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+}
+
+.event-tagline {
+    font-size: 1.2rem;
+    color: var(--rose);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+}
+
+.event-description {
+    font-size: 1.1rem;
+    color: var(--cream);
+    opacity: 0.85;
+    line-height: 1.8;
+    max-width: 500px;
+}
+
+/* Image Frame */
+.image-frame {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+}
+
+.image-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.8s var(--ease-smooth);
+}
+
+.image-frame:hover img {
+    transform: scale(1.05);
+}
+
+.frame-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.haldi-frame .frame-glow {
+    box-shadow: inset 0 0 60px var(--haldi-glow), 0 0 60px var(--haldi-glow);
+}
+
+.sangeet-frame .frame-glow {
+    box-shadow: inset 0 0 60px var(--sangeet-glow), 0 0 60px var(--sangeet-glow);
+}
+
+.barat-frame .frame-glow {
+    box-shadow: inset 0 0 60px var(--barat-glow), 0 0 60px var(--barat-glow);
+}
+
+.wedding-frame .frame-glow {
+    box-shadow: inset 0 0 60px var(--wedding-glow), 0 0 60px var(--wedding-glow);
+}
+
+.image-frame:hover .frame-glow {
+    opacity: 1;
+}
+
+/* ====================================
+   TRANSITION SECTION
+   ==================================== */
+.transition-section {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, var(--deep-black), var(--rich-maroon), var(--deep-black));
+}
+
+.transition-content {
+    text-align: center;
+}
+
+.moon-sun-transition {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.celestial {
+    font-size: 3rem;
+    animation: celestialGlow 3s ease-in-out infinite;
+}
+
+@keyframes celestialGlow {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+.transition-line {
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, #7C4DFF, var(--gold), #FF6B35);
+}
+
+.transition-text {
+    font-size: 1.2rem;
+    color: var(--gold-light);
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* ====================================
+   VERTICAL SECTION (DAY 2)
+   ==================================== */
+.vertical-section {
+    min-height: auto;
+}
+
+.v-panel {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.v-panel .panel-content {
+    padding: 4rem;
+}
+
+/* ====================================
+   FINALE SECTION
+   ==================================== */
+.finale-section {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--deep-black);
+}
+
+.finale-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.finale-bg .orb-1 {
+    background: var(--burgundy);
+    opacity: 0.3;
+    top: 0;
+    left: 20%;
+}
+
+.finale-bg .orb-2 {
+    background: var(--rose-deep);
+    opacity: 0.2;
+    bottom: 0;
+    right: 20%;
+}
+
+.finale-content {
+    position: relative;
+    z-index: 10;
+    max-width: 700px;
+    padding: 2rem;
+}
+
+.finale-icon {
+    margin-bottom: 2rem;
+}
+
+.heart-svg {
+    width: 80px;
+    height: 80px;
+}
+
+.heart-path {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: drawHeart 3s ease forwards, pulseHeart 2s ease-in-out infinite 3s;
+}
+
+@keyframes drawHeart {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes pulseHeart {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.finale-pretext {
+    font-size: 1rem;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+}
+
+.finale-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--cream);
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+}
+
+.finale-title .script {
+    font-family: var(--font-script);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    color: var(--gold);
+    display: block;
+}
+
+.finale-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.orn-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.orn-line:last-child {
+    background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.orn-diamond {
+    color: var(--gold);
+    font-size: 0.8rem;
+}
+
+.finale-signature {
+    font-size: 1.3rem;
+    color: var(--rose);
+    font-style: italic;
+}
+
+/* ====================================
+   REVEAL ANIMATIONS
+   ==================================== */
+.reveal-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1s var(--ease-smooth);
+}
+
+.reveal-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.delay-1 {
+    transition-delay: 0.1s;
+}
+
+.delay-2 {
+    transition-delay: 0.2s;
+}
+
+.delay-3 {
+    transition-delay: 0.3s;
+}
+
+.delay-4 {
+    transition-delay: 0.4s;
+}
+
+.delay-5 {
+    transition-delay: 0.5s;
+}
+
+.delay-6 {
+    transition-delay: 0.6s;
+}
+
+/* ====================================
+   RESPONSIVE
+   ==================================== */
+@media (max-width: 1024px) {
+    .panel-content.split {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .panel-content.split.reverse {
+        direction: ltr;
+    }
+
+    .event-meta {
+        justify-content: center;
+    }
+
+    .event-description {
+        margin: 0 auto;
+    }
+
+    .horizontal-wrapper {
+        width: 300vw;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --section-padding: 60px;
+    }
+
+    body {
+        cursor: auto;
+    }
+
+    #cursor-glow {
+        display: none;
+    }
+
+    .panel-content {
+        padding: 2rem;
+    }
+
+    .day-num {
+        font-size: 4rem;
+    }
+
+    .event-icon-large {
+        width: 50px;
+        height: 50px;
+    }
+
+    .progress-markers {
+        display: none;
+    }
+}
+
+/* ====================================
+   SCROLLBAR
+   ==================================== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--deep-black);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--gold), var(--burgundy));
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gold);
+}

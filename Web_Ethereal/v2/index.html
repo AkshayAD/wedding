@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Celebration - Premium Experience</title>
+    <meta name="description" content="You are cordially invited to celebrate love, joy, and the union of two souls.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&display=swap"
+        rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <p class="loader-text">Preparing Your Experience</p>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar">
+        <div class="progress-fill"></div>
+        <div class="progress-markers">
+            <span class="marker" data-section="hero">●</span>
+            <span class="marker" data-section="day1">Day 1</span>
+            <span class="marker" data-section="day2">Day 2</span>
+            <span class="marker" data-section="finale">●</span>
+        </div>
+    </div>
+
+    <!-- Floating Particles -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Cursor Glow -->
+    <div id="cursor-glow"></div>
+
+    <!-- ====================================
+         HERO SECTION
+         ==================================== -->
+    <section class="section hero-section" id="hero">
+        <div class="hero-bg">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-ornament reveal-up">
+                <svg viewBox="0 0 200 60" class="ornament-svg">
+                    <path d="M0 30 Q50 0 100 30 Q150 60 200 30" fill="none" stroke="url(#goldGradient)"
+                        stroke-width="2" />
+                    <defs>
+                        <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:0" />
+                            <stop offset="50%" style="stop-color:#D4AF37;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:0" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+
+            <p class="hero-pretext reveal-up delay-1">With Joy & Blessings, We Invite You To</p>
+
+            <h1 class="hero-title">
+                <span class="title-line reveal-up delay-2">A Celebration</span>
+                <span class="title-line title-script reveal-up delay-3">of Love</span>
+            </h1>
+
+            <p class="hero-subtitle reveal-up delay-4">Two days of sacred traditions, joyous celebrations, and timeless
+                memories</p>
+
+            <div class="hero-cta reveal-up delay-5">
+                <a href="#day1" class="cta-button primary">
+                    <span>Begin Journey</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12l7 7 7-7" />
+                    </svg>
+                </a>
+            </div>
+
+            <div class="hero-ornament bottom reveal-up delay-6">
+                <svg viewBox="0 0 200 60" class="ornament-svg flip">
+                    <path d="M0 30 Q50 60 100 30 Q150 0 200 30" fill="none" stroke="url(#goldGradient)"
+                        stroke-width="2" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================
+         DAY 1 - HORIZONTAL SCROLL SECTION
+         ==================================== -->
+    <section class="section horizontal-section" id="day1">
+        <div class="horizontal-wrapper">
+            <!-- Day 1 Intro -->
+            <div class="h-panel day-intro-panel">
+                <div class="panel-bg day1-bg"></div>
+                <div class="panel-content">
+                    <div class="day-badge-large">
+                        <span class="day-num">01</span>
+                        <span class="day-label">Day One</span>
+                    </div>
+                    <h2 class="panel-title">The Celebrations Begin</h2>
+                    <p class="panel-subtitle">From golden afternoons to starlit nights</p>
+                    <div class="time-range">
+                        <span class="time-start">12:30 PM</span>
+                        <div class="time-line"></div>
+                        <span class="time-end">Late Night</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Haldi Panel -->
+            <div class="h-panel event-panel haldi-panel">
+                <div class="panel-bg haldi-bg"></div>
+                <div class="panel-content split">
+                    <div class="content-left">
+                        <div class="event-meta">
+                            <img src="../assets/icons/haldi.png" alt="" class="event-icon-large">
+                            <div class="event-time-block">
+                                <span class="time-label">Begins at</span>
+                                <span class="time-value">12:30 PM</span>
+                            </div>
+                        </div>
+                        <h3 class="event-title">Haldi<br>Ceremony</h3>
+                        <p class="event-tagline">Blessings in Golden Hues</p>
+                        <p class="event-description">
+                            A sacred ritual where turmeric paste, symbolizing purity and prosperity,
+                            is lovingly applied to the bride and groom. Family and friends come together
+                            to bestow blessings for a radiant new beginning.
+                        </p>
+                    </div>
+                    <div class="content-right">
+                        <div class="image-frame haldi-frame">
+                            <img src="../assets/Haldi Final.png" alt="Haldi Ceremony">
+                            <div class="frame-glow"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sangeet Panel -->
+            <div class="h-panel event-panel sangeet-panel">
+                <div class="panel-bg sangeet-bg"></div>
+                <div class="panel-content split reverse">
+                    <div class="content-left">
+                        <div class="image-frame sangeet-frame">
+                            <img src="../assets/Sangeet Final.png" alt="Sangeet Night">
+                            <div class="frame-glow"></div>
+                        </div>
+                    </div>
+                    <div class="content-right">
+                        <div class="event-meta">
+                            <img src="../assets/icons/sangeet.png" alt="" class="event-icon-large">
+                            <div class="event-time-block">
+                                <span class="time-label">Begins at</span>
+                                <span class="time-value">6:30 PM</span>
+                            </div>
+                        </div>
+                        <h3 class="event-title">Sangeet<br>Night</h3>
+                        <p class="event-tagline">Dance, Music & Celebration</p>
+                        <p class="event-description">
+                            As the stars emerge, the night transforms into a spectacular celebration
+                            of music and dance. Family performances, Bollywood beats, and joyous
+                            laughter fill the air in this unforgettable evening.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================
+         TRANSITION SECTION
+         ==================================== -->
+    <section class="section transition-section">
+        <div class="transition-content">
+            <div class="moon-sun-transition">
+                <div class="celestial moon">🌙</div>
+                <div class="transition-line"></div>
+                <div class="celestial sun">☀️</div>
+            </div>
+            <p class="transition-text">As the night fades, a new dawn brings the most sacred day...</p>
+        </div>
+    </section>
+
+    <!-- ====================================
+         DAY 2 - VERTICAL IMMERSIVE
+         ==================================== -->
+    <section class="section vertical-section" id="day2">
+        <!-- Day 2 Intro -->
+        <div class="v-panel day-intro-panel">
+            <div class="panel-bg day2-bg"></div>
+            <div class="panel-content centered">
+                <div class="day-badge-large">
+                    <span class="day-num">02</span>
+                    <span class="day-label">Day Two</span>
+                </div>
+                <h2 class="panel-title">The Grand Ceremony</h2>
+                <p class="panel-subtitle">Where two souls become one</p>
+                <div class="time-range">
+                    <span class="time-start">4:00 PM</span>
+                    <div class="time-line"></div>
+                    <span class="time-end">Sunset</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barat Event -->
+        <div class="v-panel event-panel barat-panel">
+            <div class="panel-bg barat-bg"></div>
+            <div class="panel-content split">
+                <div class="content-left">
+                    <div class="event-meta">
+                        <img src="../assets/icons/barat.png" alt="" class="event-icon-large">
+                        <div class="event-time-block">
+                            <span class="time-label">Arrives at</span>
+                            <span class="time-value">4:00 PM</span>
+                        </div>
+                    </div>
+                    <h3 class="event-title">The<br>Barat</h3>
+                    <p class="event-tagline">The Groom's Grand Procession</p>
+                    <p class="event-description">
+                        With music, dancing, and jubilant celebrations, the groom arrives
+                        in a magnificent procession. Surrounded by loved ones, this joyous
+                        march marks the beginning of the most sacred ceremonies.
+                    </p>
+                </div>
+                <div class="content-right">
+                    <div class="image-frame barat-frame">
+                        <img src="../assets/Barat.png" alt="The Barat">
+                        <div class="frame-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wedding Ceremony -->
+        <div class="v-panel event-panel wedding-panel">
+            <div class="panel-bg wedding-bg"></div>
+            <div class="panel-content split reverse">
+                <div class="content-left">
+                    <div class="image-frame wedding-frame">
+                        <img src="../assets/Wedding Ceremony.png" alt="Wedding Ceremony">
+                        <div class="frame-glow"></div>
+                    </div>
+                </div>
+                <div class="content-right">
+                    <div class="event-meta">
+                        <img src="../assets/icons/wedding.png" alt="" class="event-icon-large">
+                        <div class="event-time-block sunset-time">
+                            <span class="time-label">Sacred Hour</span>
+                            <span class="time-value">Sunset</span>
+                        </div>
+                    </div>
+                    <h3 class="event-title">The Wedding<br>Ceremony</h3>
+                    <p class="event-tagline">Sacred Vows & Eternal Bond</p>
+                    <p class="event-description">
+                        As the golden sun dips below the horizon, two hearts are bound in
+                        sacred matrimony. Surrounded by the warmth of family blessings and
+                        the glow of holy fire, this timeless ceremony marks the beginning
+                        of forever.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================
+         FINALE SECTION
+         ==================================== -->
+    <section class="section finale-section" id="finale">
+        <div class="finale-bg">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+        </div>
+
+        <div class="finale-content">
+            <div class="finale-icon">
+                <svg viewBox="0 0 100 100" class="heart-svg">
+                    <path d="M50 85 L20 55 Q5 40 5 25 Q5 10 20 10 Q35 10 50 25 Q65 10 80 10 Q95 10 95 25 Q95 40 80 55 Z"
+                        fill="none" stroke="#D4AF37" stroke-width="2" class="heart-path" />
+                </svg>
+            </div>
+
+            <p class="finale-pretext reveal-up">Your Presence Would Make Our Celebration Complete</p>
+
+            <h2 class="finale-title reveal-up delay-1">
+                We Await Your<br>
+                <span class="script">Gracious Presence</span>
+            </h2>
+
+            <div class="finale-ornament reveal-up delay-2">
+                <span class="orn-line"></span>
+                <span class="orn-diamond">◆</span>
+                <span class="orn-line"></span>
+            </div>
+
+            <p class="finale-signature reveal-up delay-3">With Love & Blessings</p>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
