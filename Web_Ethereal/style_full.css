@@ -1,0 +1,934 @@
+/* ====================================
+   PREMIUM WEDDING INVITATION V3
+   Time-of-Day Flow & Smooth Transitions
+   ==================================== */
+
+:root {
+    /* Core Palette */
+    --burgundy: #722F37;
+    --burgundy-dark: #4A1C23;
+    --gold: #D4AF37;
+    --gold-light: #F5E6B8;
+    --cream: #FFF8E7;
+    --rose: #E8B4B8;
+    --deep-maroon: #2D0A0A;
+
+    /* Time of Day Colors */
+    --dawn-top: #FF9A8B;
+    --dawn-bottom: #FFECD2;
+
+    --morning-top: #87CEEB;
+    --morning-bottom: #FFF8DC;
+
+    --late-morning-top: #FFD700;
+    --late-morning-bottom: #FFF8E7;
+
+    --afternoon-top: #87CEEB;
+    --afternoon-bottom: #E0F7FA;
+
+    --evening-top: #2E1A47;
+    --evening-bottom: #FF6B6B;
+
+    --night-top: #0D0221;
+    --night-bottom: #2E1A47;
+
+    --golden-hour-top: #FF6B35;
+    --golden-hour-bottom: #FFD93D;
+
+    /* Event Colors */
+    --haldi-primary: #FFD700;
+    --haldi-secondary: #FFA500;
+    --sangeet-primary: #E040FB;
+    --sangeet-secondary: #7C4DFF;
+    --barat-primary: #FF6B6B;
+    --barat-secondary: #FF8E53;
+    --wedding-primary: #FF4757;
+    --wedding-secondary: #D4AF37;
+
+    /* Current sky (will be updated by JS) */
+    --sky-top: var(--dawn-top);
+    --sky-bottom: var(--dawn-bottom);
+    --sky-opacity: 0.4;
+
+    /* Shadows */
+    --card-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Cormorant Garamond', serif;
+    background: var(--deep-maroon);
+    color: var(--cream);
+    overflow-x: hidden;
+    line-height: 1.7;
+}
+
+/* ====================================
+   SKY GRADIENT BACKGROUND
+   ==================================== */
+#sky-gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, var(--sky-top), var(--sky-bottom));
+    opacity: var(--sky-opacity);
+    transition: all 1.5s ease;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ====================================
+   CELESTIAL BODY (Sun/Moon)
+   ==================================== */
+#celestial-body {
+    position: fixed;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.9;
+    transition: all 1s ease;
+}
+
+.sun-moon-container {
+    width: 60px;
+    height: 60px;
+    position: relative;
+}
+
+.sun-moon-container .sun,
+.sun-moon-container .moon {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.sun-moon-container .sun {
+    opacity: 1;
+}
+
+.sun-moon-container .moon {
+    opacity: 0;
+}
+
+body.night-mode .sun-moon-container .sun {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+body.night-mode .sun-moon-container .moon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.sun-rays {
+    animation: rotateSun 20s linear infinite;
+}
+
+@keyframes rotateSun {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.time-label {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    transition: all 0.5s ease;
+}
+
+/* ====================================
+   GLOBAL PARTICLES
+   ==================================== */
+#particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.global-particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* ====================================
+   HERO SECTION
+   ==================================== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    background: linear-gradient(180deg, rgba(45, 10, 10, 0.8), rgba(74, 28, 35, 0.9));
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(45, 10, 10, 0.7) 70%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    max-width: 900px;
+}
+
+.ornament-line {
+    width: 300px;
+    height: 2px;
+    margin: 2rem auto;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    position: relative;
+}
+
+.ornament-line::before {
+    content: '❋';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--gold);
+    font-size: 1.2rem;
+    background: rgba(45, 10, 10, 0.9);
+    padding: 0 1rem;
+}
+
+.ornament-line.gold::before {
+    background: rgba(26, 5, 5, 0.9);
+}
+
+.pre-title {
+    font-size: 1.1rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 1rem;
+}
+
+.main-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    color: var(--gold);
+    text-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
+    margin-bottom: 1rem;
+}
+
+.sub-title {
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--rose);
+}
+
+/* Timeline Navigation - Clickable */
+.timeline-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.day-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.day-link:hover {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: var(--gold);
+    transform: translateY(-5px);
+}
+
+.day-badge {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--deep-maroon);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.timeline-text {
+    color: var(--cream);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
+.timeline-divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.scroll-cta {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.scroll-cta:hover {
+    transform: translateY(-5px);
+}
+
+.scroll-cta span {
+    color: var(--gold-light);
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.scroll-arrow {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: bounce 2s infinite;
+}
+
+.scroll-arrow svg {
+    width: 20px;
+    height: 20px;
+    color: var(--gold);
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+/* ====================================
+   DAY HEADERS
+   ==================================== */
+.day-header {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    background: linear-gradient(180deg,
+            rgba(45, 10, 10, 0.7),
+            rgba(74, 28, 35, 0.8));
+    transition: background 1s ease;
+}
+
+.day-content {
+    position: relative;
+    z-index: 2;
+}
+
+.time-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+}
+
+.time-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.day-number {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(3rem, 10vw, 5rem);
+    color: var(--gold);
+    opacity: 0.4;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+}
+
+.day-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--gold);
+    margin: -0.5rem 0 0.5rem;
+}
+
+.day-subtitle {
+    font-size: 1.2rem;
+    color: var(--rose);
+    font-style: italic;
+}
+
+.day-time-hint {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--gold-light);
+    opacity: 0.7;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* ====================================
+   EVENT SECTIONS
+   ==================================== */
+.event-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 4rem 2rem;
+    overflow: hidden;
+    transition: background 1.5s ease;
+}
+
+/* Section backgrounds with transparency for sky show-through */
+.cover-section {
+    background: linear-gradient(135deg,
+            rgba(45, 10, 10, 0.85),
+            rgba(74, 28, 35, 0.9));
+}
+
+.haldi-section {
+    background: linear-gradient(135deg,
+            rgba(61, 40, 0, 0.85),
+            rgba(45, 26, 0, 0.9));
+}
+
+.sangeet-section {
+    background: linear-gradient(135deg,
+            rgba(26, 10, 46, 0.9),
+            rgba(13, 5, 24, 0.95));
+}
+
+.barat-section {
+    background: linear-gradient(135deg,
+            rgba(45, 21, 21, 0.85),
+            rgba(26, 8, 8, 0.9));
+}
+
+.wedding-section {
+    background: linear-gradient(135deg,
+            rgba(26, 5, 5, 0.9),
+            rgba(13, 2, 2, 0.95));
+}
+
+/* Wide Container */
+.event-container {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    max-width: 1400px;
+    width: 100%;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.event-container.reverse {
+    grid-template-columns: 1.2fr 1fr;
+}
+
+.event-container.reverse .event-info {
+    order: 2;
+}
+
+.event-container.reverse .event-card {
+    order: 1;
+}
+
+/* Event Info */
+.event-info {
+    padding: 2rem;
+}
+
+.event-header {
+    text-align: left;
+}
+
+/* SVG Icons */
+.event-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1.5rem;
+    color: var(--gold);
+}
+
+.event-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.event-icon.haldi-icon {
+    color: var(--haldi-primary);
+}
+
+.event-icon.sangeet-icon {
+    color: var(--sangeet-primary);
+}
+
+.event-icon.barat-icon {
+    color: var(--barat-primary);
+}
+
+.event-icon.wedding-icon {
+    color: var(--wedding-primary);
+}
+
+.event-time-badge {
+    display: inline-block;
+    background: rgba(212, 175, 55, 0.2);
+    color: var(--gold);
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.event-header h2 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+}
+
+.event-tagline {
+    font-size: 1.3rem;
+    color: var(--rose);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+}
+
+.event-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--cream);
+    opacity: 0.9;
+    max-width: 500px;
+}
+
+/* Event Card */
+.event-card {
+    position: relative;
+}
+
+.card-frame {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card-frame::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    background: linear-gradient(135deg, var(--gold), transparent, var(--gold));
+    border-radius: 18px;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.haldi-frame::before {
+    background: linear-gradient(135deg, var(--haldi-primary), transparent, var(--haldi-secondary));
+}
+
+.sangeet-frame::before {
+    background: linear-gradient(135deg, var(--sangeet-primary), transparent, var(--sangeet-secondary));
+}
+
+.barat-frame::before {
+    background: linear-gradient(135deg, var(--barat-primary), transparent, var(--barat-secondary));
+}
+
+.wedding-frame::before {
+    background: linear-gradient(135deg, var(--wedding-primary), transparent, var(--wedding-secondary));
+}
+
+.card-frame:hover {
+    transform: scale(1.02) translateY(-5px);
+}
+
+.invitation-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+}
+
+/* ====================================
+   EVENT ANIMATIONS (kept from v2)
+   ==================================== */
+.haldi-splashes,
+.sangeet-lights,
+.barat-flowers,
+.wedding-diyas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.haldi-splash {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0;
+    animation: splash 4s ease-in-out infinite;
+}
+
+@keyframes splash {
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    50% {
+        opacity: 0.3;
+        transform: scale(1.2);
+    }
+}
+
+.sangeet-light {
+    position: absolute;
+    width: 100px;
+    height: 300px;
+    filter: blur(20px);
+    opacity: 0;
+    animation: spotlight 3s ease-in-out infinite;
+    transform-origin: top center;
+}
+
+@keyframes spotlight {
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: rotate(-30deg);
+    }
+
+    50% {
+        opacity: 0.2;
+        transform: rotate(30deg);
+    }
+}
+
+.barat-flower {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0;
+    animation: fall 6s linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px) rotate(0deg);
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+
+.wedding-diya {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--gold), 0 0 40px var(--wedding-primary);
+    opacity: 0;
+    animation: flicker 2s ease-in-out infinite;
+}
+
+@keyframes flicker {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+/* ====================================
+   CLOSING SECTION
+   ==================================== */
+.closing-section {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(180deg,
+            rgba(26, 5, 5, 0.95),
+            rgba(45, 10, 10, 0.98));
+    padding: 4rem 2rem;
+    position: relative;
+}
+
+.closing-content {
+    max-width: 700px;
+    position: relative;
+    z-index: 2;
+}
+
+.closing-pre {
+    font-size: 1.2rem;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+}
+
+.closing-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    color: var(--gold);
+    text-shadow: 0 0 60px rgba(212, 175, 55, 0.4);
+    margin: 1rem 0;
+}
+
+.closing-hearts {
+    margin: 1.5rem 0;
+}
+
+.heart-icon {
+    width: 50px;
+    height: 50px;
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+.closing-names {
+    font-size: 1.3rem;
+    color: var(--rose);
+    font-style: italic;
+}
+
+/* ====================================
+   ANIMATIONS
+   ==================================== */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease forwards;
+}
+
+.fade-in.delay-1 {
+    animation-delay: 0.3s;
+}
+
+.fade-in.delay-2 {
+    animation-delay: 0.6s;
+}
+
+.fade-in.delay-3 {
+    animation-delay: 0.9s;
+}
+
+.fade-in.delay-4 {
+    animation-delay: 1.2s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 1s cubic-bezier(0.23, 1, 0.32, 1),
+        transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal.delay-1 {
+    transition-delay: 0.2s;
+}
+
+.reveal.delay-2 {
+    transition-delay: 0.4s;
+}
+
+.reveal.delay-3 {
+    transition-delay: 0.6s;
+}
+
+/* ====================================
+   RESPONSIVE
+   ==================================== */
+@media (max-width: 1024px) {
+
+    .event-container,
+    .event-container.reverse {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        max-width: 700px;
+    }
+
+    .event-container.reverse .event-info,
+    .event-container.reverse .event-card {
+        order: unset;
+    }
+
+    .event-info,
+    .event-header {
+        text-align: center;
+    }
+
+    .event-description {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .event-icon {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #celestial-body {
+        right: 20px;
+        top: 20px;
+        transform: none;
+    }
+
+    .sun-moon-container {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .event-section {
+        padding: 3rem 1rem;
+    }
+
+    .ornament-line {
+        width: 200px;
+    }
+
+    .timeline-nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .timeline-divider {
+        width: 2px;
+        height: 30px;
+        background: linear-gradient(180deg, var(--gold), transparent);
+    }
+
+    .day-number {
+        font-size: 2.5rem;
+    }
+
+    #celestial-body {
+        display: none;
+    }
+}
+
+/* ====================================
+   SCROLLBAR
+   ==================================== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--deep-maroon);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--gold), var(--burgundy));
+    border-radius: 4px;
+}
