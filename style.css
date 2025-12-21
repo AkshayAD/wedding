@@ -594,3 +594,1199 @@ body {
     background: linear-gradient(180deg, var(--gold), var(--burgundy));
     border-radius: 4px;
 }
+
+/* ====================================
+   STICKY NAVIGATION BAR
+   ==================================== */
+.sticky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: rgba(45, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+}
+
+.sticky-nav.visible {
+    transform: translateY(0);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    color: var(--cream);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.nav-link.travel-link:hover {
+    background: rgba(32, 178, 170, 0.2);
+    border-color: #20B2AA;
+}
+
+.nav-link.safari-link:hover {
+    background: rgba(255, 165, 0, 0.2);
+    border-color: #FFA500;
+}
+
+@media (max-width: 600px) {
+    .nav-container {
+        padding: 0.6rem 1rem;
+    }
+
+    .nav-link {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* ====================================
+   INFO NAVIGATION (Travel & Safari chips)
+   ==================================== */
+.info-nav {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.info-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 30px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.info-chip:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.travel-chip:hover {
+    background: rgba(32, 178, 170, 0.2);
+    border-color: #20B2AA;
+}
+
+.safari-chip:hover {
+    background: rgba(255, 165, 0, 0.2);
+    border-color: #FFA500;
+}
+
+.chip-icon {
+    font-size: 1.5rem;
+}
+
+.chip-label {
+    font-size: 0.95rem;
+    color: var(--cream);
+    letter-spacing: 1px;
+}
+
+/* ====================================
+   INFO SECTIONS (Travel & Tadoba)
+   ==================================== */
+.info-section {
+    min-height: 100vh;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.travel-section {
+    background: linear-gradient(180deg, rgba(32, 178, 170, 0.08), transparent);
+}
+
+.safari-section {
+    background: linear-gradient(180deg, rgba(255, 140, 0, 0.08), transparent);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+}
+
+.travel-badge {
+    background: linear-gradient(135deg, #20B2AA, #48D1CC);
+    color: #0a2525;
+}
+
+.safari-badge {
+    background: linear-gradient(135deg, #FFA500, #FFD700);
+    color: #2d1a00;
+}
+
+.section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: var(--rose);
+    font-style: italic;
+}
+
+/* Info Cards Container */
+.info-cards-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Info Cards */
+.info-card {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.info-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.travel-card {
+    border-color: rgba(32, 178, 170, 0.2);
+}
+
+.travel-card:hover {
+    border-color: rgba(32, 178, 170, 0.4);
+}
+
+.safari-card {
+    border-color: rgba(255, 165, 0, 0.2);
+}
+
+.safari-card:hover {
+    border-color: rgba(255, 165, 0, 0.4);
+}
+
+.featured-card {
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.travel-glow {
+    box-shadow: 0 0 60px rgba(32, 178, 170, 0.3);
+}
+
+.safari-glow {
+    box-shadow: 0 0 60px rgba(255, 165, 0, 0.3);
+}
+
+.info-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    flex-wrap: wrap;
+}
+
+.info-icon {
+    font-size: 1.8rem;
+}
+
+.info-card-header h3 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    flex: 1;
+}
+
+.featured-badge {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #2d1a00;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-card-body {
+    padding: 1.5rem;
+}
+
+/* Travel Options */
+.travel-option {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.travel-option:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.option-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.option-icon {
+    font-size: 1.3rem;
+}
+
+.option-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--cream);
+}
+
+.option-badge {
+    padding: 0.2rem 0.7rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.option-badge.recommended {
+    background: linear-gradient(135deg, #20B2AA, #48D1CC);
+    color: #0a2525;
+}
+
+.option-details p {
+    font-size: 0.9rem;
+    color: var(--cream);
+    opacity: 0.85;
+    margin-bottom: 0.4rem;
+    padding-left: 0.5rem;
+}
+
+.option-details p strong {
+    color: var(--gold-light);
+}
+
+.option-details .tip {
+    margin-top: 0.8rem;
+    padding: 0.6rem;
+    background: rgba(32, 178, 170, 0.15);
+    border-radius: 8px;
+    border-left: 3px solid #20B2AA;
+    font-style: italic;
+}
+
+/* Highlight Box */
+.highlight-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.2rem;
+    background: rgba(32, 178, 170, 0.15);
+    border-radius: 16px;
+    border: 1px solid rgba(32, 178, 170, 0.3);
+    margin-bottom: 1.5rem;
+}
+
+.safari-highlight {
+    background: rgba(255, 165, 0, 0.15);
+    border-color: rgba(255, 165, 0, 0.3);
+}
+
+.highlight-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.highlight-content h4 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+}
+
+.highlight-content p {
+    font-size: 0.95rem;
+    color: var(--cream);
+    opacity: 0.9;
+}
+
+/* Venue Details */
+.venue-details {
+    margin-bottom: 1.5rem;
+}
+
+.venue-details p {
+    font-size: 0.95rem;
+    color: var(--cream);
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+}
+
+.venue-details p strong {
+    color: var(--gold-light);
+}
+
+/* Contact Box */
+.contact-box {
+    padding: 1rem;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.contact-label {
+    font-size: 0.9rem;
+    color: var(--gold-light);
+    margin-bottom: 0.5rem;
+}
+
+.contact-note {
+    font-size: 0.85rem;
+    color: var(--cream);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* Quick Facts */
+.intro-text {
+    font-size: 1rem;
+    color: var(--cream);
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.quick-facts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.fact {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+}
+
+.fact-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.fact-text {
+    font-size: 0.95rem;
+    color: var(--cream);
+    opacity: 0.9;
+}
+
+.fact-text strong {
+    color: var(--gold-light);
+}
+
+/* Safari Timing */
+.safari-timing {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.timing-slot {
+    flex: 1;
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timing-slot.morning {
+    background: rgba(255, 183, 77, 0.15);
+    border-color: rgba(255, 183, 77, 0.3);
+}
+
+.timing-slot.evening {
+    background: rgba(255, 138, 101, 0.15);
+    border-color: rgba(255, 138, 101, 0.3);
+}
+
+.slot-icon {
+    font-size: 1.5rem;
+}
+
+.slot-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.slot-info strong {
+    font-size: 0.9rem;
+    color: var(--cream);
+}
+
+.slot-info span {
+    font-size: 0.85rem;
+    color: var(--gold-light);
+}
+
+/* Booking Steps */
+.booking-steps {
+    margin-bottom: 1.5rem;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.step:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FFA500, #FFD700);
+    color: #2d1a00;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-content strong {
+    display: block;
+    font-size: 1rem;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+}
+
+.step-content p {
+    font-size: 0.9rem;
+    color: var(--cream);
+    opacity: 0.75;
+}
+
+.booking-link {
+    color: #20B2AA;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.booking-link:hover {
+    color: #48D1CC;
+    text-decoration: underline;
+}
+
+.booking-tips {
+    padding: 1rem;
+    background: rgba(255, 165, 0, 0.1);
+    border-radius: 12px;
+}
+
+.booking-tips p {
+    font-size: 0.9rem;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+}
+
+.booking-tips p:last-child {
+    margin-bottom: 0;
+}
+
+/* Cab Services */
+.cab-services {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.cab-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.cab-name {
+    font-size: 0.95rem;
+    color: var(--cream);
+    font-weight: 500;
+}
+
+.cab-phone {
+    color: #20B2AA;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.cab-phone:hover {
+    color: #48D1CC;
+}
+
+.cab-note {
+    padding: 0.8rem;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid var(--gold);
+}
+
+.cab-note p {
+    font-size: 0.85rem;
+    color: var(--cream);
+    opacity: 0.85;
+}
+
+/* ====================================
+   INFO SECTIONS RESPONSIVE
+   ==================================== */
+@media (max-width: 900px) {
+    .info-cards-container {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+    }
+
+    .info-section {
+        padding: 3rem 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .info-nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info-chip {
+        width: 100%;
+        max-width: 260px;
+        justify-content: center;
+    }
+
+    .info-card-header {
+        padding: 1rem;
+    }
+
+    .info-card-header h3 {
+        font-size: 1rem;
+    }
+
+    .info-card-body {
+        padding: 1rem;
+    }
+
+    .safari-timing {
+        flex-direction: column;
+    }
+
+    .cab-item {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* ====================================
+   GATES GRID
+   ==================================== */
+.gates-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.gate-item {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.gate-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-3px);
+}
+
+.gate-item.recommended-gate {
+    background: rgba(255, 165, 0, 0.15);
+    border-color: rgba(255, 165, 0, 0.3);
+}
+
+.gate-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+}
+
+.gate-distance {
+    font-size: 0.85rem;
+    color: var(--gold-light);
+    margin-bottom: 0.3rem;
+}
+
+.gate-note {
+    font-size: 0.8rem;
+    color: var(--cream);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.safari-note {
+    padding: 1rem;
+    background: rgba(255, 165, 0, 0.1);
+    border-radius: 12px;
+    border-left: 3px solid #FFA500;
+}
+
+.safari-note p {
+    font-size: 0.9rem;
+    color: var(--cream);
+}
+
+/* ====================================
+   DROP POINT BOX
+   ==================================== */
+.drop-point-box {
+    padding: 1.2rem;
+    background: rgba(32, 178, 170, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(32, 178, 170, 0.3);
+    margin-bottom: 1.5rem;
+}
+
+.drop-point-box h4 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+}
+
+.drop-point-box p {
+    font-size: 0.9rem;
+    color: var(--cream);
+    opacity: 0.9;
+    margin-bottom: 0.4rem;
+}
+
+.drop-point-box p strong {
+    color: var(--gold-light);
+}
+
+/* ====================================
+   RECOMMENDED DATES
+   ==================================== */
+.recommended-dates {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ====================================
+   VEHICLE COMPARISON
+   ==================================== */
+.vehicle-comparison {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.vehicle-option {
+    padding: 1.2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gypsy-option {
+    background: rgba(76, 175, 80, 0.1);
+    border-color: rgba(76, 175, 80, 0.3);
+}
+
+.canter-option {
+    background: rgba(158, 158, 158, 0.1);
+    border-color: rgba(158, 158, 158, 0.3);
+}
+
+.vehicle-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.vehicle-icon {
+    font-size: 1.5rem;
+}
+
+.vehicle-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.vehicle-title strong {
+    font-size: 1rem;
+    color: var(--cream);
+}
+
+.vehicle-badge {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline-block;
+    width: fit-content;
+}
+
+.vehicle-badge.recommended {
+    background: linear-gradient(135deg, #4CAF50, #8BC34A);
+    color: #1a3a1a;
+}
+
+.vehicle-badge.budget {
+    background: linear-gradient(135deg, #9E9E9E, #BDBDBD);
+    color: #333;
+}
+
+.vehicle-details p {
+    font-size: 0.85rem;
+    color: var(--cream);
+    opacity: 0.85;
+    margin-bottom: 0.4rem;
+}
+
+.vehicle-details p strong {
+    color: var(--gold-light);
+}
+
+.vehicle-note {
+    padding: 1rem;
+    background: rgba(255, 152, 0, 0.1);
+    border-radius: 12px;
+    border-left: 3px solid #FF9800;
+}
+
+.vehicle-note p {
+    font-size: 0.85rem;
+    color: var(--cream);
+}
+
+@media (max-width: 600px) {
+    .gates-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vehicle-comparison {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ====================================
+   TRAIN SCHEDULE GRID
+   ==================================== */
+.arrival-based-options {
+    margin-bottom: 1.5rem;
+}
+
+.arrival-based-options h4 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.time-slot-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+}
+
+.time-slot {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slot-header {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+}
+
+.morning-slot {
+    background: linear-gradient(135deg, #FF6B35, #FFA07A);
+}
+
+.noon-slot {
+    background: linear-gradient(135deg, #FFB347, #FFD700);
+    color: #333;
+}
+
+.afternoon-slot {
+    background: linear-gradient(135deg, #FF8C00, #FF7F50);
+}
+
+.evening-slot {
+    background: linear-gradient(135deg, #5D3FD3, #9370DB);
+}
+
+.train-list {
+    padding: 0.6rem;
+}
+
+.train-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0.5rem;
+    margin-bottom: 0.3rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    gap: 0.5rem;
+}
+
+.train-item:last-child {
+    margin-bottom: 0;
+}
+
+.train-name {
+    font-size: 0.75rem;
+    color: var(--cream);
+    font-weight: 500;
+}
+
+.train-time {
+    font-size: 0.7rem;
+    color: var(--gold-light);
+    white-space: nowrap;
+}
+
+/* ====================================
+   MOBILE RESPONSIVENESS IMPROVEMENTS
+   ==================================== */
+@media (max-width: 768px) {
+
+    /* Reduce section heights on mobile */
+    .info-section {
+        min-height: auto;
+        padding: 2.5rem 1rem;
+    }
+
+    .section-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .section-subtitle {
+        font-size: 0.9rem;
+    }
+
+    /* Compact cards on mobile */
+    .info-card {
+        margin-bottom: 1rem;
+    }
+
+    .info-card-header {
+        padding: 0.8rem 1rem;
+    }
+
+    .info-card-header h3 {
+        font-size: 0.95rem;
+    }
+
+    .info-card-body {
+        padding: 1rem;
+    }
+
+    .intro-text {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Train grid single column on mobile */
+    .time-slot-grid {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+    }
+
+    .slot-header {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.6rem;
+    }
+
+    .train-item {
+        padding: 0.35rem 0.4rem;
+    }
+
+    .train-name {
+        font-size: 0.7rem;
+    }
+
+    .train-time {
+        font-size: 0.65rem;
+    }
+
+    /* Compact gates grid */
+    .gates-grid {
+        gap: 0.6rem;
+    }
+
+    .gate-item {
+        padding: 0.8rem;
+    }
+
+    .gate-name {
+        font-size: 0.9rem;
+    }
+
+    .gate-distance {
+        font-size: 0.75rem;
+    }
+
+    .gate-note {
+        font-size: 0.7rem;
+    }
+
+    /* Compact highlight boxes */
+    .highlight-box {
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .highlight-icon {
+        font-size: 1.5rem;
+    }
+
+    .highlight-content h4 {
+        font-size: 0.95rem;
+    }
+
+    .highlight-content p {
+        font-size: 0.85rem;
+    }
+
+    /* Compact safari timing */
+    .safari-timing {
+        gap: 0.6rem;
+    }
+
+    .timing-slot {
+        padding: 0.7rem;
+    }
+
+    .slot-icon {
+        font-size: 1.2rem;
+    }
+
+    .slot-info strong {
+        font-size: 0.8rem;
+    }
+
+    .slot-info span {
+        font-size: 0.75rem;
+    }
+
+    /* Compact vehicle comparison */
+    .vehicle-option {
+        padding: 0.8rem;
+    }
+
+    .vehicle-icon {
+        font-size: 1.2rem;
+    }
+
+    .vehicle-title strong {
+        font-size: 0.9rem;
+    }
+
+    .vehicle-badge {
+        font-size: 0.6rem;
+    }
+
+    .vehicle-details p {
+        font-size: 0.75rem;
+        margin-bottom: 0.3rem;
+    }
+
+    /* Compact booking steps */
+    .step {
+        padding-bottom: 0.7rem;
+        margin-bottom: 0.7rem;
+    }
+
+    .step-number {
+        width: 26px;
+        height: 26px;
+        font-size: 0.8rem;
+    }
+
+    .step-content strong {
+        font-size: 0.9rem;
+    }
+
+    .step-content p {
+        font-size: 0.8rem;
+    }
+
+    /* Compact cab services */
+    .cab-item {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .cab-name {
+        font-size: 0.85rem;
+    }
+
+    .cab-phone {
+        font-size: 0.8rem;
+    }
+
+    /* Compact drop point box */
+    .drop-point-box {
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .drop-point-box h4 {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .drop-point-box p {
+        font-size: 0.8rem;
+    }
+
+    /* Compact booking tips */
+    .booking-tips {
+        padding: 0.8rem;
+    }
+
+    .booking-tips p {
+        font-size: 0.8rem;
+    }
+
+    /* Notes and warnings */
+    .safari-note,
+    .vehicle-note,
+    .cab-note {
+        padding: 0.7rem;
+    }
+
+    .safari-note p,
+    .vehicle-note p,
+    .cab-note p {
+        font-size: 0.75rem;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 380px) {
+    .info-section {
+        padding: 2rem 0.75rem;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+    }
+
+    .nav-link {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.7rem;
+    }
+}

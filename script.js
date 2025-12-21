@@ -19,18 +19,40 @@ function initScrollReveal() {
 
 // Smooth scroll navigation
 function initNavigation() {
-    const dayChips = document.querySelectorAll('.day-chip');
+    const allNavLinks = document.querySelectorAll('.day-chip, .info-chip, .nav-link');
 
-    dayChips.forEach(chip => {
-        chip.addEventListener('click', (e) => {
+    allNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
             e.preventDefault();
-            const targetId = chip.getAttribute('href');
+            const targetId = link.getAttribute('href');
             const target = document.querySelector(targetId);
             if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
+                const offset = 60; // Account for sticky nav
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
             }
         });
     });
+}
+
+// Sticky navigation
+function initStickyNav() {
+    const stickyNav = document.getElementById('sticky-nav');
+    const hero = document.getElementById('hero');
+
+    if (!stickyNav || !hero) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                stickyNav.classList.add('visible');
+            } else {
+                stickyNav.classList.remove('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    observer.observe(hero);
 }
 
 // Sky gradient based on scroll
@@ -124,6 +146,7 @@ function initCardTilt() {
 document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     initNavigation();
+    initStickyNav();
     initSkyTransition();
     createParticles();
     initCardTilt();
