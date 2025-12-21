@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation - A Journey of Love</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Time-of-Day Sky Gradient (Fixed Background) -->
+    <div id="sky-gradient"></div>
+
+    <!-- Sun/Moon Indicator -->
+    <div id="celestial-body">
+        <div class="sun-moon-container">
+            <svg class="sun" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="20" fill="#FFD700" />
+                <g class="sun-rays">
+                    <line x1="50" y1="15" x2="50" y2="5" stroke="#FFD700" stroke-width="3" />
+                    <line x1="50" y1="85" x2="50" y2="95" stroke="#FFD700" stroke-width="3" />
+                    <line x1="15" y1="50" x2="5" y2="50" stroke="#FFD700" stroke-width="3" />
+                    <line x1="85" y1="50" x2="95" y2="50" stroke="#FFD700" stroke-width="3" />
+                    <line x1="25" y1="25" x2="18" y2="18" stroke="#FFD700" stroke-width="3" />
+                    <line x1="75" y1="25" x2="82" y2="18" stroke="#FFD700" stroke-width="3" />
+                    <line x1="25" y1="75" x2="18" y2="82" stroke="#FFD700" stroke-width="3" />
+                    <line x1="75" y1="75" x2="82" y2="82" stroke="#FFD700" stroke-width="3" />
+                </g>
+            </svg>
+            <svg class="moon" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="20" fill="#F5F5DC" />
+                <circle cx="42" cy="42" r="22" fill="transparent" />
+            </svg>
+        </div>
+        <div class="time-label">Morning</div>
+    </div>
+
+    <!-- Global Particles -->
+    <div id="particles-container"></div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero" data-time="dawn">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="ornament-line"></div>
+            <p class="pre-title fade-in">With Blessings & Joy, We Invite You To</p>
+            <h1 class="main-title fade-in delay-1">A Celebration of Love</h1>
+            <p class="sub-title fade-in delay-2">Join us on this beautiful journey</p>
+            <div class="ornament-line"></div>
+
+            <nav class="timeline-nav fade-in delay-3">
+                <a href="#day-1" class="day-link">
+                    <div class="day-badge">Day 1</div>
+                    <span class="timeline-text">Haldi • Sangeet</span>
+                </a>
+                <div class="timeline-divider"></div>
+                <a href="#day-2" class="day-link">
+                    <div class="day-badge">Day 2</div>
+                    <span class="timeline-text">Barat • Wedding</span>
+                </a>
+            </nav>
+
+            <div class="scroll-cta fade-in delay-4">
+                <span>Begin the Journey</span>
+                <div class="scroll-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12l7 7 7-7" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Day 1 Header -->
+    <section class="day-header" id="day-1" data-day="1" data-time="morning">
+        <div class="day-content">
+            <div class="time-icon">
+                <svg viewBox="0 0 100 100" class="sunrise-icon">
+                    <path d="M50 60 L50 40" stroke="#FFD700" stroke-width="4" stroke-linecap="round" />
+                    <path d="M30 60 L40 50" stroke="#FFD700" stroke-width="3" stroke-linecap="round" />
+                    <path d="M70 60 L60 50" stroke="#FFD700" stroke-width="3" stroke-linecap="round" />
+                    <path d="M20 70 L80 70" stroke="#FFD700" stroke-width="3" stroke-linecap="round" />
+                    <circle cx="50" cy="70" r="15" fill="none" stroke="#FFD700" stroke-width="3" />
+                </svg>
+            </div>
+            <div class="day-number">Day One</div>
+            <h2 class="day-title">The Celebrations Begin</h2>
+            <p class="day-subtitle">A day of colors, music & joy</p>
+            <p class="day-time-hint">Morning to Night</p>
+        </div>
+    </section>
+
+    <!-- Invitation Cover -->
+    <section class="event-section cover-section" data-event="cover" data-time="morning">
+        <div class="event-particles" id="cover-particles"></div>
+        <div class="event-container">
+            <div class="event-info">
+                <div class="event-header reveal">
+                    <div class="event-icon">
+                        <svg viewBox="0 0 64 64" class="icon-envelope">
+                            <rect x="8" y="16" width="48" height="32" rx="4" fill="none" stroke="currentColor"
+                                stroke-width="2" />
+                            <path d="M8 20 L32 36 L56 20" fill="none" stroke="currentColor" stroke-width="2" />
+                            <circle cx="32" cy="28" r="3" fill="currentColor" />
+                        </svg>
+                    </div>
+                    <h2>The Invitation</h2>
+                    <p class="event-tagline">You are cordially invited</p>
+                </div>
+            </div>
+            <div class="event-card reveal">
+                <div class="card-frame">
+                    <img src="assets/Invitation Cover.png" alt="Wedding Invitation" class="invitation-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Haldi Ceremony - Late Morning -->
+    <section class="event-section haldi-section" data-event="haldi" data-time="late-morning">
+        <div class="event-particles" id="haldi-particles"></div>
+        <div class="haldi-splashes"></div>
+        <div class="event-container reverse">
+            <div class="event-card reveal">
+                <div class="card-frame haldi-frame">
+                    <img src="assets/Haldi Final.png" alt="Haldi Ceremony" class="invitation-image">
+                </div>
+            </div>
+            <div class="event-info">
+                <div class="event-header reveal">
+                    <div class="event-icon haldi-icon">
+                        <svg viewBox="0 0 64 64" class="icon-flower">
+                            <circle cx="32" cy="32" r="8" fill="currentColor" />
+                            <ellipse cx="32" cy="16" rx="6" ry="10" fill="currentColor" opacity="0.8" />
+                            <ellipse cx="32" cy="48" rx="6" ry="10" fill="currentColor" opacity="0.8" />
+                            <ellipse cx="16" cy="32" rx="10" ry="6" fill="currentColor" opacity="0.8" />
+                            <ellipse cx="48" cy="32" rx="10" ry="6" fill="currentColor" opacity="0.8" />
+                        </svg>
+                    </div>
+                    <div class="event-time-badge">11:00 AM</div>
+                    <h2>Haldi Ceremony</h2>
+                    <p class="event-tagline">Blessings in golden hues</p>
+                    <p class="event-description">
+                        An auspicious ceremony where turmeric paste is applied to the bride and groom,
+                        symbolizing purification and blessings for their new journey together.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sangeet Night - Evening -->
+    <section class="event-section sangeet-section" data-event="sangeet" data-time="evening">
+        <div class="event-particles" id="sangeet-particles"></div>
+        <div class="sangeet-lights"></div>
+        <div class="event-container">
+            <div class="event-info">
+                <div class="event-header reveal">
+                    <div class="event-icon sangeet-icon">
+                        <svg viewBox="0 0 64 64" class="icon-music">
+                            <path d="M20 48 L20 20 L48 14 L48 42" fill="none" stroke="currentColor" stroke-width="2" />
+                            <circle cx="16" cy="48" r="6" fill="currentColor" />
+                            <circle cx="44" cy="42" r="6" fill="currentColor" />
+                            <path d="M20 28 L48 22" fill="none" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </div>
+                    <div class="event-time-badge">7:00 PM</div>
+                    <h2>Sangeet Night</h2>
+                    <p class="event-tagline">Dance, music & celebration</p>
+                    <p class="event-description">
+                        A night filled with music, dance performances, and joyous celebrations
+                        as both families come together to celebrate the upcoming union.
+                    </p>
+                </div>
+            </div>
+            <div class="event-card reveal">
+                <div class="card-frame sangeet-frame">
+                    <img src="assets/Sangeet Final.png" alt="Sangeet Night" class="invitation-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Day 2 Header -->
+    <section class="day-header" id="day-2" data-day="2" data-time="dawn-2">
+        <div class="day-content">
+            <div class="time-icon">
+                <svg viewBox="0 0 100 100" class="sun-icon">
+                    <circle cx="50" cy="50" r="18" fill="#FFD700" />
+                    <g stroke="#FFD700" stroke-width="3" stroke-linecap="round">
+                        <line x1="50" y1="20" x2="50" y2="10" />
+                        <line x1="50" y1="80" x2="50" y2="90" />
+                        <line x1="20" y1="50" x2="10" y2="50" />
+                        <line x1="80" y1="50" x2="90" y2="50" />
+                        <line x1="28" y1="28" x2="21" y2="21" />
+                        <line x1="72" y1="28" x2="79" y2="21" />
+                        <line x1="28" y1="72" x2="21" y2="79" />
+                        <line x1="72" y1="72" x2="79" y2="79" />
+                    </g>
+                </svg>
+            </div>
+            <div class="day-number">Day Two</div>
+            <h2 class="day-title">The Grand Ceremony</h2>
+            <p class="day-subtitle">Where two souls become one</p>
+            <p class="day-time-hint">A New Dawn</p>
+        </div>
+    </section>
+
+    <!-- Barat - Morning -->
+    <section class="event-section barat-section" data-event="barat" data-time="morning-2">
+        <div class="event-particles" id="barat-particles"></div>
+        <div class="barat-flowers"></div>
+        <div class="event-container reverse">
+            <div class="event-card reveal">
+                <div class="card-frame barat-frame">
+                    <img src="assets/Barat.png" alt="Barat" class="invitation-image">
+                </div>
+            </div>
+            <div class="event-info">
+                <div class="event-header reveal">
+                    <div class="event-icon barat-icon">
+                        <svg viewBox="0 0 64 64" class="icon-procession">
+                            <path
+                                d="M16 48 L16 32 Q16 24 24 24 L28 24 Q32 24 32 28 L32 32 Q32 36 36 36 L40 36 Q48 36 48 28 L48 20"
+                                fill="none" stroke="currentColor" stroke-width="2" />
+                            <circle cx="48" cy="16" r="4" fill="currentColor" />
+                            <path d="M8 48 L56 48" stroke="currentColor" stroke-width="2" />
+                            <path d="M20 48 L20 52 M44 48 L44 52" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </div>
+                    <div class="event-time-badge">10:00 AM</div>
+                    <h2>The Barat</h2>
+                    <p class="event-tagline">The groom's grand procession</p>
+                    <p class="event-description">
+                        A vibrant procession with music, dancing, and celebrations as the groom
+                        arrives with family and friends to welcome his bride.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wedding Ceremony - Afternoon/Sacred Hour -->
+    <section class="event-section wedding-section" data-event="wedding" data-time="golden-hour">
+        <div class="event-particles" id="wedding-particles"></div>
+        <div class="wedding-diyas"></div>
+        <div class="event-container">
+            <div class="event-info">
+                <div class="event-header reveal">
+                    <div class="event-icon wedding-icon">
+                        <svg viewBox="0 0 64 64" class="icon-mandap">
+                            <path d="M12 52 L12 24 L32 12 L52 24 L52 52" fill="none" stroke="currentColor"
+                                stroke-width="2" />
+                            <path d="M8 52 L56 52" stroke="currentColor" stroke-width="2" />
+                            <circle cx="32" cy="36" r="8" fill="none" stroke="currentColor" stroke-width="2" />
+                            <path d="M28 36 L36 36 M32 32 L32 40" stroke="currentColor" stroke-width="1.5" />
+                            <path d="M20 24 L20 52 M44 24 L44 52" stroke="currentColor" stroke-width="1.5"
+                                stroke-dasharray="2,2" />
+                        </svg>
+                    </div>
+                    <div class="event-time-badge">Muhurat</div>
+                    <h2>The Wedding Ceremony</h2>
+                    <p class="event-tagline">Sacred vows & eternal bond</p>
+                    <p class="event-description">
+                        The sacred ceremony where two souls unite in the presence of family,
+                        friends, and divine blessings for a lifetime of love and togetherness.
+                    </p>
+                </div>
+            </div>
+            <div class="event-card reveal">
+                <div class="card-frame wedding-frame">
+                    <img src="assets/Wedding Ceremony.png" alt="Wedding Ceremony" class="invitation-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Closing Section -->
+    <section class="closing-section" id="closing" data-time="twilight">
+        <div class="closing-particles"></div>
+        <div class="closing-content">
+            <div class="ornament-line gold"></div>
+            <p class="closing-pre reveal">Your presence would make our celebration complete</p>
+            <h2 class="closing-title reveal delay-1">We Await Your Gracious Presence</h2>
+            <div class="closing-hearts reveal delay-2">
+                <svg viewBox="0 0 64 64" class="heart-icon">
+                    <path d="M32 56 L14 38 Q6 30 6 20 Q6 10 16 10 Q26 10 32 20 Q38 10 48 10 Q58 10 58 20 Q58 30 50 38 Z"
+                        fill="#FF6B6B" />
+                </svg>
+            </div>
+            <p class="closing-names reveal delay-3">With Love & Blessings</p>
+            <div class="ornament-line gold"></div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

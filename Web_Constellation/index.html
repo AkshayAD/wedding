@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="background-layer"></div>
+    <canvas id="particle-canvas"></canvas>
+
+    <div id="ui-layer">
+        <div id="intro-text">
+            <h1 class="animate-text">A Celestial Union</h1>
+            <p class="animate-text delay-1">Touch the stars to reveal our story</p>
+        </div>
+    </div>
+
+    <!-- Modal for displaying invitation cards -->
+    <div id="modal" class="hidden">
+        <button id="close-modal">&times;</button>
+        <div class="modal-content">
+            <img id="modal-image" src="" alt="Invitation Card">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
