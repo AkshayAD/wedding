@@ -1327,4 +1327,326 @@
     .wedding-main-text {
         font-size: var(--text-lg);
     }
+
+    .flip-countdown {
+        gap: var(--space-sm);
+    }
+
+    .flip-card {
+        width: 36px;
+        height: 50px;
+    }
+
+    .flip-top,
+    .flip-bottom {
+        font-size: 1.2rem;
+    }
+
+    .day-chips-container {
+        flex-direction: column;
+    }
+}
+
+/* ==========================================================================
+   FLIP CLOCK COUNTDOWN
+   ========================================================================== */
+.flip-countdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    margin: var(--space-xl) 0;
+}
+
+.flip-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.flip-card {
+    display: flex;
+    gap: 4px;
+    background: var(--maroon);
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 15px rgba(74, 10, 30, 0.3);
+}
+
+.flip-top,
+.flip-bottom {
+    width: 28px;
+    height: 40px;
+    background: linear-gradient(180deg, #3A1520 0%, #2D1018 100%);
+    color: var(--gold-bright);
+    font-family: var(--font-accent);
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    position: relative;
+}
+
+.flip-label {
+    font-family: var(--font-accent);
+    font-size: var(--text-xs);
+    color: var(--maroon);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.flip-separator {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--gold);
+    font-weight: 600;
+    margin-top: -20px;
+}
+
+.wedding-date-text {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin-top: var(--space-md);
+    font-style: italic;
+}
+
+/* ==========================================================================
+   DAY CHIPS (Compact Day Overview)
+   ========================================================================== */
+.story-days-overview {
+    padding: var(--space-2xl) var(--space-lg);
+    text-align: center;
+}
+
+.days-title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    color: var(--maroon);
+    margin-bottom: var(--space-xl);
+}
+
+.day-chips-container {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.day-chip {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--gold);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+    min-width: 280px;
+    box-shadow: 0 4px 20px rgba(74, 10, 30, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.day-chip:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(184, 134, 11, 0.2);
+}
+
+.day-chip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid rgba(184, 134, 11, 0.3);
+}
+
+.day-chip-badge {
+    background: var(--maroon);
+    color: var(--gold-bright);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    font-family: var(--font-accent);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.day-chip-date {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    color: var(--maroon);
+}
+
+.day-chip-events {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.event-chip {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    background: rgba(184, 134, 11, 0.1);
+    border: 1px solid rgba(184, 134, 11, 0.2);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.event-chip:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+}
+
+.event-chip:hover .chip-name,
+.event-chip:hover .chip-time {
+    color: var(--maroon-dark);
+}
+
+.chip-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+}
+
+.chip-name {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    color: var(--maroon);
+    font-weight: 500;
+}
+
+.chip-time {
+    font-family: var(--font-accent);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+}
+
+.tap-hint {
+    margin-top: var(--space-lg);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* ==========================================================================
+   EVENT DETAIL OVERLAYS
+   ========================================================================== */
+.overlay-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 10, 15, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.event-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 90%;
+    max-width: 400px;
+    max-height: 90vh;
+    background: var(--bg-cream);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.event-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.overlay-close {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    width: 36px;
+    height: 36px;
+    background: var(--maroon);
+    color: var(--gold-bright);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.overlay-close:hover {
+    background: var(--maroon-light);
+}
+
+.overlay-content {
+    text-align: center;
+}
+
+.overlay-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: var(--space-md);
+}
+
+.overlay-content h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--maroon);
+    margin-bottom: var(--space-xs);
+}
+
+.overlay-tagline {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: var(--space-md);
+}
+
+.overlay-time {
+    display: inline-block;
+    background: var(--maroon);
+    color: var(--gold-bright);
+    padding: var(--space-xs) var(--space-lg);
+    border-radius: var(--radius-full);
+    font-family: var(--font-accent);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-md);
+}
+
+.overlay-desc {
+    color: var(--text-dark);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+}
+
+.overlay-dress {
+    background: rgba(184, 134, 11, 0.15);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    color: var(--maroon);
 }

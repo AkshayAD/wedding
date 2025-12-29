@@ -1,6 +1,6 @@
 /**
  * Wedding Invitation - Immersive Scroll Story
- * Preloader, Audio, Countdown, Parallax
+ * Flip Clock, Overlays, Audio, Parallax
  */
 
 import Lenis from 'lenis';
@@ -13,12 +13,11 @@ gsap.registerPlugin(ScrollTrigger);
 // ===== Elements =====
 const preloader = document.getElementById('preloader');
 const progressBar = document.getElementById('progress');
-const timerEl = document.getElementById('timer');
-const daysEl = document.getElementById('days');
 const musicToggle = document.getElementById('music-toggle');
 const bgMusic = document.getElementById('bg-music');
 const calendarBtn = document.getElementById('add-calendar');
 const shareBtn = document.getElementById('share-btn');
+const overlayBackdrop = document.getElementById('overlay-backdrop');
 
 // ===== Wedding Date =====
 const WEDDING_DATE = new Date('2026-02-07T12:00:00+05:30');
@@ -60,8 +59,8 @@ function initPreloader() {
         }
 
         // Start countdown
-        updateCountdown();
-        setInterval(updateCountdown, 60000); // Update every minute
+        updateFlipClock();
+        setInterval(updateFlipClock, 1000);
 
         // Init scroll animations
         initScrollAnimations();
@@ -70,7 +69,6 @@ function initPreloader() {
     preloader.addEventListener('click', openInvitation);
     preloader.addEventListener('touchstart', openInvitation, { passive: true });
 
-    // Also allow keyboard
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
             openInvitation();
@@ -78,20 +76,85 @@ function initPreloader() {
     }, { once: true });
 }
 
-// ===== Countdown =====
-function updateCountdown() {
-    if (!daysEl) return;
-
+// ===== FLIP CLOCK COUNTDOWN =====
+function updateFlipClock() {
     const now = new Date();
     const diff = WEDDING_DATE - now;
 
     if (diff <= 0) {
-        daysEl.textContent = '0';
+        // Wedding day!
+        setFlipValue('days', 0);
+        setFlipValue('hours', 0);
+        setFlipValue('mins', 0);
+        setFlipValue('secs', 0);
         return;
     }
 
-    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-    daysEl.textContent = days;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+    setFlipValue('days', days);
+    setFlipValue('hours', hours);
+    setFlipValue('mins', mins);
+    setFlipValue('secs', secs);
+}
+
+function setFlipValue(unit, value) {
+    const tens = Math.floor(value / 10) % 10;
+    const ones = value % 10;
+
+    const tensEl = document.getElementById(`${unit}-tens`);
+    const onesEl = document.getElementById(`${unit}-ones`);
+
+    if (tensEl) tensEl.textContent = tens;
+    if (onesEl) onesEl.textContent = ones;
+}
+
+// ===== EVENT OVERLAYS =====
+function initOverlays() {
+    const eventChips = document.querySelectorAll('.event-chip[data-overlay]');
+    const overlays = document.querySelectorAll('.event-overlay');
+    const closeButtons = document.querySelectorAll('.overlay-close');
+
+    // Open overlay
+    eventChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            const overlayId = chip.dataset.overlay;
+            const overlay = document.getElementById(`overlay-${overlayId}`);
+
+            if (overlay && overlayBackdrop) {
+                overlayBackdrop.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+
+    // Close overlay - close button
+    closeButtons.forEach(btn => {
+        btn.addEventListener('click', closeAllOverlays);
+    });
+
+    // Close overlay - backdrop click
+    if (overlayBackdrop) {
+        overlayBackdrop.addEventListener('click', closeAllOverlays);
+    }
+
+    // Close overlay - Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeAllOverlays();
+        }
+    });
+}
+
+function closeAllOverlays() {
+    const overlays = document.querySelectorAll('.event-overlay');
+    overlays.forEach(o => o.classList.remove('active'));
+    if (overlayBackdrop) overlayBackdrop.classList.remove('active');
+    document.body.style.overflow = '';
 }
 
 // ===== Progress Bar =====
@@ -122,16 +185,15 @@ function initMusic() {
         }
     });
 
-    // Update button state when music plays/pauses
     bgMusic.addEventListener('play', () => musicToggle.classList.add('playing'));
     bgMusic.addEventListener('pause', () => musicToggle.classList.remove('playing'));
 }
 
 // ===== Scroll Animations =====
 function initScrollAnimations() {
-    // Fade in sections as they appear
-    gsap.utils.toArray('.story-opening, .story-hero, .story-date, .story-day, .story-venue, .story-travel, .story-closing').forEach((section) => {
-        gsap.from(section.querySelectorAll('h2, h3, p, .event-moment, .couple-figure, .date-display'), {
+    // Fade in sections
+    gsap.utils.toArray('.story-opening, .story-hero, .story-days-overview, .story-venue, .story-travel, .story-closing').forEach((section) => {
+        gsap.from(section.querySelectorAll('h1, h2, h3, p, .day-chip, .couple-figure'), {
             y: 40,
             opacity: 0,
             duration: 0.8,
@@ -145,74 +207,67 @@ function initScrollAnimations() {
         });
     });
 
-    // Parallax for floating elements
-    gsap.utils.toArray('.floating-diya, .floating-lantern').forEach((el, i) => {
-        gsap.to(el, {
-            y: `-${100 + i * 50}vh`,
-            ease: 'none',
-            scrollTrigger: {
-                trigger: document.body,
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: 1
-            }
-        });
+    // Hero couple entrance
+    gsap.from('.groom-figure', {
+        x: -50,
+        opacity: 0,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+            trigger: '.story-hero',
+            start: 'top 60%',
+            once: true
+        }
     });
 
-    // Hero couple entrance
-    const coupleFigures = document.querySelectorAll('.couple-figure');
-    if (coupleFigures.length) {
-        gsap.from('.groom-figure', {
-            x: -50,
-            opacity: 0,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: '.story-hero',
-                start: 'top 60%',
-                once: true
-            }
-        });
+    gsap.from('.bride-figure', {
+        x: 50,
+        opacity: 0,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+            trigger: '.story-hero',
+            start: 'top 60%',
+            once: true
+        }
+    });
 
-        gsap.from('.bride-figure', {
-            x: 50,
-            opacity: 0,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: '.story-hero',
-                start: 'top 60%',
-                once: true
-            }
-        });
+    gsap.from('.couple-heart', {
+        scale: 0,
+        opacity: 0,
+        duration: 0.6,
+        delay: 0.5,
+        ease: 'back.out(1.7)',
+        scrollTrigger: {
+            trigger: '.story-hero',
+            start: 'top 60%',
+            once: true
+        }
+    });
 
-        gsap.from('.couple-heart', {
-            scale: 0,
-            opacity: 0,
-            duration: 0.6,
-            delay: 0.5,
-            ease: 'back.out(1.7)',
-            scrollTrigger: {
-                trigger: '.story-hero',
-                start: 'top 60%',
-                once: true
-            }
-        });
-    }
+    // Flip countdown
+    gsap.from('.flip-countdown', {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        scrollTrigger: {
+            trigger: '.flip-countdown',
+            start: 'top 85%',
+            once: true
+        }
+    });
 
-    // Event cards
-    gsap.utils.toArray('.event-moment').forEach((card) => {
-        gsap.from(card, {
-            y: 60,
-            opacity: 0,
-            duration: 0.8,
-            ease: 'power2.out',
-            scrollTrigger: {
-                trigger: card,
-                start: 'top 85%',
-                once: true
-            }
-        });
+    // Day chips
+    gsap.from('.day-chip', {
+        y: 30,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.2,
+        scrollTrigger: {
+            trigger: '.day-chips-container',
+            start: 'top 80%',
+            once: true
+        }
     });
 }
 
@@ -233,7 +288,7 @@ function initShare() {
     shareBtn.addEventListener('click', async () => {
         const shareData = {
             title: 'Dewalwar-Chachad Wedding',
-            text: "You're invited to our wedding celebration! February 7-8, 2026 at Chillarwar Farms, Chandrapur",
+            text: "You're invited to our wedding! February 7-8, 2026 at Chillarwar Farms, Chandrapur",
             url: window.location.href
         };
 
@@ -244,7 +299,6 @@ function initShare() {
                 console.log('Share cancelled');
             }
         } else {
-            // Fallback to WhatsApp
             const waUrl = `https://wa.me/?text=${encodeURIComponent(shareData.text + '\n' + shareData.url)}`;
             window.open(waUrl, '_blank');
         }
@@ -260,7 +314,8 @@ function init() {
         document.documentElement.classList.add('reduced-motion');
         if (preloader) preloader.classList.add('hidden');
         document.body.style.overflow = '';
-        updateCountdown();
+        updateFlipClock();
+        setInterval(updateFlipClock, 1000);
         return;
     }
 
@@ -268,6 +323,7 @@ function init() {
     initPreloader();
     initProgressBar();
     initMusic();
+    initOverlays();
     initCalendar();
     initShare();
     initCustomCursor();

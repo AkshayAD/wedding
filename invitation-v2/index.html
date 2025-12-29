@@ -25,11 +25,6 @@
   <!-- Scroll Progress Line -->
   <div class="scroll-progress" id="progress"></div>
 
-  <!-- Timer Badge (Top Right) -->
-  <div class="timer-badge" id="timer">
-    <span class="timer-number" id="days">--</span> days to go
-  </div>
-
   <!-- NAVIGATION TABS -->
   <nav class="nav-tabs" id="nav-tabs">
     <a href="#events" class="nav-tab">Events</a>
@@ -50,7 +45,7 @@
     <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_5cf5e6b0a8.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- ========== FLOATING PARALLAX LAYERS ========== -->
+  <!-- Floating Parallax -->
   <div class="parallax-container" id="parallax">
     <div class="floating-diya diya-1" aria-hidden="true"></div>
     <div class="floating-diya diya-2" aria-hidden="true"></div>
@@ -64,15 +59,9 @@
     <div class="petal petal-2" aria-hidden="true"></div>
     <div class="petal petal-3" aria-hidden="true"></div>
     <div class="petal petal-4" aria-hidden="true"></div>
-    <div class="petal petal-5" aria-hidden="true"></div>
-    <div class="petal petal-6" aria-hidden="true"></div>
-    <div class="sparkle sparkle-1" aria-hidden="true"></div>
-    <div class="sparkle sparkle-2" aria-hidden="true"></div>
-    <div class="sparkle sparkle-3" aria-hidden="true"></div>
-    <div class="sparkle sparkle-4" aria-hidden="true"></div>
   </div>
 
-  <!-- ========== PRELOADER ========== -->
+  <!-- Preloader -->
   <div class="preloader" id="preloader">
     <div class="invitation-envelope">
       <div class="envelope-flap"></div>
@@ -83,7 +72,66 @@
     <p class="preloader-text">Tap to open your invitation</p>
   </div>
 
-  <!-- ========== CONTINUOUS SCROLL STORY ========== -->
+  <!-- EVENT DETAIL OVERLAYS -->
+  <div class="overlay-backdrop" id="overlay-backdrop"></div>
+
+  <!-- Haldi Overlay -->
+  <div class="event-overlay" id="overlay-haldi">
+    <button class="overlay-close" data-close>&times;</button>
+    <div class="overlay-content">
+      <img src="/src/assets/icons/marigold.svg" alt="" class="overlay-icon">
+      <h2>Haldi Ceremony</h2>
+      <p class="overlay-tagline">Blessings in golden hues</p>
+      <div class="overlay-time">12:30 PM onwards</div>
+      <p class="overlay-desc">A sacred pre-wedding ritual where turmeric paste is lovingly applied to the bride and
+        groom. This ceremony symbolizes purification and is believed to bring a natural glow to the couple.</p>
+      <div class="overlay-dress"><strong>Dress Code:</strong> Yellow or traditional attire</div>
+    </div>
+  </div>
+
+  <!-- Sangeet Overlay -->
+  <div class="event-overlay" id="overlay-sangeet">
+    <button class="overlay-close" data-close>&times;</button>
+    <div class="overlay-content">
+      <img src="/src/assets/icons/shehnai.svg" alt="" class="overlay-icon">
+      <h2>Sangeet Night</h2>
+      <p class="overlay-tagline">Dance, music & celebration</p>
+      <div class="overlay-time">6:30 PM onwards</div>
+      <p class="overlay-desc">A vibrant evening filled with dance performances, music, and celebration. Family and
+        friends come together to perform choreographed dances and enjoy an unforgettable night.</p>
+      <div class="overlay-dress"><strong>Dress Code:</strong> Colorful festive wear</div>
+    </div>
+  </div>
+
+  <!-- Barat Overlay -->
+  <div class="event-overlay" id="overlay-barat">
+    <button class="overlay-close" data-close>&times;</button>
+    <div class="overlay-content">
+      <img src="/src/assets/icons/horse.svg" alt="" class="overlay-icon">
+      <h2>The Barat</h2>
+      <p class="overlay-tagline">The grand groom's procession</p>
+      <div class="overlay-time">4:00 PM</div>
+      <p class="overlay-desc">The groom arrives in a magnificent procession accompanied by family and friends dancing to
+        the beats of dhol. A joyous celebration marking the groom's journey to meet his bride.</p>
+      <div class="overlay-dress"><strong>Dress Code:</strong> Traditional festive wear</div>
+    </div>
+  </div>
+
+  <!-- Wedding Overlay -->
+  <div class="event-overlay" id="overlay-wedding">
+    <button class="overlay-close" data-close>&times;</button>
+    <div class="overlay-content">
+      <img src="/src/assets/icons/mandap.svg" alt="" class="overlay-icon">
+      <h2>The Wedding Ceremony</h2>
+      <p class="overlay-tagline">Sacred vows under the stars</p>
+      <div class="overlay-time">Muhurat Time (Evening)</div>
+      <p class="overlay-desc">The sacred wedding ceremony where two souls unite in the presence of the holy fire.
+        Traditional Maharashtrian rituals including Kanyadaan, Mangalsutra, Saptapadi, and blessings from elders.</p>
+      <div class="overlay-dress"><strong>Dress Code:</strong> Traditional formal wear</div>
+    </div>
+  </div>
+
+  <!-- MAIN SCROLL STORY -->
   <main class="scroll-story" id="main">
 
     <!-- OPENING -->
@@ -96,7 +144,7 @@
       </div>
     </section>
 
-    <!-- HERO: Animated Couple -->
+    <!-- HERO: Couple + Countdown -->
     <section class="story-hero">
       <div class="hero-glow"></div>
 
@@ -105,11 +153,9 @@
           <img src="/src/assets/images/groom.svg" alt="Groom" class="couple-svg">
           <span class="couple-name">Dewalwar</span>
         </div>
-
         <div class="couple-heart">
           <img src="/src/assets/icons/heart.svg" alt="" width="60" height="60">
         </div>
-
         <div class="couple-figure bride-figure animated-figure">
           <img src="/src/assets/images/bride.svg" alt="Bride" class="couple-svg">
           <span class="couple-name">Chachad</span>
@@ -118,161 +164,94 @@
 
       <div class="hero-details">
         <p class="wedding-tagline">Together with their families</p>
-        <h1 class="wedding-main-text">Request the pleasure of your company<br>at their Wedding Celebration</h1>
+        <h1 class="wedding-main-text">Request your presence at their<br>Wedding Celebration</h1>
       </div>
-    </section>
 
-    <!-- DATE & SCHEDULE SUMMARY -->
-    <section class="story-date" id="events">
-      <div class="date-ornament top"></div>
-
-      <div class="date-content">
-        <span class="date-label">Save the Date</span>
-        <div class="date-display">
-          <span class="date-day">7-8</span>
-          <span class="date-month">February</span>
-          <span class="date-year">2026</span>
+      <!-- FLIP CLOCK COUNTDOWN -->
+      <div class="flip-countdown" id="countdown">
+        <div class="flip-unit">
+          <div class="flip-card">
+            <div class="flip-top" id="days-tens">0</div>
+            <div class="flip-bottom" id="days-ones">0</div>
+          </div>
+          <span class="flip-label">Days</span>
+        </div>
+        <div class="flip-separator">:</div>
+        <div class="flip-unit">
+          <div class="flip-card">
+            <div class="flip-top" id="hours-tens">0</div>
+            <div class="flip-bottom" id="hours-ones">0</div>
+          </div>
+          <span class="flip-label">Hours</span>
+        </div>
+        <div class="flip-separator">:</div>
+        <div class="flip-unit">
+          <div class="flip-card">
+            <div class="flip-top" id="mins-tens">0</div>
+            <div class="flip-bottom" id="mins-ones">0</div>
+          </div>
+          <span class="flip-label">Mins</span>
+        </div>
+        <div class="flip-separator">:</div>
+        <div class="flip-unit">
+          <div class="flip-card">
+            <div class="flip-top" id="secs-tens">0</div>
+            <div class="flip-bottom" id="secs-ones">0</div>
+          </div>
+          <span class="flip-label">Secs</span>
         </div>
       </div>
 
-      <!-- SCHEDULE SUMMARY -->
-      <div class="schedule-summary">
-        <h3 class="schedule-title">Event Schedule</h3>
-        <div class="schedule-grid">
-          <div class="schedule-day">
-            <span class="schedule-day-label">Saturday, Feb 7</span>
-            <div class="schedule-items">
-              <div class="schedule-item">
-                <span class="schedule-time">12:30 PM</span>
-                <span class="schedule-event">Haldi Ceremony</span>
-              </div>
-              <div class="schedule-item">
-                <span class="schedule-time">6:30 PM</span>
-                <span class="schedule-event">Sangeet Night</span>
-              </div>
-            </div>
+      <p class="wedding-date-text">February 7-8, 2026 • Chillarwar Farms</p>
+    </section>
+
+    <!-- DAYS OVERVIEW (Compact Chips - Clickable) -->
+    <section class="story-days-overview" id="events">
+      <h2 class="days-title">The Celebration</h2>
+
+      <div class="day-chips-container">
+        <!-- Day 1 Chip -->
+        <div class="day-chip" data-day="1">
+          <div class="day-chip-header">
+            <span class="day-chip-badge">Day 1</span>
+            <span class="day-chip-date">Sat, Feb 7</span>
           </div>
-          <div class="schedule-day">
-            <span class="schedule-day-label">Sunday, Feb 8</span>
-            <div class="schedule-items">
-              <div class="schedule-item">
-                <span class="schedule-time">4:00 PM</span>
-                <span class="schedule-event">Barat Procession</span>
-              </div>
-              <div class="schedule-item">
-                <span class="schedule-time">Sunset</span>
-                <span class="schedule-event">Wedding Ceremony</span>
-              </div>
-            </div>
+          <div class="day-chip-events">
+            <button class="event-chip" data-overlay="haldi">
+              <img src="/src/assets/icons/marigold.svg" alt="" class="chip-icon">
+              <span class="chip-name">Haldi</span>
+              <span class="chip-time">12:30 PM</span>
+            </button>
+            <button class="event-chip" data-overlay="sangeet">
+              <img src="/src/assets/icons/shehnai.svg" alt="" class="chip-icon">
+              <span class="chip-name">Sangeet</span>
+              <span class="chip-time">6:30 PM</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Day 2 Chip -->
+        <div class="day-chip" data-day="2">
+          <div class="day-chip-header">
+            <span class="day-chip-badge">Day 2</span>
+            <span class="day-chip-date">Sun, Feb 8</span>
+          </div>
+          <div class="day-chip-events">
+            <button class="event-chip" data-overlay="barat">
+              <img src="/src/assets/icons/horse.svg" alt="" class="chip-icon">
+              <span class="chip-name">Barat</span>
+              <span class="chip-time">4:00 PM</span>
+            </button>
+            <button class="event-chip" data-overlay="wedding">
+              <img src="/src/assets/icons/mandap.svg" alt="" class="chip-icon">
+              <span class="chip-name">Wedding</span>
+              <span class="chip-time">Sunset</span>
+            </button>
           </div>
         </div>
       </div>
 
-      <div class="date-ornament bottom"></div>
-    </section>
-
-    <!-- DAY 1: Haldi & Sangeet -->
-    <section class="story-day day-one">
-      <div class="day-header">
-        <span class="day-badge">Day One</span>
-        <span class="day-date">Saturday, February 7, 2026</span>
-      </div>
-
-      <div class="events-flow">
-        <!-- Haldi -->
-        <article class="event-moment haldi">
-          <div class="event-visual">
-            <img src="/src/assets/icons/marigold.svg" alt="" class="event-icon">
-            <div class="event-glow yellow"></div>
-          </div>
-          <div class="event-info">
-            <h3 class="event-name">Haldi Ceremony</h3>
-            <p class="event-tagline">Blessings in golden hues</p>
-            <time class="event-time">12:30 PM onwards</time>
-            <p class="event-description">
-              A sacred pre-wedding ritual where turmeric paste is lovingly applied
-              to the bride and groom. This ceremony symbolizes purification and
-              is believed to bring a natural glow to the couple.
-            </p>
-            <div class="event-dress-code">
-              <strong>Dress Code:</strong> Yellow or traditional attire
-            </div>
-          </div>
-        </article>
-
-        <!-- Sangeet -->
-        <article class="event-moment sangeet">
-          <div class="event-visual">
-            <img src="/src/assets/icons/shehnai.svg" alt="" class="event-icon">
-            <div class="event-glow pink"></div>
-          </div>
-          <div class="event-info">
-            <h3 class="event-name">Sangeet Night</h3>
-            <p class="event-tagline">An evening of dance, music & celebration</p>
-            <time class="event-time">6:30 PM onwards</time>
-            <p class="event-description">
-              A vibrant evening filled with dance performances, music, and
-              celebration. Family and friends come together to perform
-              choreographed dances and enjoy an unforgettable night.
-            </p>
-            <div class="event-dress-code">
-              <strong>Dress Code:</strong> Colorful festive wear
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- DAY 2: Barat & Wedding -->
-    <section class="story-day day-two">
-      <div class="day-header">
-        <span class="day-badge">Day Two</span>
-        <span class="day-date">Sunday, February 8, 2026</span>
-      </div>
-
-      <div class="events-flow">
-        <!-- Barat -->
-        <article class="event-moment barat">
-          <div class="event-visual">
-            <img src="/src/assets/icons/horse.svg" alt="" class="event-icon">
-            <div class="event-glow gold"></div>
-          </div>
-          <div class="event-info">
-            <h3 class="event-name">The Barat</h3>
-            <p class="event-tagline">The grand groom's procession</p>
-            <time class="event-time">4:00 PM</time>
-            <p class="event-description">
-              The groom arrives in a magnificent procession accompanied by
-              family and friends dancing to the beats of dhol. A joyous
-              celebration marking the groom's journey to meet his bride.
-            </p>
-            <div class="event-dress-code">
-              <strong>Dress Code:</strong> Traditional festive wear
-            </div>
-          </div>
-        </article>
-
-        <!-- Wedding -->
-        <article class="event-moment wedding">
-          <div class="event-visual">
-            <img src="/src/assets/icons/mandap.svg" alt="" class="event-icon">
-            <div class="event-glow teal"></div>
-          </div>
-          <div class="event-info">
-            <h3 class="event-name">The Wedding Ceremony</h3>
-            <p class="event-tagline">Sacred vows under the stars</p>
-            <time class="event-time">Muhurat Time (Evening)</time>
-            <p class="event-description">
-              The sacred wedding ceremony where two souls unite in the presence
-              of the holy fire. Traditional Maharashtrian rituals including
-              Kanyadaan, Mangalsutra, Saptapadi, and blessings from elders.
-            </p>
-            <div class="event-dress-code">
-              <strong>Dress Code:</strong> Traditional formal wear
-            </div>
-          </div>
-        </article>
-      </div>
+      <p class="tap-hint">Tap any event for details</p>
     </section>
 
     <!-- VENUE with MAP -->
@@ -280,27 +259,18 @@
       <div class="venue-content">
         <h2 class="venue-title">The Venue</h2>
         <p class="venue-name">Chillarwar Farms</p>
-        <p class="venue-address">Village Chillarwar, Near Chandrapur, Maharashtra 442401</p>
-        <p class="venue-description">
-          A beautiful farmhouse venue surrounded by nature, offering a
-          serene and elegant setting for our special celebration.
-        </p>
+        <p class="venue-address">Village Chillarwar, Near Chandrapur, Maharashtra</p>
 
         <div class="venue-map-container">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3752.123456789!2d79.45678901234567!3d19.98765432109876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDU5JzE1LjYiTiA3OcKwMjcnMjQuNCJF!5e0!3m2!1sen!2sin!4v1234567890"
-            width="100%" height="250" style="border:0; border-radius: 16px;" allowfullscreen="" loading="lazy"
+            width="100%" height="200" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy"
             title="Venue Location">
           </iframe>
         </div>
 
         <a href="https://maps.google.com/?q=Chillarwar+Farms+Chandrapur" target="_blank" class="btn-directions">
-          Get Directions
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-            <polyline points="15 3 21 3 21 9" />
-            <line x1="10" y1="14" x2="21" y2="3" />
-          </svg>
+          Get Directions →
         </a>
       </div>
     </section>
@@ -308,106 +278,47 @@
     <!-- TRAVEL INFO -->
     <section class="story-travel" id="travel">
       <h2 class="travel-title">Getting There</h2>
-      <p class="travel-subtitle">Chandrapur is well connected by rail and road</p>
-
       <div class="travel-options">
         <div class="travel-option">
           <span class="travel-icon">🚆</span>
-          <span class="travel-label">By Train</span>
-          <span class="travel-detail">Chandrapur Junction (CD)</span>
-          <span class="travel-note">Major trains from Mumbai, Nagpur, Hyderabad</span>
+          <span class="travel-label">Train</span>
+          <span class="travel-detail">Chandrapur Jn</span>
         </div>
         <div class="travel-option">
           <span class="travel-icon">✈️</span>
-          <span class="travel-label">By Air</span>
-          <span class="travel-detail">Nagpur Airport (NAG)</span>
-          <span class="travel-note">~150 km from venue</span>
+          <span class="travel-label">Flight</span>
+          <span class="travel-detail">Nagpur (150km)</span>
         </div>
         <div class="travel-option">
           <span class="travel-icon">🚗</span>
-          <span class="travel-label">By Road</span>
-          <span class="travel-detail">NH44 via Nagpur</span>
-          <span class="travel-note">Well-maintained highway</span>
+          <span class="travel-label">Road</span>
+          <span class="travel-detail">NH44</span>
         </div>
       </div>
-
       <div class="travel-links">
-        <a href="details/" class="btn-secondary">Complete Travel Guide</a>
-        <a href="details/#safari" class="btn-secondary">Tadoba Safari Info</a>
-      </div>
-    </section>
-
-    <!-- SAFARI INFO -->
-    <section class="story-safari" id="safari-info">
-      <div class="safari-content">
-        <h2 class="safari-title">🐅 Tadoba Tiger Reserve</h2>
-        <p class="safari-subtitle">Make it a memorable trip!</p>
-        <p class="safari-description">
-          Chandrapur is home to the famous Tadoba Andhari Tiger Reserve -
-          one of India's best tiger reserves with highest tiger sighting success rate.
-          Consider extending your stay for a wildlife safari!
-        </p>
-        <div class="safari-highlights">
-          <span class="safari-tag">Tigers</span>
-          <span class="safari-tag">Leopards</span>
-          <span class="safari-tag">Wild Dogs</span>
-          <span class="safari-tag">Sloth Bears</span>
-        </div>
-        <a href="details/#safari" class="btn-primary">Safari Booking Details</a>
+        <a href="details/" class="btn-secondary">Travel Guide</a>
+        <a href="details/#safari" class="btn-secondary">🐯 Tadoba Safari</a>
       </div>
     </section>
 
     <!-- CLOSING -->
     <section class="story-closing">
       <div class="closing-glow"></div>
-
       <div class="closing-content">
         <img src="/src/assets/icons/kalash.svg" alt="" class="closing-icon">
-
-        <p class="closing-message">
-          Your presence would be our most cherished blessing.<br>
-          We look forward to celebrating this joyous occasion with you.
-        </p>
-
+        <p class="closing-message">Your presence would be our most cherished blessing</p>
         <h2 class="closing-title">We Await You</h2>
-
         <div class="closing-signature">
           <span>With Love & Warmth</span>
           <span class="signature-families">Dewalwar & Chachad Families</span>
         </div>
-
         <div class="closing-actions">
-          <button class="btn-primary" id="add-calendar">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2" />
-              <line x1="16" y1="2" x2="16" y2="6" />
-              <line x1="8" y1="2" x2="8" y2="6" />
-              <line x1="3" y1="10" x2="21" y2="10" />
-            </svg>
-            Save the Date
-          </button>
-
-          <button class="btn-share" id="share-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="18" cy="5" r="3" />
-              <circle cx="6" cy="12" r="3" />
-              <circle cx="18" cy="19" r="3" />
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-            </svg>
-            Share Invitation
-          </button>
-        </div>
-
-        <div class="contact-info">
-          <p>For any queries, please contact:</p>
-          <p><strong>Dewalwar Family:</strong> +91 XXXXX XXXXX</p>
-          <p><strong>Chachad Family:</strong> +91 XXXXX XXXXX</p>
+          <button class="btn-primary" id="add-calendar">📅 Save the Date</button>
+          <button class="btn-share" id="share-btn">📤 Share</button>
         </div>
       </div>
-
       <div class="footer-diya">
-        <img src="/src/assets/icons/diya.svg" alt="" width="60">
+        <img src="/src/assets/icons/diya.svg" alt="" width="50">
       </div>
     </section>
 
