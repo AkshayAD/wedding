@@ -900,7 +900,7 @@
 .signature-families {
     font-family: var(--font-accent);
     font-size: var(--text-sm);
-    color: var(--gold-dark);
+    color: var(--maroon);
     letter-spacing: 0.15em;
 }
 
@@ -909,6 +909,7 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--space-md);
+    margin-bottom: var(--space-xl);
 }
 
 .btn-share {
@@ -933,6 +934,18 @@
     color: var(--maroon-dark);
 }
 
+.contact-info {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid rgba(184, 134, 11, 0.3);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+}
+
+.contact-info p {
+    margin: var(--space-xs) 0;
+}
+
 .footer-diya {
     position: absolute;
     bottom: var(--space-xl);
@@ -950,6 +963,315 @@
     50% {
         transform: translateY(-10px);
     }
+}
+
+/* ===== NAVIGATION TABS ===== */
+.nav-tabs {
+    position: fixed;
+    bottom: var(--space-lg);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--space-xs);
+    background: rgba(74, 10, 30, 0.95);
+    padding: var(--space-xs);
+    border-radius: var(--radius-full);
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.nav-tab {
+    padding: var(--space-sm) var(--space-md);
+    font-family: var(--font-accent);
+    font-size: var(--text-xs);
+    color: var(--bg-cream);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: var(--radius-full);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.nav-tab:hover {
+    background: var(--gold);
+    color: var(--maroon-dark);
+}
+
+/* ===== SCHEDULE SUMMARY ===== */
+.schedule-summary {
+    margin-top: var(--space-2xl);
+    padding: var(--space-xl);
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(184, 134, 11, 0.3);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.schedule-title {
+    font-family: var(--font-accent);
+    font-size: var(--text-sm);
+    color: var(--maroon);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.schedule-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+}
+
+@media (min-width: 480px) {
+    .schedule-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.schedule-day {
+    text-align: center;
+}
+
+.schedule-day-label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    color: var(--maroon);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid rgba(184, 134, 11, 0.3);
+}
+
+.schedule-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.schedule-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm);
+    background: rgba(184, 134, 11, 0.1);
+    border-radius: var(--radius-md);
+}
+
+.schedule-time {
+    font-family: var(--font-accent);
+    font-size: var(--text-xs);
+    color: var(--maroon);
+    font-weight: 600;
+}
+
+.schedule-event {
+    font-size: var(--text-sm);
+    color: var(--text-dark);
+}
+
+/* ===== EVENT DESCRIPTIONS & DRESS CODE ===== */
+.event-description {
+    margin-top: var(--space-md);
+    font-size: var(--text-sm);
+    color: var(--text-dark);
+    line-height: 1.7;
+}
+
+.event-dress-code {
+    margin-top: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(184, 134, 11, 0.15);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    color: var(--maroon);
+}
+
+.event-dress-code strong {
+    color: var(--maroon-dark);
+}
+
+/* ===== ANIMATED FIGURES ===== */
+.animated-figure {
+    animation: gentleSway 4s ease-in-out infinite;
+}
+
+.groom-figure.animated-figure {
+    animation-delay: 0s;
+}
+
+.bride-figure.animated-figure {
+    animation-delay: 0.5s;
+}
+
+@keyframes gentleSway {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-5px) rotate(1deg);
+    }
+}
+
+/* ===== WEDDING MAIN TEXT ===== */
+.wedding-main-text {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--maroon);
+    text-align: center;
+    line-height: 1.6;
+    margin-top: var(--space-md);
+}
+
+/* ===== VENUE DESCRIPTION ===== */
+.venue-description {
+    color: var(--text-dark);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-lg);
+    font-style: italic;
+}
+
+/* ===== TRAVEL SECTION ENHANCED ===== */
+.travel-subtitle {
+    color: var(--text-muted);
+    margin-bottom: var(--space-lg);
+    font-style: italic;
+}
+
+.travel-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-lg);
+    min-width: 140px;
+}
+
+.travel-icon {
+    font-size: 2rem;
+}
+
+.travel-label {
+    font-family: var(--font-accent);
+    font-size: var(--text-sm);
+    color: var(--maroon);
+    font-weight: 600;
+}
+
+.travel-detail {
+    font-size: var(--text-sm);
+    color: var(--text-dark);
+}
+
+.travel-note {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.travel-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: transparent;
+    color: var(--maroon);
+    padding: var(--space-sm) var(--space-lg);
+    border: 2px solid var(--maroon);
+    border-radius: var(--radius-full);
+    font-family: var(--font-accent);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: var(--maroon);
+    color: var(--bg-cream);
+}
+
+/* ===== SAFARI SECTION ===== */
+.story-safari {
+    padding: var(--space-2xl) var(--space-lg);
+    background: linear-gradient(180deg, var(--bg-parchment) 0%, rgba(0, 109, 111, 0.1) 100%);
+    text-align: center;
+}
+
+.safari-content {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.safari-title {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--peacock-teal);
+    margin-bottom: var(--space-sm);
+}
+
+.safari-subtitle {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: var(--space-md);
+}
+
+.safari-description {
+    color: var(--text-dark);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-lg);
+    line-height: 1.7;
+}
+
+.safari-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.safari-tag {
+    padding: var(--space-xs) var(--space-md);
+    background: rgba(0, 109, 111, 0.2);
+    color: var(--peacock-teal);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-family: var(--font-accent);
+}
+
+/* ===== TEXT CONTRAST FIXES ===== */
+.event-tagline {
+    color: var(--text-dark);
+    opacity: 0.8;
+}
+
+.event-time {
+    color: var(--maroon);
+    font-weight: 600;
+}
+
+.date-label {
+    color: var(--maroon);
+}
+
+.date-year {
+    color: var(--maroon-light);
 }
 
 /* ===== Mobile Optimizations ===== */
@@ -986,5 +1308,23 @@
     .floating-diya {
         width: 25px;
         height: 35px;
+    }
+
+    .nav-tabs {
+        padding: var(--space-xs);
+        gap: 2px;
+    }
+
+    .nav-tab {
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 0.65rem;
+    }
+
+    .schedule-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .wedding-main-text {
+        font-size: var(--text-lg);
     }
 }
