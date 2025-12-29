@@ -2,322 +2,239 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Wedding Invitation - A Celebration of Love. Join us for this beautiful journey of Dewalwar & Chachad families.">
-    <meta name="theme-color" content="#8B1538">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description"
+    content="You're Invited! Join us for the Dewalwar-Chachad Wedding Celebration - February 7-8, 2026">
+  <meta name="theme-color" content="#7A1E3E">
 
-    <title>Dewalwar - Chachad Wedding Invitation</title>
+  <title>Dewalwar ❤ Chachad | Wedding Invitation</title>
 
-    <!-- Preconnect for fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap"
-        rel="stylesheet">
+  <!-- Fonts: Playfair Display + Lora -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/components.css">
-    <link rel="stylesheet" href="styles/parallax.css">
-    <link rel="stylesheet" href="styles/responsive.css">
-
-    <!-- GSAP for animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
-
-    <style>
-        /* Critical CSS - Above the fold styles */
-        .preloader {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            background: #FDF8F3;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+  <link rel="stylesheet" href="/src/css/components.css">
+  <link rel="stylesheet" href="/src/css/animations.css">
 </head>
 
 <body>
-    <!-- Preloader -->
-    <div class="preloader" id="preloader" role="status" aria-label="Loading wedding invitation">
-        <div class="preloader-shimmer"></div>
-        <p class="preloader-text">Opening your invitation...</p>
-        <button class="skip-button" id="skip-preloader" aria-label="Skip loading animation">
-            Skip
-        </button>
+  <!-- Preloader -->
+  <div class="preloader" id="preloader" aria-live="polite">
+    <div class="preloader-inner">
+      <div class="shimmer-line"></div>
+      <p class="preloader-text">Opening your invitation...</p>
     </div>
+    <button class="skip-btn" id="skip-btn" aria-label="Skip animation">Skip</button>
+  </div>
 
-    <!-- Background Bokeh / Gold Dust -->
-    <div class="bokeh-container" aria-hidden="true">
-        <div class="bokeh bokeh-1"></div>
-        <div class="bokeh bokeh-2"></div>
-        <div class="bokeh bokeh-3"></div>
-        <div class="bokeh bokeh-4"></div>
-        <div class="bokeh bokeh-5"></div>
-    </div>
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
 
-    <!-- Floating Particles Container -->
-    <div class="particles-container" id="particles" aria-hidden="true"></div>
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="section hero" id="hero">
+      <div class="hero-bg"></div>
 
-    <!-- Navigation -->
-    <nav class="nav" id="nav" aria-label="Main navigation">
-        <div class="nav-inner container">
-            <a href="#hero" class="nav-brand" aria-label="Back to top">
-                <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <path
-                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                </svg>
-            </a>
-            <div class="nav-links">
-                <a href="#day-1" class="nav-link">Day 1</a>
-                <a href="#day-2" class="nav-link">Day 2</a>
-                <a href="details/" class="nav-link nav-details">Details</a>
-            </div>
+      <div class="hero-content">
+        <p class="hero-pretitle reveal-text">With Blessings & Joy</p>
+
+        <h1 class="hero-title reveal-text">
+          <span class="family-name">Dewalwar</span>
+          <span class="heart">❤</span>
+          <span class="family-name">Chachad</span>
+        </h1>
+
+        <!-- Countdown -->
+        <div class="countdown" id="countdown">
+          <div class="countdown-item">
+            <span class="countdown-number" id="days">--</span>
+            <span class="countdown-label">Days</span>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="hours">--</span>
+            <span class="countdown-label">Hours</span>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="minutes">--</span>
+            <span class="countdown-label">Mins</span>
+          </div>
         </div>
-    </nav>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="hero-parallax" id="hero" aria-labelledby="hero-title">
-            <!-- Background texture -->
-            <div class="hero-bg-texture" aria-hidden="true"></div>
+        <p class="hero-date">February 7 - 8, 2026</p>
+      </div>
 
-            <!-- Rangoli watermark -->
-            <div class="rangoli-bg" aria-hidden="true"></div>
-
-            <!-- Paithani borders -->
-            <div class="paithani-border paithani-left" aria-hidden="true"></div>
-            <div class="paithani-border paithani-right" aria-hidden="true"></div>
-
-            <!-- Marigold Toran -->
-            <div class="toran-container" aria-hidden="true">
-                <div class="toran">
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                    <div class="toran-flower"></div>
-                </div>
-            </div>
-
-            <!-- Hero Content -->
-            <div class="hero-content text-center">
-                <div class="ornament-line fade-in"></div>
-
-                <p class="hero-pretitle fade-in delay-1">With Blessings & Joy</p>
-
-                <h1 class="hero-title fade-in delay-2" id="hero-title">
-                    A Celebration of Love
-                </h1>
-
-                <p class="hero-subtitle fade-in delay-3">
-                    Two days of joy, laughter & sacred moments
-                </p>
-
-                <div class="ornament-line fade-in delay-3"></div>
-
-                <!-- Day Navigation Chips -->
-                <div class="day-chips fade-in delay-4">
-                    <a href="#day-1" class="day-chip day-chip-1">
-                        <span class="chip-label">Day 1</span>
-                        <span class="chip-events">Haldi & Sangeet</span>
-                    </a>
-                    <a href="#day-2" class="day-chip day-chip-2">
-                        <span class="chip-label">Day 2</span>
-                        <span class="chip-events">Barat & Wedding</span>
-                    </a>
-                </div>
-
-                <!-- Details CTA -->
-                <a href="details/" class="btn btn-gold fade-in delay-5">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                        <polyline points="14 2 14 8 20 8" />
-                        <line x1="16" y1="13" x2="8" y2="13" />
-                        <line x1="16" y1="17" x2="8" y2="17" />
-                    </svg>
-                    Travel & Safari Details
-                </a>
-            </div>
-
-            <!-- Scroll Indicator -->
-            <div class="scroll-indicator fade-in delay-5" aria-hidden="true">
-                <span>Scroll to explore</span>
-                <div class="scroll-line"></div>
-            </div>
-        </section>
-
-        <!-- Day 1 Section -->
-        <section class="day-section" id="day-1" aria-labelledby="day1-title">
-            <div class="day-header reveal">
-                <span class="day-badge">Day One</span>
-                <h2 class="day-title" id="day1-title">The Celebrations Begin</h2>
-                <p class="day-subtitle">Afternoon to Evening</p>
-            </div>
-
-            <div class="events-grid container">
-                <!-- Haldi Event -->
-                <article class="event-card haldi-card reveal" id="haldi">
-                    <div class="card-decoration haldi-decoration" aria-hidden="true"></div>
-                    <div class="event-header">
-                        <div class="event-icon haldi-icon" aria-hidden="true">
-                            <svg viewBox="0 0 64 64" width="48" height="48">
-                                <circle cx="32" cy="32" r="12" fill="#E8A435" />
-                                <circle cx="32" cy="14" r="6" fill="#F2C464" opacity="0.8" />
-                                <circle cx="32" cy="50" r="6" fill="#F2C464" opacity="0.8" />
-                                <circle cx="14" cy="32" r="6" fill="#F2C464" opacity="0.8" />
-                                <circle cx="50" cy="32" r="6" fill="#F2C464" opacity="0.8" />
-                            </svg>
-                        </div>
-                        <time class="event-time">12:30 PM</time>
-                    </div>
-                    <h3 class="event-title">Haldi Ceremony</h3>
-                    <p class="event-tagline">Blessings in golden hues</p>
-                    <p class="event-description">
-                        An auspicious ceremony where turmeric paste is applied, symbolizing purification and blessings.
-                    </p>
-                </article>
-
-                <!-- Sangeet Event -->
-                <article class="event-card sangeet-card reveal delay-2" id="sangeet">
-                    <div class="card-decoration sangeet-decoration" aria-hidden="true"></div>
-                    <div class="event-header">
-                        <div class="event-icon sangeet-icon" aria-hidden="true">
-                            <svg viewBox="0 0 64 64" width="48" height="48">
-                                <path d="M20 48 L20 20 L48 14 L48 42" fill="none" stroke="#8B1538" stroke-width="3" />
-                                <circle cx="16" cy="48" r="6" fill="#8B1538" />
-                                <circle cx="44" cy="42" r="6" fill="#8B1538" />
-                                <path d="M20 28 L48 22" fill="none" stroke="#8B1538" stroke-width="2" />
-                            </svg>
-                        </div>
-                        <time class="event-time">6:30 PM</time>
-                    </div>
-                    <h3 class="event-title">Sangeet Night</h3>
-                    <p class="event-tagline">Dance, music & celebration</p>
-                    <p class="event-description">
-                        A night filled with music, dance performances, and joyous celebrations.
-                    </p>
-                </article>
-            </div>
-        </section>
-
-        <!-- Ceremony Interlude -->
-        <section class="ceremony-interlude" aria-hidden="true">
-            <div class="rangoli-expand"></div>
-            <svg class="drawing-line-svg" viewBox="0 0 200 2" width="200" height="2">
-                <line class="drawing-line" x1="0" y1="1" x2="200" y2="1" stroke="#D4AF37" stroke-width="2" />
-            </svg>
-        </section>
-
-        <!-- Day 2 Section -->
-        <section class="day-section day-section-2" id="day-2" aria-labelledby="day2-title">
-            <div class="day-header reveal">
-                <span class="day-badge">Day Two</span>
-                <h2 class="day-title" id="day2-title">The Grand Ceremony</h2>
-                <p class="day-subtitle">Afternoon to Sunset</p>
-            </div>
-
-            <div class="events-grid container">
-                <!-- Barat Event -->
-                <article class="event-card barat-card reveal" id="barat">
-                    <div class="card-decoration barat-decoration" aria-hidden="true"></div>
-                    <div class="event-header">
-                        <div class="event-icon barat-icon" aria-hidden="true">
-                            <svg viewBox="0 0 64 64" width="48" height="48">
-                                <path
-                                    d="M16 48 L16 32 Q16 24 24 24 L28 24 Q32 24 32 28 L32 32 Q32 36 36 36 L40 36 Q48 36 48 28 L48 20"
-                                    fill="none" stroke="#D4AF37" stroke-width="3" />
-                                <circle cx="48" cy="16" r="5" fill="#D4AF37" />
-                                <path d="M8 48 L56 48" stroke="#8B1538" stroke-width="3" />
-                            </svg>
-                        </div>
-                        <time class="event-time">4:00 PM</time>
-                    </div>
-                    <h3 class="event-title">The Barat</h3>
-                    <p class="event-tagline">The groom's grand procession</p>
-                    <p class="event-description">
-                        A vibrant procession with music and dancing as the groom arrives.
-                    </p>
-                </article>
-
-                <!-- Wedding Event -->
-                <article class="event-card wedding-card reveal delay-2" id="wedding">
-                    <div class="card-decoration wedding-decoration" aria-hidden="true"></div>
-                    <div class="event-header">
-                        <div class="event-icon wedding-icon" aria-hidden="true">
-                            <svg viewBox="0 0 64 64" width="48" height="48">
-                                <path d="M12 52 L12 24 L32 12 L52 24 L52 52" fill="none" stroke="#8B1538"
-                                    stroke-width="2" />
-                                <path d="M8 52 L56 52" stroke="#D4AF37" stroke-width="3" />
-                                <circle cx="32" cy="36" r="8" fill="none" stroke="#D4AF37" stroke-width="2" />
-                                <path d="M28 36 L36 36 M32 32 L32 40" stroke="#D4AF37" stroke-width="1.5" />
-                            </svg>
-                        </div>
-                        <time class="event-time event-time-sunset">Sunset</time>
-                    </div>
-                    <h3 class="event-title">The Wedding</h3>
-                    <p class="event-tagline">Sacred vows & eternal bond</p>
-                    <p class="event-description">
-                        The sacred ceremony where two souls unite in the presence of divine blessings.
-                    </p>
-                </article>
-            </div>
-        </section>
-
-        <!-- Closing Section -->
-        <section class="closing-section" id="closing" aria-labelledby="closing-title">
-            <div class="closing-content text-center reveal">
-                <div class="closing-heart" aria-hidden="true">
-                    <svg viewBox="0 0 64 64" width="64" height="64">
-                        <path
-                            d="M32 56 L14 38 Q6 30 6 20 Q6 10 16 10 Q26 10 32 20 Q38 10 48 10 Q58 10 58 20 Q58 30 50 38 Z"
-                            fill="#E74C3C" />
-                    </svg>
-                </div>
-
-                <p class="closing-text">Your presence would make our celebration complete</p>
-
-                <h2 class="closing-title" id="closing-title">We Await Your Gracious Presence</h2>
-
-                <p class="closing-signature">With Love & Blessings</p>
-
-                <div class="ornament-line"></div>
-
-                <a href="details/" class="btn btn-primary">
-                    View Travel & Event Details
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container text-center">
-            <p class="footer-text">Dewalwar ❤ Chachad</p>
+      <!-- Scroll Indicator -->
+      <div class="scroll-indicator" aria-hidden="true">
+        <span>Explore</span>
+        <div class="scroll-arrow">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
         </div>
-    </footer>
+      </div>
+    </section>
 
-    <!-- Scripts -->
-    <script src="scripts/main.js" defer></script>
-    <script src="scripts/parallax.js" defer></script>
+    <!-- Day Summary Cards -->
+    <section class="section summary" id="summary">
+      <h2 class="section-title reveal-text">The Celebration</h2>
+      <p class="section-subtitle reveal-text">Two days of joy, laughter & sacred moments</p>
+
+      <div class="day-cards">
+        <!-- Day 1 Card -->
+        <a href="#day1" class="day-card day-card-1">
+          <div class="day-card-header">
+            <span class="day-badge">Day 1</span>
+            <span class="day-date">Feb 7</span>
+          </div>
+          <ul class="day-events">
+            <li>
+              <span class="event-icon">🌼</span>
+              <span class="event-name">Haldi</span>
+              <span class="event-time">12:30 PM</span>
+            </li>
+            <li>
+              <span class="event-icon">🎵</span>
+              <span class="event-name">Sangeet</span>
+              <span class="event-time">6:30 PM</span>
+            </li>
+          </ul>
+        </a>
+
+        <!-- Day 2 Card -->
+        <a href="#day2" class="day-card day-card-2">
+          <div class="day-card-header">
+            <span class="day-badge">Day 2</span>
+            <span class="day-date">Feb 8</span>
+          </div>
+          <ul class="day-events">
+            <li>
+              <span class="event-icon">🎺</span>
+              <span class="event-name">Barat</span>
+              <span class="event-time">4:00 PM</span>
+            </li>
+            <li>
+              <span class="event-icon">💒</span>
+              <span class="event-name">Wedding</span>
+              <span class="event-time">Sunset</span>
+            </li>
+          </ul>
+        </a>
+      </div>
+    </section>
+
+    <!-- Day 1 Events -->
+    <section class="section events-section" id="day1">
+      <div class="events-header">
+        <span class="day-label">Day One</span>
+        <h2 class="events-title reveal-text">The Celebrations Begin</h2>
+        <p class="events-date">February 7, 2026</p>
+      </div>
+
+      <!-- Haldi Event -->
+      <article class="event-card fullscreen haldi" id="haldi">
+        <div class="event-bg"></div>
+        <div class="event-content">
+          <span class="event-emoji">🌼</span>
+          <h3 class="event-title reveal-text">Haldi Ceremony</h3>
+          <p class="event-tagline">Blessings in golden hues</p>
+          <time class="event-time-badge">12:30 PM</time>
+          <p class="event-desc">
+            An auspicious ceremony where turmeric paste is applied,
+            symbolizing purification and blessings for the couple.
+          </p>
+        </div>
+      </article>
+
+      <!-- Sangeet Event -->
+      <article class="event-card fullscreen sangeet" id="sangeet">
+        <div class="event-bg"></div>
+        <div class="event-content">
+          <span class="event-emoji">🎵</span>
+          <h3 class="event-title reveal-text">Sangeet Night</h3>
+          <p class="event-tagline">Dance, music & celebration</p>
+          <time class="event-time-badge">6:30 PM</time>
+          <p class="event-desc">
+            A night filled with music, dance performances,
+            and joyous celebrations with family and friends.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <!-- Day 2 Events -->
+    <section class="section events-section" id="day2">
+      <div class="events-header">
+        <span class="day-label">Day Two</span>
+        <h2 class="events-title reveal-text">The Grand Ceremony</h2>
+        <p class="events-date">February 8, 2026</p>
+      </div>
+
+      <!-- Barat Event -->
+      <article class="event-card fullscreen barat" id="barat">
+        <div class="event-bg"></div>
+        <div class="event-content">
+          <span class="event-emoji">🎺</span>
+          <h3 class="event-title reveal-text">The Barat</h3>
+          <p class="event-tagline">The groom's grand procession</p>
+          <time class="event-time-badge">4:00 PM</time>
+          <p class="event-desc">
+            A vibrant procession with music and dancing
+            as the groom arrives in grand style.
+          </p>
+        </div>
+      </article>
+
+      <!-- Wedding Event -->
+      <article class="event-card fullscreen wedding" id="wedding">
+        <div class="event-bg"></div>
+        <div class="event-content">
+          <span class="event-emoji">💒</span>
+          <h3 class="event-title reveal-text">The Wedding</h3>
+          <p class="event-tagline">Sacred vows & eternal bond</p>
+          <time class="event-time-badge sunset">Sunset</time>
+          <p class="event-desc">
+            The sacred ceremony where two souls unite
+            in the presence of divine blessings.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <!-- Closing Section -->
+    <section class="section closing" id="closing">
+      <div class="closing-content">
+        <p class="closing-text reveal-text">Your presence would make our celebration complete</p>
+        <h2 class="closing-title reveal-text">We Await Your Gracious Presence</h2>
+        <p class="closing-signature">With Love & Blessings</p>
+
+        <div class="closing-divider"></div>
+
+        <a href="details/" class="btn-primary">
+          View Travel & Event Details
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Dewalwar ❤ Chachad</p>
+  </footer>
+
+  <script type="module" src="/src/js/main.js"></script>
 </body>
 
 </html>

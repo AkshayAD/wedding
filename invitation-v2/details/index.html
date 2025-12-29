@@ -3,37 +3,31 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Travel Guide and Event Details for Dewalwar-Chachad Wedding at Chillarwar Farms">
-    <meta name="theme-color" content="#8B1538">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Travel Guide and Event Details for Dewalwar-Chachad Wedding">
+    <meta name="theme-color" content="#7A1E3E">
 
-    <title>Event Details - Dewalwar-Chachad Wedding</title>
+    <title>Travel & Details | Dewalwar-Chachad Wedding</title>
 
-    <!-- Preconnect for fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <!-- Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="../styles/main.css">
-    <link rel="stylesheet" href="../styles/components.css">
-    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="/src/css/base.css">
     <link rel="stylesheet" href="details.css">
 </head>
 
-<body class="details-page">
-    <!-- Navigation -->
-    <nav class="details-nav" id="nav" aria-label="Details navigation">
-        <div class="nav-inner container">
-            <a href="../" class="nav-back" aria-label="Back to invitation">
+<body>
+    <!-- Sticky Nav -->
+    <nav class="details-nav">
+        <div class="nav-inner">
+            <a href="../" class="nav-back">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M19 12H5M12 19l-7-7 7-7" />
                 </svg>
-                <span>Invitation</span>
+                Invitation
             </a>
             <div class="nav-links">
                 <a href="#travel" class="nav-link">Travel</a>
@@ -46,464 +40,279 @@
     <main class="details-main">
         <!-- Header -->
         <header class="details-header">
-            <div class="container text-center">
-                <h1 class="details-title">Event Details</h1>
-                <p class="details-subtitle">Everything you need for your journey</p>
-            </div>
+            <h1>Event Details</h1>
+            <p>Everything you need for your journey</p>
         </header>
 
-        <!-- Travel Guide Section -->
-        <section class="details-section" id="travel" aria-labelledby="travel-title">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-icon">🚂</span>
-                    <h2 class="section-title" id="travel-title">Travel Guide</h2>
-                    <p class="section-desc">Your journey to Chillarwar Farms</p>
-                </div>
+        <!-- Travel Section -->
+        <section class="section" id="travel">
+            <div class="section-header">
+                <span class="section-icon">🚂</span>
+                <h2>Travel Guide</h2>
+                <p>Your journey to Chillarwar Farms</p>
+            </div>
 
-                <div class="cards-grid">
-                    <!-- Train Card -->
-                    <article class="info-card">
-                        <div class="card-header">
-                            <span class="card-icon">🚂</span>
-                            <h3>Nagpur → Chandrapur Trains</h3>
+            <div class="cards-container">
+                <!-- Train Card -->
+                <article class="info-card">
+                    <div class="card-header">
+                        <h3>🚂 Nagpur → Chandrapur Trains</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="intro">If arriving at Nagpur, take a connecting train to Chandrapur (~2-3 hrs,
+                            ₹150-1200)</p>
+
+                        <div class="time-group">
+                            <h4>🌅 Early Morning (4-6 AM)</h4>
+                            <ul>
+                                <li><span>Kerala Express</span><span>4:10 AM</span></li>
+                                <li><span>SC Vande Bharat</span><span>5:00 AM</span></li>
+                            </ul>
                         </div>
-                        <div class="card-body">
-                            <p class="intro-text">If arriving at Nagpur, take a connecting train to Chandrapur (~2-3
-                                hrs, ₹150-1200)</p>
 
-                            <div class="time-slots">
-                                <h4>📅 Choose Based on Your Nagpur Arrival</h4>
-
-                                <div class="slot">
-                                    <div class="slot-header morning">🌅 Early Morning (4-6 AM)</div>
-                                    <ul class="train-list">
-                                        <li><span class="name">Kerala Express</span> <span class="time">Dep: 4:10
-                                                AM</span></li>
-                                        <li><span class="name">SC Vande Bharat</span> <span class="time">Dep: 5:00
-                                                AM</span></li>
-                                    </ul>
-                                </div>
-
-                                <div class="slot">
-                                    <div class="slot-header noon">☀️ Morning (6 AM - 12 PM)</div>
-                                    <ul class="train-list">
-                                        <li><span class="name">Intercity Express</span> <span class="time">Dep: 6:15
-                                                AM</span></li>
-                                        <li><span class="name">Telangana Express</span> <span class="time">Dep: 9:40
-                                                AM</span></li>
-                                    </ul>
-                                </div>
-
-                                <div class="slot">
-                                    <div class="slot-header afternoon">🌤️ Afternoon (12-6 PM)</div>
-                                    <ul class="train-list">
-                                        <li><span class="name">Grand Trunk Express</span> <span class="time">Dep: 12:25
-                                                PM</span></li>
-                                        <li><span class="name">JP Mysore Express</span> <span class="time">Dep: 2:15
-                                                PM</span></li>
-                                        <li><span class="name">Sangha Mitra Express</span> <span class="time">Dep: 4:25
-                                                PM</span></li>
-                                    </ul>
-                                </div>
-
-                                <div class="slot">
-                                    <div class="slot-header evening">🌙 Evening (6 PM+)</div>
-                                    <ul class="train-list">
-                                        <li><span class="name">Swarna Jayanti Exp</span> <span class="time">Dep: 9:55
-                                                PM</span></li>
-                                        <li><span class="name">Navjeevan Express</span> <span class="time">Dep: 10:30 PM
-                                                ⚡1.5hrs</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="tips">
-                                <p>✈️ <strong>From Airport:</strong> Take cab/auto to Ganeshpeth Bus Stand or Railway
-                                    Station</p>
-                                <p>💡 <strong>Fastest:</strong> Navjeevan Express (12655) - 1.5 hrs</p>
-                                <p>🔗 <strong>Book on:</strong> <a href="https://www.irctc.co.in" target="_blank"
-                                        rel="noopener">IRCTC</a> - search "Nagpur to Chandrapur"</p>
-                            </div>
+                        <div class="time-group">
+                            <h4>☀️ Morning (6 AM - 12 PM)</h4>
+                            <ul>
+                                <li><span>Intercity Express</span><span>6:15 AM</span></li>
+                                <li><span>Telangana Express</span><span>9:40 AM</span></li>
+                            </ul>
                         </div>
-                    </article>
 
-                    <!-- Bus Card -->
-                    <article class="info-card">
-                        <div class="card-header">
-                            <span class="card-icon">🚌</span>
-                            <h3>Nagpur → Chandrapur Buses</h3>
-                            <span class="badge">Flexible</span>
+                        <div class="time-group">
+                            <h4>🌤️ Afternoon (12-6 PM)</h4>
+                            <ul>
+                                <li><span>Grand Trunk Express</span><span>12:25 PM</span></li>
+                                <li><span>JP Mysore Express</span><span>2:15 PM</span></li>
+                                <li><span>Sangha Mitra Express</span><span>4:25 PM</span></li>
+                            </ul>
                         </div>
-                        <div class="card-body">
-                            <p class="intro-text">Buses run every 15-30 min from Nagpur Ganeshpeth Bus Stand (~3 hrs,
-                                ₹280-500)</p>
 
-                            <div class="time-slots">
-                                <h4>📅 Bus Departures Throughout the Day</h4>
-
-                                <div class="slot">
-                                    <div class="slot-header morning">🌅 Early Morning</div>
-                                    <ul class="train-list">
-                                        <li><span class="name">First Bus (MSRTC)</span> <span class="time">5:00
-                                                AM</span></li>
-                                        <li><span class="name">DNR Express</span> <span class="time">6:30 AM</span></li>
-                                    </ul>
-                                </div>
-
-                                <div class="slot">
-                                    <div class="slot-header noon">☀️ Morning</div>
-                                    <ul class="train-list">
-                                        <li><span class="name">DNR Express</span> <span class="time">7:40 AM</span></li>
-                                        <li><span class="name">Ganraj Travels</span> <span class="time">8:00 AM</span>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="slot">
-                                    <div class="slot-header afternoon">🌤️ Afternoon</div>
-                                    <ul class="train-list">
-                                        <li><span class="name">MSRTC (every 30 min)</span> <span class="time">12 PM - 4
-                                                PM</span></li>
-                                        <li><span class="name">Private Operators</span> <span
-                                                class="time">Frequent</span></li>
-                                    </ul>
-                                </div>
-
-                                <div class="slot">
-                                    <div class="slot-header evening">🌙 Evening</div>
-                                    <ul class="train-list">
-                                        <li><span class="name">DNR Express</span> <span class="time">6:30 PM</span></li>
-                                        <li><span class="name">Last Bus</span> <span class="time">8:00 PM</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="tips">
-                                <p>💡 <strong>No advance booking needed</strong> - Buy ticket at bus stand</p>
-                                <p>🚏 <strong>Board at:</strong> Nagpur Ganeshpeth Bus Stand (near Railway Station)</p>
-                                <p>🔗 <strong>Book online:</strong> <a href="https://www.redbus.in" target="_blank"
-                                        rel="noopener">RedBus</a> for private operators</p>
-                            </div>
+                        <div class="time-group">
+                            <h4>🌙 Evening (6 PM+)</h4>
+                            <ul>
+                                <li><span>Swarna Jayanti Exp</span><span>9:55 PM</span></li>
+                                <li><span>Navjeevan Express ⚡</span><span>10:30 PM</span></li>
+                            </ul>
                         </div>
-                    </article>
-                </div>
+
+                        <div class="tips-box">
+                            <p>✈️ <strong>From Airport:</strong> Cab/auto to Ganeshpeth Bus Stand or Railway Station</p>
+                            <p>💡 <strong>Fastest:</strong> Navjeevan Express (12655) - 1.5 hrs</p>
+                            <p>🔗 <strong>Book:</strong> <a href="https://www.irctc.co.in" target="_blank">IRCTC</a></p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Bus Card -->
+                <article class="info-card">
+                    <div class="card-header">
+                        <h3>🚌 Nagpur → Chandrapur Buses</h3>
+                        <span class="badge">Flexible</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="intro">Buses run every 15-30 min from Nagpur Ganeshpeth Bus Stand (~3 hrs, ₹280-500)
+                        </p>
+
+                        <div class="time-group">
+                            <h4>🌅 Morning</h4>
+                            <ul>
+                                <li><span>First Bus (MSRTC)</span><span>5:00 AM</span></li>
+                                <li><span>DNR Express</span><span>6:30 AM</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="time-group">
+                            <h4>☀️ Daytime</h4>
+                            <ul>
+                                <li><span>MSRTC (every 30 min)</span><span>12 PM - 4 PM</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="time-group">
+                            <h4>🌙 Evening</h4>
+                            <ul>
+                                <li><span>DNR Express</span><span>6:30 PM</span></li>
+                                <li><span>Last Bus</span><span>8:00 PM</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="tips-box">
+                            <p>💡 <strong>No advance booking needed</strong> - Buy ticket at bus stand</p>
+                            <p>🔗 <strong>Online:</strong> <a href="https://www.redbus.in" target="_blank">RedBus</a>
+                                for private operators</p>
+                        </div>
+                    </div>
+                </article>
             </div>
         </section>
 
         <!-- Venue Section -->
-        <section class="details-section venue-section" id="venue" aria-labelledby="venue-title">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-icon">📍</span>
-                    <h2 class="section-title" id="venue-title">Getting to Chillarwar Farms</h2>
-                </div>
+        <section class="section" id="venue">
+            <div class="section-header">
+                <span class="section-icon">📍</span>
+                <h2>Getting to the Venue</h2>
+            </div>
 
-                <div class="cards-grid single">
-                    <article class="info-card highlight-card">
-                        <div class="card-body">
-                            <div class="highlight-box">
-                                <span class="highlight-icon">🚐</span>
-                                <div>
-                                    <h4>Pickup Arranged!</h4>
-                                    <p>We will arrange vehicle pickup from Chandrapur Railway Station and bus stops to
-                                        Chillarwar Farms for all guests.</p>
-                                </div>
-                            </div>
-
-                            <div class="info-box">
-                                <h4>🚌 DNR Express Drop Point</h4>
-                                <p><strong>Closest Stop:</strong> Chandrapur Bus Stand (Main)</p>
-                                <p><strong>Alternative:</strong> Buses also stop at Chandrapur bypass - inform us if
-                                    getting down here</p>
-                                <p class="tip">💡 Let us know your arrival time and we'll have a vehicle ready!</p>
-                            </div>
-
-                            <div class="venue-details">
-                                <p><strong>Distance:</strong> ~25-30 km from Chandrapur</p>
-                                <p><strong>Drive Time:</strong> ~45 minutes</p>
-                                <p><strong>Venue:</strong> Chillarwar Farms, Near Chillarwar Village</p>
-                            </div>
-
-                            <div class="contact-box">
-                                <p class="label">For pickup coordination, please contact:</p>
-                                <p class="note">Details will be shared closer to the event</p>
+            <div class="cards-container single">
+                <article class="info-card highlight">
+                    <div class="card-body">
+                        <div class="highlight-box">
+                            <span>🚐</span>
+                            <div>
+                                <h4>Pickup Arranged!</h4>
+                                <p>We will arrange vehicle pickup from Chandrapur Railway Station and bus stops to
+                                    Chillarwar Farms for all guests.</p>
                             </div>
                         </div>
-                    </article>
-                </div>
+
+                        <div class="venue-info">
+                            <p><strong>Distance:</strong> ~25-30 km from Chandrapur</p>
+                            <p><strong>Drive Time:</strong> ~45 minutes</p>
+                            <p><strong>Venue:</strong> Chillarwar Farms, Near Chillarwar Village</p>
+                        </div>
+
+                        <div class="tips-box">
+                            <p>💡 Let us know your arrival time and we'll have a vehicle ready!</p>
+                        </div>
+                    </div>
+                </article>
             </div>
         </section>
 
         <!-- Safari Section -->
-        <section class="details-section safari-section" id="safari" aria-labelledby="safari-title">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-icon">🐯</span>
-                    <h2 class="section-title" id="safari-title">Tadoba Safari</h2>
-                    <p class="section-desc">Experience India's oldest tiger reserve</p>
-                </div>
+        <section class="section" id="safari">
+            <div class="section-header">
+                <span class="section-icon">🐯</span>
+                <h2>Tadoba Safari</h2>
+                <p>Experience India's oldest tiger reserve</p>
+            </div>
 
-                <div class="cards-grid">
-                    <!-- About Tadoba -->
-                    <article class="info-card">
-                        <div class="card-header">
-                            <span class="card-icon">🌿</span>
-                            <h3>About Tadoba & Entry Gates</h3>
-                        </div>
-                        <div class="card-body">
-                            <p class="intro-text">Tadoba Andhari Tiger Reserve is Maharashtra's oldest and largest
-                                national park, famous for its high tiger density and beautiful landscape.</p>
-
-                            <div class="gates-grid">
-                                <div class="gate recommended">
-                                    <span class="gate-name">🏆 Moharli Gate</span>
-                                    <span class="gate-distance">~55 km from Chillarwar Farms (~1 hr)</span>
-                                    <span class="gate-note">Most popular, best tiger sightings</span>
-                                </div>
-                                <div class="gate">
-                                    <span class="gate-name">📍 Mamla Gate</span>
-                                    <span class="gate-distance">~40 km from Chillarwar Farms (~45 min)</span>
-                                    <span class="gate-note">Closest gate, buffer zone</span>
-                                </div>
-                                <div class="gate">
-                                    <span class="gate-name">📍 Kolara Gate</span>
-                                    <span class="gate-distance">~55 km from Chillarwar Farms (~1 hr)</span>
-                                    <span class="gate-note">Core zone, good availability</span>
-                                </div>
-                                <div class="gate">
-                                    <span class="gate-name">📍 Keslaghat Gate</span>
-                                    <span class="gate-distance">~70 km from Chillarwar Farms (~1.5 hr)</span>
-                                    <span class="gate-note">Buffer zone (Pangdi-Zari)</span>
-                                </div>
+            <div class="cards-container">
+                <!-- Gates Info -->
+                <article class="info-card">
+                    <div class="card-header">
+                        <h3>🌿 Entry Gates</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="gates-grid">
+                            <div class="gate recommended">
+                                <strong>🏆 Moharli Gate</strong>
+                                <span>~55 km (~1 hr)</span>
+                                <small>Most popular, best tiger sightings</small>
                             </div>
-
-                            <div class="warning">
-                                <p>⚠️ <strong>Important:</strong> Core gates (Moharli, Kolara) closed on Tuesdays.
-                                    Buffer gates closed on Wednesdays.</p>
+                            <div class="gate">
+                                <strong>📍 Mamla Gate</strong>
+                                <span>~40 km (~45 min)</span>
+                                <small>Closest gate, buffer zone</small>
+                            </div>
+                            <div class="gate">
+                                <strong>📍 Kolara Gate</strong>
+                                <span>~55 km (~1 hr)</span>
+                                <small>Core zone, good availability</small>
                             </div>
                         </div>
-                    </article>
 
-                    <!-- Recommended Safari -->
-                    <article class="info-card featured-card">
-                        <div class="card-header">
-                            <span class="card-icon">⭐</span>
-                            <h3>Recommended Dates</h3>
-                            <span class="badge featured">Best Experience</span>
+                        <div class="warning-box">
+                            <p>⚠️ Core gates closed Tuesdays. Buffer gates closed Wednesdays.</p>
                         </div>
-                        <div class="card-body">
-                            <div class="recommended-dates">
-                                <div class="date-box">
-                                    <span class="date-icon">🌅</span>
-                                    <div>
-                                        <h4>7th February - Morning Safari</h4>
-                                        <p>Before the wedding festivities begin! Early morning tiger sighting adventure.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="date-box">
-                                    <span class="date-icon">🌄</span>
-                                    <div>
-                                        <h4>8th February - Morning Safari</h4>
-                                        <p>Perfect day after the wedding! Relax and enjoy wildlife before departing.</p>
-                                    </div>
+                    </div>
+                </article>
+
+                <!-- Recommended Dates -->
+                <article class="info-card featured">
+                    <div class="card-header">
+                        <h3>⭐ Recommended Dates</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="date-suggestion">
+                            <span>🌅</span>
+                            <div>
+                                <strong>7th February - Morning</strong>
+                                <p>Before the wedding festivities!</p>
+                            </div>
+                        </div>
+                        <div class="date-suggestion">
+                            <span>🌄</span>
+                            <div>
+                                <strong>8th February - Morning</strong>
+                                <p>Day after wedding, perfect ending!</p>
+                            </div>
+                        </div>
+
+                        <div class="timing-info">
+                            <div class="timing">
+                                <span>🌄</span>
+                                <div>
+                                    <strong>Morning Safari</strong>
+                                    <small>6:00 AM - 10:00 AM</small>
                                 </div>
                             </div>
-
-                            <div class="timing-slots">
-                                <div class="timing morning">
-                                    <span class="timing-icon">🌄</span>
-                                    <div>
-                                        <strong>Morning Safari</strong>
-                                        <span>6:00 AM - 10:00 AM</span>
-                                    </div>
-                                </div>
-                                <div class="timing evening">
-                                    <span class="timing-icon">🌅</span>
-                                    <div>
-                                        <strong>Evening Safari</strong>
-                                        <span>2:30 PM - 6:30 PM</span>
-                                    </div>
+                            <div class="timing">
+                                <span>🌅</span>
+                                <div>
+                                    <strong>Evening Safari</strong>
+                                    <small>2:30 PM - 6:30 PM</small>
                                 </div>
                             </div>
                         </div>
-                    </article>
+                    </div>
+                </article>
 
-                    <!-- How to Book -->
-                    <article class="info-card">
-                        <div class="card-header">
-                            <span class="card-icon">📝</span>
-                            <h3>How to Book</h3>
+                <!-- How to Book -->
+                <article class="info-card">
+                    <div class="card-header">
+                        <h3>📝 How to Book</h3>
+                    </div>
+                    <div class="card-body">
+                        <ol class="steps">
+                            <li>Visit <a href="https://tadobaandharinationalpark.com/"
+                                    target="_blank">tadobaandharinationalpark.com</a></li>
+                            <li>Click "Online Safari Booking"</li>
+                            <li>Select Moharli Gate for nearest access</li>
+                            <li>Choose date & 6 AM morning slot</li>
+                            <li>Complete payment (~₹2,000-3,000/person)</li>
+                        </ol>
+
+                        <div class="tips-box">
+                            <p>💡 <strong>Book 120 days in advance</strong> for guaranteed slots</p>
+                            <p>⚡ <strong>Tatkal</strong> opens 3 days before at 8 AM</p>
                         </div>
-                        <div class="card-body">
-                            <ol class="booking-steps">
-                                <li>
-                                    <span class="step-num">1</span>
-                                    <div>
-                                        <strong>Visit Official Website</strong>
-                                        <a href="https://tadobaandharinationalpark.com/" target="_blank"
-                                            rel="noopener">tadobaandharinationalpark.com</a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span class="step-num">2</span>
-                                    <div>
-                                        <strong>Click "Online Safari Booking"</strong>
-                                        <p>Select Moharli Gate for nearest access</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span class="step-num">3</span>
-                                    <div>
-                                        <strong>Choose Date & Slot</strong>
-                                        <p>Morning 6 AM slot recommended</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span class="step-num">4</span>
-                                    <div>
-                                        <strong>Complete Payment</strong>
-                                        <p>~₹2,000-3,000 per person (Gypsy)</p>
-                                    </div>
-                                </li>
-                            </ol>
+                    </div>
+                </article>
 
-                            <div class="tips">
-                                <p>💡 <strong>Book 120 days in advance</strong> for guaranteed slots</p>
-                                <p>⚡ <strong>Tatkal booking</strong> opens 3 days before at 8 AM</p>
-                            </div>
+                <!-- Cab Services -->
+                <article class="info-card">
+                    <div class="card-header">
+                        <h3>🚕 Cab Services</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="intro">Need transport from the farm to Tadoba?</p>
+
+                        <div class="cab-list">
+                            <a href="tel:9370444541" class="cab-item">
+                                <span>AMZ Cabs</span>
+                                <span>📞 9370444541</span>
+                            </a>
+                            <a href="tel:9049044318" class="cab-item">
+                                <span>Robin Hood Tours</span>
+                                <span>📞 9049044318</span>
+                            </a>
+                            <a href="tel:08068249401" class="cab-item">
+                                <span>CabBazar</span>
+                                <span>📞 08068249401</span>
+                            </a>
                         </div>
-                    </article>
-
-                    <!-- Gypsy vs Canter -->
-                    <article class="info-card">
-                        <div class="card-header">
-                            <span class="card-icon">🚙</span>
-                            <h3>Safari Vehicles: Gypsy vs Canter</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="vehicle-comparison">
-                                <div class="vehicle gypsy">
-                                    <div class="vehicle-header">
-                                        <span>🚗</span>
-                                        <strong>Gypsy (Jeep)</strong>
-                                        <span class="badge">Recommended</span>
-                                    </div>
-                                    <ul>
-                                        <li><strong>Capacity:</strong> 6 guests + driver + guide</li>
-                                        <li><strong>Cost:</strong> ₹5,000-9,000 per vehicle</li>
-                                        <li><strong>Booking:</strong> Online, 120 days in advance</li>
-                                        <li><strong>Pros:</strong> Private, flexible, better sightings</li>
-                                    </ul>
-                                </div>
-                                <div class="vehicle canter">
-                                    <div class="vehicle-header">
-                                        <span>🚌</span>
-                                        <strong>Canter (Mini-bus)</strong>
-                                        <span class="badge budget">Budget</span>
-                                    </div>
-                                    <ul>
-                                        <li><strong>Capacity:</strong> 18-22 guests</li>
-                                        <li><strong>Cost:</strong> ₹800-1,000 per person</li>
-                                        <li><strong>Booking:</strong> Often offline at gate counter</li>
-                                        <li><strong>Cons:</strong> Limited routes, less flexibility</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="warning">
-                                <p>⚠️ <strong>Canter Booking Caveat:</strong> Online booking for Canters is limited.
-                                    Most Canter tickets are sold at gate counters on first-come-first-serve basis.
-                                    Arrive early (5:30 AM) if opting for Canter. Canters only available at Moharli &
-                                    Kolara gates.</p>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Cab Services -->
-                    <article class="info-card">
-                        <div class="card-header">
-                            <span class="card-icon">🚕</span>
-                            <h3>Cab Services for Safari</h3>
-                        </div>
-                        <div class="card-body">
-                            <p class="intro-text">Need transport from the farm to Tadoba? Contact these local cab
-                                services:</p>
-
-                            <div class="cab-list">
-                                <div class="cab-item">
-                                    <span class="cab-name">AMZ Cabs</span>
-                                    <a href="tel:9370444541" class="cab-phone">📞 9370444541</a>
-                                </div>
-                                <div class="cab-item">
-                                    <span class="cab-name">Robin Hood Tours & Travels</span>
-                                    <a href="tel:9049044318" class="cab-phone">📞 9049044318</a>
-                                </div>
-                                <div class="cab-item">
-                                    <span class="cab-name">CabBazar</span>
-                                    <a href="tel:08068249401" class="cab-phone">📞 08068249401</a>
-                                </div>
-                            </div>
-
-                            <div class="note">
-                                <p>💡 Safari jeeps from the gate include the drive through the reserve. These cabs are
-                                    for transport to/from the gate.</p>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                    </div>
+                </article>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
     <footer class="details-footer">
-        <div class="container text-center">
-            <a href="../" class="btn btn-outline">
-                ← Back to Invitation
-            </a>
-            <p class="footer-text">Dewalwar ❤ Chachad</p>
-        </div>
+        <a href="../" class="btn-outline">← Back to Invitation</a>
+        <p>Dewalwar ❤ Chachad</p>
     </footer>
-
-    <!-- Script for smooth scrolling and nav -->
-    <script>
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href === '#') return;
-                const target = document.querySelector(href);
-                if (target) {
-                    e.preventDefault();
-                    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                    target.scrollIntoView({
-                        behavior: prefersReducedMotion ? 'auto' : 'smooth',
-                        block: 'start'
-                    });
-                    history.pushState(null, null, href);
-                }
-            });
-        });
-
-        // Active nav link highlighting
-        const sections = document.querySelectorAll('.details-section');
-        const navLinks = document.querySelectorAll('.nav-link');
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    navLinks.forEach(link => {
-                        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
-                    });
-                }
-            });
-        }, { threshold: 0.3 });
-
-        sections.forEach(section => observer.observe(section));
-    </script>
 </body>
 
 </html>
