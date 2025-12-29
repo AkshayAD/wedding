@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" fill="none">
+  <defs>
+    <linearGradient id="sareeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E34234"/>
+      <stop offset="50%" style="stop-color:#C41E3A"/>
+      <stop offset="100%" style="stop-color:#8B0000"/>
+    </linearGradient>
+    <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B8860B"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#B8860B"/>
+    </linearGradient>
+    <linearGradient id="skinTone" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8C4A2"/>
+      <stop offset="100%" style="stop-color:#D4A574"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Bride silhouette -->
+  <g id="bride" transform="translate(20, 20)">
+    <!-- Hair bun with flowers -->
+    <ellipse cx="50" cy="35" rx="25" ry="20" fill="#1A0A0F"/>
+    <circle cx="35" cy="25" r="5" fill="#FF7518"/>
+    <circle cx="45" cy="18" r="4" fill="#FFD700"/>
+    <circle cx="58" cy="20" r="5" fill="#FF7518"/>
+    <circle cx="68" cy="28" r="4" fill="#FFD700"/>
+    
+    <!-- Face -->
+    <ellipse cx="50" cy="55" rx="22" ry="28" fill="url(#skinTone)"/>
+    
+    <!-- Maang tikka -->
+    <circle cx="50" cy="30" r="4" fill="#FFD700"/>
+    <path d="M50 34 L50 42" stroke="#FFD700" stroke-width="2"/>
+    <circle cx="50" cy="44" r="3" fill="#E34234"/>
+    
+    <!-- Eyes -->
+    <ellipse cx="42" cy="55" rx="4" ry="2.5" fill="#1A0A0F"/>
+    <ellipse cx="58" cy="55" rx="4" ry="2.5" fill="#1A0A0F"/>
+    
+    <!-- Bindi -->
+    <circle cx="50" cy="48" r="3" fill="#E34234"/>
+    
+    <!-- Nose -->
+    <path d="M50 58 Q52 62 50 65" stroke="#D4A574" stroke-width="1.5" fill="none"/>
+    
+    <!-- Nath (nose ring) -->
+    <circle cx="53" cy="64" r="5" stroke="#FFD700" stroke-width="1.5" fill="none"/>
+    <circle cx="58" cy="64" r="2" fill="#E34234"/>
+    
+    <!-- Lips -->
+    <path d="M44 72 Q50 76 56 72" stroke="#C41E3A" stroke-width="2" fill="none"/>
+    
+    <!-- Earrings -->
+    <path d="M28 55 L24 75" stroke="#FFD700" stroke-width="2"/>
+    <circle cx="24" cy="78" r="4" fill="#FFD700"/>
+    <path d="M72 55 L76 75" stroke="#FFD700" stroke-width="2"/>
+    <circle cx="76" cy="78" r="4" fill="#FFD700"/>
+    
+    <!-- Neck and jewelry -->
+    <path d="M38 82 Q50 90 62 82" fill="url(#skinTone)"/>
+    
+    <!-- Mangalsutra -->
+    <path d="M35 88 Q50 100 65 88" stroke="#1A0A0F" stroke-width="1" fill="none"/>
+    <circle cx="50" cy="98" r="4" fill="#FFD700"/>
+    
+    <!-- Choker -->
+    <path d="M32 85 Q50 92 68 85" stroke="#FFD700" stroke-width="4" fill="none"/>
+    
+    <!-- Saree body - Nauvari style -->
+    <path d="M30 95 Q20 140 25 200 L75 200 Q80 140 70 95 Z" fill="url(#sareeGrad)"/>
+    
+    <!-- Gold border on saree -->
+    <path d="M25 200 L30 95" stroke="url(#goldBorder)" stroke-width="3"/>
+    <path d="M75 200 L70 95" stroke="url(#goldBorder)" stroke-width="3"/>
+    
+    <!-- Pallu drape -->
+    <path d="M30 100 Q10 120 15 160 Q20 200 40 220" fill="url(#sareeGrad)" opacity="0.9"/>
+    <path d="M30 100 Q10 120 15 160 Q20 200 40 220" stroke="url(#goldBorder)" stroke-width="2" fill="none"/>
+    
+    <!-- Arms with bangles -->
+    <path d="M30 100 Q15 115 20 140" fill="url(#skinTone)"/>
+    <path d="M70 100 Q85 115 80 140" fill="url(#skinTone)"/>
+    
+    <!-- Green bangles -->
+    <circle cx="18" cy="130" r="6" stroke="#228B22" stroke-width="3" fill="none"/>
+    <circle cx="18" cy="138" r="6" stroke="#228B22" stroke-width="3" fill="none"/>
+    <circle cx="82" cy="130" r="6" stroke="#228B22" stroke-width="3" fill="none"/>
+    <circle cx="82" cy="138" r="6" stroke="#228B22" stroke-width="3" fill="none"/>
+    
+    <!-- Hands in namaste -->
+    <ellipse cx="50" cy="150" rx="12" ry="8" fill="url(#skinTone)"/>
+    
+    <!-- Lower saree pleats -->
+    <path d="M25 200 L25 240 Q50 250 75 240 L75 200" fill="url(#sareeGrad)"/>
+    <path d="M30 200 L30 235" stroke="url(#goldBorder)" stroke-width="1" opacity="0.5"/>
+    <path d="M40 200 L40 240" stroke="url(#goldBorder)" stroke-width="1" opacity="0.5"/>
+    <path d="M50 200 L50 245" stroke="url(#goldBorder)" stroke-width="1" opacity="0.5"/>
+    <path d="M60 200 L60 240" stroke="url(#goldBorder)" stroke-width="1" opacity="0.5"/>
+    <path d="M70 200 L70 235" stroke="url(#goldBorder)" stroke-width="1" opacity="0.5"/>
+  </g>
+</svg>

@@ -3,347 +3,305 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description"
-    content="You're Invited! Join us for the Dewalwar-Chachad Wedding Celebration - February 7-8, 2026">
-  <meta name="theme-color" content="#6B0F2B">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="description" content="You're Invited! Dewalwar-Chachad Wedding - February 7-8, 2026">
+  <meta name="theme-color" content="#4A0A1E">
 
-  <title>Dewalwar ♥ Chachad | Wedding Invitation</title>
+  <title>Dewalwar ♥ Chachad Wedding</title>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/src/assets/icons/logo.svg">
-
-  <!-- Preconnect for fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <!-- Premium Fonts -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <!-- Stylesheets -->
   <link rel="stylesheet" href="/src/css/base.css">
   <link rel="stylesheet" href="/src/css/layout.css">
-  <link rel="stylesheet" href="/src/css/components.css">
-  <link rel="stylesheet" href="/src/css/premium.css">
-  <link rel="stylesheet" href="/src/css/animations.css">
+  <link rel="stylesheet" href="/src/css/scroll-story.css">
 </head>
 
 <body>
-  <!-- Three.js Particle Background -->
-  <div class="particles-container" id="particles"></div>
+  <!-- Scroll Progress Line -->
+  <div class="scroll-progress" id="progress"></div>
 
-  <!-- Decorative Toran Header -->
-  <div class="toran" aria-hidden="true"></div>
-
-  <!-- Preloader -->
-  <div class="preloader" id="preloader" aria-live="polite">
-    <div class="preloader-inner">
-      <!-- Animated Logo -->
-      <div class="logo-reveal">
-        <img src="/src/assets/icons/logo.svg" alt="D & C" width="120" height="120" class="preloader-logo">
-      </div>
-      <div class="shimmer-line"></div>
-      <p class="preloader-text">Opening your invitation...</p>
-    </div>
-    <button class="skip-btn" id="skip-btn" aria-label="Skip animation">Skip</button>
+  <!-- Timer Badge (Top Right) -->
+  <div class="timer-badge" id="timer">
+    <span class="timer-number" id="days">--</span> days to go
   </div>
 
-  <!-- Progress Bar -->
-  <div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
-
-  <!-- Progress Dots -->
-  <nav class="progress-dots" id="progress-dots" aria-label="Section navigation">
-    <button class="progress-dot active" data-section="hero" aria-label="Hero section"></button>
-    <button class="progress-dot" data-section="summary" aria-label="Summary section"></button>
-    <button class="progress-dot" data-section="day1" aria-label="Day 1 events"></button>
-    <button class="progress-dot" data-section="day2" aria-label="Day 2 events"></button>
-    <button class="progress-dot" data-section="closing" aria-label="Closing section"></button>
-  </nav>
-
   <!-- Music Toggle -->
-  <button class="music-toggle" id="music-toggle" aria-label="Toggle background music">
-    <span class="icon icon-sm" id="music-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path
-          d="M9 18V5l12-2v13M9 18c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3zM21 16c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z" />
-      </svg>
-    </span>
+  <button class="music-toggle" id="music-toggle" aria-label="Toggle music">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+    </svg>
   </button>
 
-  <main id="main-content">
-    <!-- ==================== HERO SECTION ==================== -->
-    <section class="section hero" id="hero">
-      <div class="hero-bg"></div>
+  <!-- Background Audio -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_5cf5e6b0a8.mp3" type="audio/mpeg">
+  </audio>
 
-      <!-- Decorative Corners -->
-      <div class="corner-decor hero-corner-tl" aria-hidden="true"></div>
-      <div class="corner-decor hero-corner-br" aria-hidden="true"></div>
+  <!-- ========== FLOATING PARALLAX LAYERS ========== -->
+  <div class="parallax-container" id="parallax">
+    <!-- Floating Diyas (rise as you scroll) -->
+    <div class="floating-diya diya-1" aria-hidden="true"></div>
+    <div class="floating-diya diya-2" aria-hidden="true"></div>
+    <div class="floating-diya diya-3" aria-hidden="true"></div>
+    <div class="floating-diya diya-4" aria-hidden="true"></div>
+    <div class="floating-diya diya-5" aria-hidden="true"></div>
 
-      <!-- Floating Decorative Elements -->
-      <div class="hero-decor" aria-hidden="true">
-        <img src="/src/assets/icons/peacock-feather.svg" alt="" class="float-slow decor-feather-1">
-        <img src="/src/assets/icons/diya.svg" alt="" class="float-medium decor-diya-1">
-        <img src="/src/assets/icons/marigold.svg" alt="" class="float-fast decor-flower-1">
+    <!-- Floating Lanterns -->
+    <div class="floating-lantern lantern-1" aria-hidden="true"></div>
+    <div class="floating-lantern lantern-2" aria-hidden="true"></div>
+    <div class="floating-lantern lantern-3" aria-hidden="true"></div>
+
+    <!-- Flower Petals -->
+    <div class="petal petal-1" aria-hidden="true"></div>
+    <div class="petal petal-2" aria-hidden="true"></div>
+    <div class="petal petal-3" aria-hidden="true"></div>
+    <div class="petal petal-4" aria-hidden="true"></div>
+    <div class="petal petal-5" aria-hidden="true"></div>
+    <div class="petal petal-6" aria-hidden="true"></div>
+
+    <!-- Gold Sparkles -->
+    <div class="sparkle sparkle-1" aria-hidden="true"></div>
+    <div class="sparkle sparkle-2" aria-hidden="true"></div>
+    <div class="sparkle sparkle-3" aria-hidden="true"></div>
+    <div class="sparkle sparkle-4" aria-hidden="true"></div>
+  </div>
+
+  <!-- ========== PRELOADER (Invitation Opening) ========== -->
+  <div class="preloader" id="preloader">
+    <div class="invitation-envelope">
+      <div class="envelope-flap"></div>
+      <div class="envelope-body">
+        <img src="/src/assets/icons/diya.svg" alt="" class="preloader-diya">
       </div>
+    </div>
+    <p class="preloader-text">Tap to open your invitation</p>
+  </div>
 
-      <div class="hero-content corner-decor">
-        <!-- Logo -->
-        <div class="hero-logo">
-          <img src="/src/assets/icons/logo.svg" alt="D & C Monogram" width="100" height="100" class="pulse-glow">
+  <!-- ========== CONTINUOUS SCROLL STORY ========== -->
+  <main class="scroll-story" id="main">
+
+    <!-- OPENING: Velvety Dark to Light Reveal -->
+    <section class="story-opening">
+      <div class="velvet-overlay"></div>
+      <div class="golden-light"></div>
+
+      <div class="opening-content">
+        <p class="blessing">॥ श्री गणेशाय नमः ॥</p>
+        <p class="blessing-english">With Divine Blessings</p>
+      </div>
+    </section>
+
+    <!-- HERO: Names & Couple -->
+    <section class="story-hero">
+      <div class="hero-glow"></div>
+
+      <div class="couple-showcase">
+        <div class="couple-figure groom-figure">
+          <img src="/src/assets/images/groom.svg" alt="Groom" class="couple-svg">
+          <span class="couple-name">Dewalwar</span>
         </div>
 
-        <p class="hero-pretitle char-reveal">With Blessings & Joy</p>
-
-        <h1 class="hero-title">
-          <span class="family-name text-shimmer">Dewalwar</span>
-          <span class="hero-heart">
-            <img src="/src/assets/icons/heart.svg" alt="love" width="48" height="48">
-          </span>
-          <span class="family-name text-shimmer">Chachad</span>
-        </h1>
-
-        <!-- Premium Flip Countdown -->
-        <div class="flip-countdown" id="countdown">
-          <div class="flip-unit">
-            <div class="flip-card glass-card">
-              <div class="flip-top" id="days-top">--</div>
-              <div class="flip-bottom" id="days-bottom">--</div>
-            </div>
-            <span class="flip-label">Days</span>
-          </div>
-          <div class="flip-sep">:</div>
-          <div class="flip-unit">
-            <div class="flip-card glass-card">
-              <div class="flip-top" id="hours-top">--</div>
-              <div class="flip-bottom" id="hours-bottom">--</div>
-            </div>
-            <span class="flip-label">Hours</span>
-          </div>
-          <div class="flip-sep">:</div>
-          <div class="flip-unit">
-            <div class="flip-card glass-card">
-              <div class="flip-top" id="mins-top">--</div>
-              <div class="flip-bottom" id="mins-bottom">--</div>
-            </div>
-            <span class="flip-label">Mins</span>
-          </div>
+        <div class="couple-heart">
+          <img src="/src/assets/icons/heart.svg" alt="" width="60" height="60">
         </div>
 
-        <p class="hero-date">February 7 - 8, 2026</p>
-        <p class="hero-venue">Chillarwar Farms, Chandrapur</p>
+        <div class="couple-figure bride-figure">
+          <img src="/src/assets/images/bride.svg" alt="Bride" class="couple-svg">
+          <span class="couple-name">Chachad</span>
+        </div>
       </div>
 
-      <!-- Scroll Indicator -->
-      <div class="scroll-indicator animate" aria-hidden="true">
-        <span>Explore</span>
-        <div class="scroll-arrow">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 5v14M5 12l7 7 7-7" />
+      <div class="hero-details">
+        <p class="wedding-tagline">request the pleasure of your company</p>
+        <p class="wedding-tagline">at their wedding celebration</p>
+      </div>
+    </section>
+
+    <!-- DATE REVEAL -->
+    <section class="story-date">
+      <div class="date-ornament top"></div>
+
+      <div class="date-content">
+        <span class="date-label">Save the Date</span>
+        <div class="date-display">
+          <span class="date-day">7-8</span>
+          <span class="date-month">February</span>
+          <span class="date-year">2026</span>
+        </div>
+      </div>
+
+      <div class="date-ornament bottom"></div>
+    </section>
+
+    <!-- DAY 1: Haldi & Sangeet -->
+    <section class="story-day day-one">
+      <div class="day-header">
+        <span class="day-badge">Day One</span>
+        <span class="day-date">Saturday, February 7</span>
+      </div>
+
+      <div class="events-flow">
+        <!-- Haldi -->
+        <article class="event-moment haldi">
+          <div class="event-visual">
+            <img src="/src/assets/icons/marigold.svg" alt="" class="event-icon">
+            <div class="event-glow yellow"></div>
+          </div>
+          <div class="event-info">
+            <h3 class="event-name">Haldi Ceremony</h3>
+            <p class="event-tagline">Blessings in golden hues</p>
+            <time class="event-time">12:30 PM onwards</time>
+          </div>
+        </article>
+
+        <!-- Sangeet -->
+        <article class="event-moment sangeet">
+          <div class="event-visual">
+            <img src="/src/assets/icons/shehnai.svg" alt="" class="event-icon">
+            <div class="event-glow pink"></div>
+          </div>
+          <div class="event-info">
+            <h3 class="event-name">Sangeet Night</h3>
+            <p class="event-tagline">Dance, music & celebration</p>
+            <time class="event-time">6:30 PM onwards</time>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- DAY 2: Barat & Wedding -->
+    <section class="story-day day-two">
+      <div class="day-header">
+        <span class="day-badge">Day Two</span>
+        <span class="day-date">Sunday, February 8</span>
+      </div>
+
+      <div class="events-flow">
+        <!-- Barat -->
+        <article class="event-moment barat">
+          <div class="event-visual">
+            <img src="/src/assets/icons/horse.svg" alt="" class="event-icon">
+            <div class="event-glow gold"></div>
+          </div>
+          <div class="event-info">
+            <h3 class="event-name">The Barat</h3>
+            <p class="event-tagline">Grand groom's procession</p>
+            <time class="event-time">4:00 PM</time>
+          </div>
+        </article>
+
+        <!-- Wedding -->
+        <article class="event-moment wedding">
+          <div class="event-visual">
+            <img src="/src/assets/icons/mandap.svg" alt="" class="event-icon">
+            <div class="event-glow teal"></div>
+          </div>
+          <div class="event-info">
+            <h3 class="event-name">The Wedding</h3>
+            <p class="event-tagline">Sacred vows at sunset</p>
+            <time class="event-time">Muhurat Time</time>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- VENUE with MAP -->
+    <section class="story-venue">
+      <div class="venue-content">
+        <h2 class="venue-title">The Venue</h2>
+        <p class="venue-name">Chillarwar Farms</p>
+        <p class="venue-address">Near Chandrapur, Maharashtra</p>
+
+        <div class="venue-map-container">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3752.123456789!2d79.45678901234567!3d19.98765432109876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDU5JzE1LjYiTiA3OcKwMjcnMjQuNCJF!5e0!3m2!1sen!2sin!4v1234567890"
+            width="100%" height="250" style="border:0; border-radius: 16px;" allowfullscreen="" loading="lazy"
+            title="Venue Location">
+          </iframe>
+        </div>
+
+        <a href="https://maps.google.com/?q=Chillarwar+Farms+Chandrapur" target="_blank" class="btn-directions">
+          Get Directions
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
           </svg>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== SUMMARY SECTION ==================== -->
-    <section class="section summary" id="summary">
-      <h2 class="section-title reveal-text">The Celebration</h2>
-      <p class="section-subtitle reveal-text">Two days of joy, laughter & sacred moments</p>
-
-      <div class="day-cards">
-        <!-- Day 1 Card -->
-        <a href="#day1" class="day-card glass-card tilt-card day-card-1 border-draw">
-          <div class="day-card-header">
-            <span class="day-badge pulse-glow">Day 1</span>
-            <span class="day-date">Feb 7</span>
-          </div>
-          <ul class="day-events">
-            <li>
-              <span class="icon icon-sm"><img src="/src/assets/icons/marigold.svg" alt=""></span>
-              <span class="event-name">Haldi</span>
-              <span class="event-time">12:30 PM</span>
-            </li>
-            <li>
-              <span class="icon icon-sm"><img src="/src/assets/icons/shehnai.svg" alt=""></span>
-              <span class="event-name">Sangeet</span>
-              <span class="event-time">6:30 PM</span>
-            </li>
-          </ul>
-        </a>
-
-        <!-- Day 2 Card -->
-        <a href="#day2" class="day-card glass-card tilt-card day-card-2 border-draw">
-          <div class="day-card-header">
-            <span class="day-badge pulse-glow">Day 2</span>
-            <span class="day-date">Feb 8</span>
-          </div>
-          <ul class="day-events">
-            <li>
-              <span class="icon icon-sm"><img src="/src/assets/icons/horse.svg" alt=""></span>
-              <span class="event-name">Barat</span>
-              <span class="event-time">4:00 PM</span>
-            </li>
-            <li>
-              <span class="icon icon-sm"><img src="/src/assets/icons/mandap.svg" alt=""></span>
-              <span class="event-name">Wedding</span>
-              <span class="event-time">Sunset</span>
-            </li>
-          </ul>
         </a>
       </div>
     </section>
 
-    <!-- ==================== DAY 1 EVENTS ==================== -->
-    <section class="section events-section" id="day1">
-      <div class="events-header">
-        <span class="day-label">Day One</span>
-        <h2 class="events-title reveal-text">The Celebrations Begin</h2>
-        <p class="events-date">February 7, 2026</p>
+    <!-- TRAVEL INFO (Brief) -->
+    <section class="story-travel">
+      <h2 class="travel-title">Getting There</h2>
+      <div class="travel-options">
+        <div class="travel-option">
+          <span class="travel-icon">🚆</span>
+          <span class="travel-label">By Train</span>
+          <span class="travel-detail">Chandrapur Junction</span>
+        </div>
+        <div class="travel-option">
+          <span class="travel-icon">🚗</span>
+          <span class="travel-label">By Road</span>
+          <span class="travel-detail">NH44 via Nagpur</span>
+        </div>
       </div>
-
-      <!-- Haldi Event -->
-      <article class="event-card fullscreen section-haldi" id="haldi">
-        <div class="event-content glass-card-dark">
-          <div class="icon icon-xl float-medium">
-            <img src="/src/assets/icons/marigold.svg" alt="Marigold flower">
-          </div>
-          <h3 class="event-title reveal-text">Haldi Ceremony</h3>
-          <p class="event-tagline">Blessings in golden hues</p>
-          <time class="event-time-badge pulse-glow">12:30 PM</time>
-          <p class="event-desc">
-            An auspicious ceremony where turmeric paste is applied,
-            symbolizing purification and blessings for the couple.
-          </p>
-          <div class="icon icon-sm float-slow decor-icon">
-            <img src="/src/assets/icons/kalash.svg" alt="">
-          </div>
-        </div>
-      </article>
-
-      <!-- Sangeet Event -->
-      <article class="event-card fullscreen section-sangeet" id="sangeet">
-        <div class="event-content glass-card-dark">
-          <div class="icon icon-xl float-medium">
-            <img src="/src/assets/icons/shehnai.svg" alt="Shehnai music">
-          </div>
-          <h3 class="event-title reveal-text">Sangeet Night</h3>
-          <p class="event-tagline">Dance, music & celebration</p>
-          <time class="event-time-badge pulse-glow">6:30 PM</time>
-          <p class="event-desc">
-            A night filled with music, dance performances,
-            and joyous celebrations with family and friends.
-          </p>
-          <div class="icon icon-sm float-fast decor-icon">
-            <img src="/src/assets/icons/diya.svg" alt="">
-          </div>
-        </div>
-      </article>
+      <a href="details/" class="link-details">View Complete Travel Guide →</a>
     </section>
 
-    <!-- ==================== DAY 2 EVENTS ==================== -->
-    <section class="section events-section" id="day2">
-      <div class="events-header">
-        <span class="day-label">Day Two</span>
-        <h2 class="events-title reveal-text">The Grand Ceremony</h2>
-        <p class="events-date">February 8, 2026</p>
-      </div>
+    <!-- CLOSING -->
+    <section class="story-closing">
+      <div class="closing-glow"></div>
 
-      <!-- Barat Event -->
-      <article class="event-card fullscreen section-barat" id="barat">
-        <div class="event-content glass-card-dark">
-          <div class="icon icon-xl float-medium">
-            <img src="/src/assets/icons/horse.svg" alt="Wedding horse">
-          </div>
-          <h3 class="event-title reveal-text">The Barat</h3>
-          <p class="event-tagline">The groom's grand procession</p>
-          <time class="event-time-badge pulse-glow">4:00 PM</time>
-          <p class="event-desc">
-            A vibrant procession with music and dancing
-            as the groom arrives in grand style.
-          </p>
-          <div class="icon icon-sm float-slow decor-icon">
-            <img src="/src/assets/icons/shehnai.svg" alt="">
-          </div>
+      <div class="closing-content">
+        <img src="/src/assets/icons/kalash.svg" alt="" class="closing-icon">
+
+        <p class="closing-message">
+          Your presence would be our most cherished blessing
+        </p>
+
+        <h2 class="closing-title">We Await You</h2>
+
+        <div class="closing-signature">
+          <span>With Love & Warmth</span>
+          <span class="signature-families">Dewalwar & Chachad Families</span>
         </div>
-      </article>
-
-      <!-- Wedding Event -->
-      <article class="event-card fullscreen section-wedding" id="wedding">
-        <div class="event-content glass-card-dark">
-          <div class="icon icon-xl float-medium">
-            <img src="/src/assets/icons/mandap.svg" alt="Wedding mandap">
-          </div>
-          <h3 class="event-title reveal-text">The Wedding</h3>
-          <p class="event-tagline">Sacred vows & eternal bond</p>
-          <time class="event-time-badge sunset pulse-glow">Sunset</time>
-          <p class="event-desc">
-            The sacred ceremony where two souls unite
-            in the presence of divine blessings.
-          </p>
-          <div class="icon icon-sm float-fast decor-icon">
-            <img src="/src/assets/icons/kalash.svg" alt="">
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <!-- ==================== CLOSING SECTION ==================== -->
-    <section class="section closing" id="closing">
-      <div class="closing-content corner-decor">
-        <!-- Animated Heart -->
-        <div class="icon icon-xl float-slow closing-heart">
-          <img src="/src/assets/icons/heart.svg" alt="Heart">
-        </div>
-
-        <p class="closing-text reveal-text">Your presence would make our celebration complete</p>
-        <h2 class="closing-title text-shimmer reveal-text">We Await Your Gracious Presence</h2>
-        <p class="closing-signature">With Love & Blessings</p>
-
-        <div class="closing-divider"></div>
 
         <div class="closing-actions">
-          <a href="details/" class="btn-primary pulse-glow" id="details-btn">
-            View Travel & Event Details
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </a>
-
-          <button class="btn-secondary" id="add-calendar">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <button class="btn-primary" id="add-calendar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
               <line x1="16" y1="2" x2="16" y2="6" />
               <line x1="8" y1="2" x2="8" y2="6" />
               <line x1="3" y1="10" x2="21" y2="10" />
             </svg>
-            Add to Calendar
+            Save the Date
           </button>
-        </div>
 
-        <!-- Share buttons -->
-        <div class="share-buttons">
-          <button class="share-btn" id="share-whatsapp" aria-label="Share on WhatsApp">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          <button class="btn-share" id="share-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="18" cy="5" r="3" />
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="19" r="3" />
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
             </svg>
+            Share
           </button>
         </div>
       </div>
+
+      <div class="footer-diya">
+        <img src="/src/assets/icons/diya.svg" alt="" width="60">
+      </div>
     </section>
+
   </main>
-
-  <!-- Confetti Container -->
-  <div class="confetti-container" id="confetti" aria-hidden="true"></div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-logo">
-      <img src="/src/assets/icons/logo.svg" alt="D & C" width="40" height="40">
-    </div>
-    <p>Dewalwar ♥ Chachad</p>
-  </footer>
 
   <script type="module" src="/src/js/main.js"></script>
 </body>

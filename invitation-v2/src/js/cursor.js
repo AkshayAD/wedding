@@ -1,121 +1,121 @@
 /**
- * Custom Cursor with Gold Trail
- * Premium cursor effect with trailing sparkles
+ * Instant-Follow Sparkle Cursor
+ * Wedding-themed diya/sparkle cursor with no lag
  */
 
-let cursor, cursorTrail, cursorDot;
+let cursor, sparkleContainer;
 let mouseX = 0, mouseY = 0;
-let cursorX = 0, cursorY = 0;
-let isHovering = false;
-let trails = [];
-const trailLength = 8;
+let sparkles = [];
+const maxSparkles = 12;
 
 export function initCustomCursor() {
-    // Check for touch device - disable custom cursor
-    if ('ontouchstart' in window) {
-        console.log('Touch device detected - skipping custom cursor');
-        return;
-    }
-
-    // Create cursor elements
-    cursor = document.createElement('div');
-    cursor.className = 'custom-cursor';
-    cursor.innerHTML = `
-    <div class="cursor-ring"></div>
-    <div class="cursor-dot"></div>
+  // Skip on touch devices
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    console.log('Touch device - skipping custom cursor');
+    return;
+  }
+  
+  // Create main cursor (diya flame shape)
+  cursor = document.createElement('div');
+  cursor.className = 'custom-cursor';
+  cursor.innerHTML = `
+    <svg viewBox="0 0 24 32" width="24" height="32">
+      <defs>
+        <linearGradient id="flameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%" style="stop-color:#B8860B"/>
+          <stop offset="50%" style="stop-color:#FFD700"/>
+          <stop offset="100%" style="stop-color:#FFF4E0"/>
+        </linearGradient>
+      </defs>
+      <!-- Flame -->
+      <path d="M12 2 Q8 10 10 16 Q12 20 12 20 Q12 20 14 16 Q16 10 12 2" 
+            fill="url(#flameGrad)" class="cursor-flame"/>
+      <!-- Diya base -->
+      <ellipse cx="12" cy="24" rx="8" ry="4" fill="#B8860B"/>
+      <ellipse cx="12" cy="22" rx="6" ry="2" fill="#D4A84B"/>
+    </svg>
   `;
-    document.body.appendChild(cursor);
-
-    // Create trail container
-    cursorTrail = document.createElement('div');
-    cursorTrail.className = 'cursor-trail-container';
-    document.body.appendChild(cursorTrail);
-
-    // Create trail dots
-    for (let i = 0; i < trailLength; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'cursor-trail-dot';
-        dot.style.opacity = 1 - (i / trailLength);
-        dot.style.transform = `scale(${1 - (i / trailLength) * 0.5})`;
-        cursorTrail.appendChild(dot);
-        trails.push({ element: dot, x: 0, y: 0 });
-    }
-
-    // Add CSS
-    addCursorStyles();
-
-    // Event listeners
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseenter', onMouseEnter);
-    document.addEventListener('mouseleave', onMouseLeave);
-
-    // Add hover detection for interactive elements
-    const interactives = document.querySelectorAll('a, button, .day-card, .event-card');
-    interactives.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.classList.add('hovering');
-            isHovering = true;
-        });
-        el.addEventListener('mouseleave', () => {
-            cursor.classList.remove('hovering');
-            isHovering = false;
-        });
-    });
-
-    // Start animation
-    animateCursor();
-
-    console.log('✅ Custom cursor initialized');
+  document.body.appendChild(cursor);
+  
+  // Sparkle container
+  sparkleContainer = document.createElement('div');
+  sparkleContainer.className = 'sparkle-container';
+  document.body.appendChild(sparkleContainer);
+  
+  // Add styles
+  addCursorStyles();
+  
+  // Event listeners
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mousedown', onMouseDown);
+  
+  // Animation loop - INSTANT follow (no easing)
+  function update() {
+    cursor.style.left = `${mouseX}px`;
+    cursor.style.top = `${mouseY}px`;
+    requestAnimationFrame(update);
+  }
+  update();
+  
+  console.log('✅ Sparkle cursor initialized');
 }
 
 function onMouseMove(e) {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  
+  // Create sparkle trail occasionally
+  if (Math.random() < 0.15) {
+    createSparkle(e.clientX, e.clientY);
+  }
 }
 
-function onMouseEnter() {
-    cursor.style.opacity = '1';
+function onMouseDown() {
+  // Burst of sparkles on click
+  for (let i = 0; i < 6; i++) {
+    setTimeout(() => {
+      createSparkle(
+        mouseX + (Math.random() - 0.5) * 40,
+        mouseY + (Math.random() - 0.5) * 40
+      );
+    }, i * 50);
+  }
 }
 
-function onMouseLeave() {
-    cursor.style.opacity = '0';
-}
-
-function animateCursor() {
-    // Smooth follow with easing
-    const ease = 0.15;
-    cursorX += (mouseX - cursorX) * ease;
-    cursorY += (mouseY - cursorY) * ease;
-
-    // Update main cursor position
-    cursor.style.left = `${cursorX}px`;
-    cursor.style.top = `${cursorY}px`;
-
-    // Update trail positions with delay
-    for (let i = trails.length - 1; i > 0; i--) {
-        trails[i].x = trails[i - 1].x;
-        trails[i].y = trails[i - 1].y;
-    }
-    trails[0].x = cursorX;
-    trails[0].y = cursorY;
-
-    // Apply trail positions
-    trails.forEach((trail, i) => {
-        trail.element.style.left = `${trail.x}px`;
-        trail.element.style.top = `${trail.y}px`;
-    });
-
-    requestAnimationFrame(animateCursor);
+function createSparkle(x, y) {
+  const sparkle = document.createElement('div');
+  sparkle.className = 'cursor-sparkle';
+  sparkle.style.left = `${x}px`;
+  sparkle.style.top = `${y}px`;
+  
+  // Random gold shade
+  const colors = ['#FFD700', '#B8860B', '#FFF4E0', '#D4A84B'];
+  sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+  
+  sparkleContainer.appendChild(sparkle);
+  sparkles.push(sparkle);
+  
+  // Remove after animation
+  setTimeout(() => {
+    sparkle.remove();
+    sparkles = sparkles.filter(s => s !== sparkle);
+  }, 800);
+  
+  // Limit sparkles
+  if (sparkles.length > maxSparkles) {
+    const oldest = sparkles.shift();
+    oldest.remove();
+  }
 }
 
 function addCursorStyles() {
-    if (document.getElementById('cursor-styles')) return;
-
-    const style = document.createElement('style');
-    style.id = 'cursor-styles';
-    style.textContent = `
-    /* Hide default cursor */
-    * {
+  if (document.getElementById('cursor-styles-v2')) return;
+  
+  const style = document.createElement('style');
+  style.id = 'cursor-styles-v2';
+  style.textContent = `
+    /* Hide default cursor on interactive elements */
+    body, a, button, [role="button"] {
       cursor: none !important;
     }
     
@@ -123,73 +123,70 @@ function addCursorStyles() {
       position: fixed;
       pointer-events: none;
       z-index: 99999;
-      mix-blend-mode: difference;
-      transition: opacity 0.3s ease;
+      transform: translate(-12px, -28px);
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
     }
     
-    .cursor-ring {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      border: 2px solid #FFD700;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: transform 0.2s ease, border-color 0.2s ease;
+    .cursor-flame {
+      animation: flameFlicker 0.3s ease-in-out infinite alternate;
     }
     
-    .cursor-dot {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #FFD700;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s ease;
+    @keyframes flameFlicker {
+      0% { transform: scaleY(1) scaleX(1); }
+      100% { transform: scaleY(1.1) scaleX(0.95); }
     }
     
-    .custom-cursor.hovering .cursor-ring {
-      transform: translate(-50%, -50%) scale(1.5);
-      border-color: #8B1538;
-    }
-    
-    .custom-cursor.hovering .cursor-dot {
-      transform: translate(-50%, -50%) scale(1.5);
-      background: #8B1538;
-    }
-    
-    .cursor-trail-container {
+    .sparkle-container {
       position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
       z-index: 99998;
+      overflow: hidden;
     }
     
-    .cursor-trail-dot {
+    .cursor-sparkle {
       position: absolute;
       width: 6px;
       height: 6px;
-      background: radial-gradient(circle, #FFD700 0%, transparent 70%);
       border-radius: 50%;
-      transform: translate(-50%, -50%);
       pointer-events: none;
+      transform: translate(-3px, -3px);
+      animation: sparkleFloat 0.8s ease-out forwards;
+      box-shadow: 0 0 6px currentColor;
+    }
+    
+    @keyframes sparkleFloat {
+      0% {
+        opacity: 1;
+        transform: translate(-3px, -3px) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-3px, -30px) scale(0);
+      }
     }
     
     /* Disable on mobile */
-    @media (hover: none) {
+    @media (hover: none), (pointer: coarse) {
       .custom-cursor,
-      .cursor-trail-container {
+      .sparkle-container {
         display: none !important;
       }
       
-      * {
+      body, a, button, [role="button"] {
         cursor: auto !important;
       }
     }
   `;
-    document.head.appendChild(style);
+  document.head.appendChild(style);
 }
 
 export function destroyCursor() {
-    if (cursor) cursor.remove();
-    if (cursorTrail) cursorTrail.remove();
-    document.removeEventListener('mousemove', onMouseMove);
+  if (cursor) cursor.remove();
+  if (sparkleContainer) sparkleContainer.remove();
+  document.removeEventListener('mousemove', onMouseMove);
+  document.removeEventListener('mousedown', onMouseDown);
 }
