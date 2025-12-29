@@ -1,0 +1,576 @@
+/* ==========================================================================
+   Premium Effects CSS
+   Glass morphism, 3D effects, advanced animations
+   ========================================================================== */
+
+/* ===== Glass Morphism Cards ===== */
+.glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 8px 32px rgba(31, 38, 135, 0.15),
+        inset 0 0 80px rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-xl);
+}
+
+.glass-card-dark {
+    background: rgba(45, 41, 38, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(201, 162, 39, 0.2);
+}
+
+/* ===== 3D Card Tilt Effect ===== */
+.tilt-card {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.3s ease;
+}
+
+.tilt-card:hover {
+    transform: rotateY(5deg) rotateX(5deg) translateZ(10px);
+}
+
+.tilt-card-inner {
+    transform: translateZ(30px);
+}
+
+/* ===== Gold Border Draw Animation ===== */
+.border-draw {
+    position: relative;
+    overflow: hidden;
+}
+
+.border-draw::before,
+.border-draw::after {
+    content: '';
+    position: absolute;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.border-draw::before {
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    animation: borderDrawHorizontal 2s ease forwards;
+}
+
+.border-draw::after {
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    animation: borderDrawVertical 2s ease 0.5s forwards;
+}
+
+@keyframes borderDrawHorizontal {
+    to {
+        left: 100%;
+    }
+}
+
+@keyframes borderDrawVertical {
+    to {
+        top: 100%;
+    }
+}
+
+/* ===== 3D Flip Countdown ===== */
+.flip-countdown {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    perspective: 1000px;
+}
+
+.flip-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flip-card {
+    position: relative;
+    width: 70px;
+    height: 90px;
+    perspective: 1000px;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transform-style: preserve-3d;
+}
+
+.flip-top,
+.flip-bottom {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--maroon) 0%, var(--maroon-light) 100%);
+    color: var(--champagne);
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 90px;
+    backface-visibility: hidden;
+    border-radius: var(--radius-md);
+}
+
+.flip-top {
+    top: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.flip-bottom {
+    bottom: 0;
+    line-height: 0;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.flip-label {
+    margin-top: var(--space-sm);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+/* ===== Pulse Glow Effect ===== */
+.pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(201, 162, 39, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(201, 162, 39, 0.6), 0 0 60px rgba(201, 162, 39, 0.3);
+    }
+}
+
+/* ===== Text Shimmer Effect ===== */
+.text-shimmer {
+    background: linear-gradient(90deg,
+            var(--maroon) 0%,
+            var(--gold) 25%,
+            var(--maroon) 50%,
+            var(--gold) 75%,
+            var(--maroon) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textShimmer 3s linear infinite;
+}
+
+@keyframes textShimmer {
+    0% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: -100% 50%;
+    }
+}
+
+/* ===== Floating Animation ===== */
+.float-slow {
+    animation: floatSlow 6s ease-in-out infinite;
+}
+
+.float-medium {
+    animation: floatMedium 4s ease-in-out infinite;
+}
+
+.float-fast {
+    animation: floatFast 3s ease-in-out infinite;
+}
+
+@keyframes floatSlow {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+}
+
+@keyframes floatMedium {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(-3deg);
+    }
+}
+
+@keyframes floatFast {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ===== Decorative Corners ===== */
+.corner-decor {
+    position: relative;
+}
+
+.corner-decor::before,
+.corner-decor::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--gold);
+    opacity: 0.6;
+}
+
+.corner-decor::before {
+    top: -10px;
+    left: -10px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.corner-decor::after {
+    bottom: -10px;
+    right: -10px;
+    border-left: none;
+    border-top: none;
+}
+
+/* ===== Particle Canvas Container ===== */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.particles-container canvas {
+    display: block;
+}
+
+/* ===== Icon Containers ===== */
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.icon-sm {
+    width: 24px;
+    height: 24px;
+}
+
+.icon-md {
+    width: 48px;
+    height: 48px;
+}
+
+.icon-lg {
+    width: 64px;
+    height: 64px;
+}
+
+.icon-xl {
+    width: 96px;
+    height: 96px;
+}
+
+/* ===== Toran (Garland) Header ===== */
+.toran {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: url('/src/assets/patterns/toran.svg') repeat-x center top;
+    background-size: auto 60px;
+    z-index: 50;
+    pointer-events: none;
+    animation: toranSway 4s ease-in-out infinite;
+}
+
+@keyframes toranSway {
+
+    0%,
+    100% {
+        transform: translateY(0) scaleY(1);
+    }
+
+    50% {
+        transform: translateY(2px) scaleY(0.98);
+    }
+}
+
+/* ===== Progress Dots Indicator ===== */
+.progress-dots {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 100;
+}
+
+.progress-dot {
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.progress-dot.active {
+    background: var(--gold);
+    transform: scale(1.3);
+}
+
+.progress-dot:hover:not(.active) {
+    background: rgba(201, 162, 39, 0.3);
+}
+
+/* ===== Section Color Transitions ===== */
+.section-haldi {
+    background: linear-gradient(180deg,
+            var(--ivory-silk) 0%,
+            rgba(255, 193, 37, 0.1) 50%,
+            rgba(255, 140, 0, 0.15) 100%);
+}
+
+.section-sangeet {
+    background: linear-gradient(180deg,
+            var(--ivory-silk) 0%,
+            rgba(139, 21, 56, 0.08) 50%,
+            rgba(139, 21, 56, 0.15) 100%);
+}
+
+.section-barat {
+    background: linear-gradient(180deg,
+            var(--ivory-silk) 0%,
+            rgba(184, 134, 11, 0.1) 50%,
+            rgba(184, 134, 11, 0.2) 100%);
+}
+
+.section-wedding {
+    background: linear-gradient(180deg,
+            var(--ivory-silk) 0%,
+            rgba(0, 109, 111, 0.08) 50%,
+            rgba(139, 21, 56, 0.12) 100%);
+}
+
+/* ===== Logo Animation ===== */
+.logo-reveal {
+    opacity: 0;
+    transform: scale(0.5);
+    animation: logoReveal 1.5s ease forwards;
+}
+
+@keyframes logoReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(-10deg);
+        filter: blur(10px);
+    }
+
+    50% {
+        opacity: 1;
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        filter: blur(0);
+    }
+}
+
+/* ===== Character Reveal ===== */
+.char-reveal {
+    overflow: hidden;
+    display: inline-block;
+}
+
+.char-reveal .char {
+    display: inline-block;
+    transform: translateY(100%);
+    opacity: 0;
+    animation: charReveal 0.6s ease forwards;
+}
+
+@keyframes charReveal {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Stagger delays for chars */
+.char-reveal .char:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.char-reveal .char:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.char-reveal .char:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.char-reveal .char:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.char-reveal .char:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.char-reveal .char:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+.char-reveal .char:nth-child(7) {
+    animation-delay: 0.35s;
+}
+
+.char-reveal .char:nth-child(8) {
+    animation-delay: 0.4s;
+}
+
+.char-reveal .char:nth-child(9) {
+    animation-delay: 0.45s;
+}
+
+.char-reveal .char:nth-child(10) {
+    animation-delay: 0.5s;
+}
+
+/* ===== Music Toggle ===== */
+.music-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--maroon);
+    color: var(--champagne);
+    border: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-lg);
+}
+
+.music-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-gold);
+}
+
+.music-toggle.playing {
+    animation: musicPulse 1s ease infinite;
+}
+
+@keyframes musicPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* ===== Confetti Container ===== */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    animation: confettiFall 4s ease-out forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+
+    .float-slow,
+    .float-medium,
+    .float-fast,
+    .pulse-glow,
+    .text-shimmer,
+    .logo-reveal,
+    .char-reveal .char,
+    .music-toggle.playing,
+    .toran {
+        animation: none !important;
+    }
+
+    .tilt-card:hover {
+        transform: none;
+    }
+}

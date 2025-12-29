@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="petalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8C00"/>
+      <stop offset="50%" style="stop-color:#FFA500"/>
+      <stop offset="100%" style="stop-color:#FF6600"/>
+    </linearGradient>
+    <linearGradient id="centerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B4513"/>
+      <stop offset="100%" style="stop-color:#654321"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer petals -->
+  <g fill="url(#petalGrad)">
+    <ellipse cx="32" cy="12" rx="6" ry="10" transform="rotate(0, 32, 32)"/>
+    <ellipse cx="32" cy="12" rx="6" ry="10" transform="rotate(45, 32, 32)"/>
+    <ellipse cx="32" cy="12" rx="6" ry="10" transform="rotate(90, 32, 32)"/>
+    <ellipse cx="32" cy="12" rx="6" ry="10" transform="rotate(135, 32, 32)"/>
+    <ellipse cx="32" cy="12" rx="6" ry="10" transform="rotate(180, 32, 32)"/>
+    <ellipse cx="32" cy="12" rx="6" ry="10" transform="rotate(225, 32, 32)"/>
+    <ellipse cx="32" cy="12" rx="6" ry="10" transform="rotate(270, 32, 32)"/>
+    <ellipse cx="32" cy="12" rx="6" ry="10" transform="rotate(315, 32, 32)"/>
+  </g>
+  
+  <!-- Middle petals (offset) -->
+  <g fill="#FFB347" transform="scale(0.7) translate(14, 14)">
+    <ellipse cx="32" cy="14" rx="5" ry="9" transform="rotate(22.5, 32, 32)"/>
+    <ellipse cx="32" cy="14" rx="5" ry="9" transform="rotate(67.5, 32, 32)"/>
+    <ellipse cx="32" cy="14" rx="5" ry="9" transform="rotate(112.5, 32, 32)"/>
+    <ellipse cx="32" cy="14" rx="5" ry="9" transform="rotate(157.5, 32, 32)"/>
+    <ellipse cx="32" cy="14" rx="5" ry="9" transform="rotate(202.5, 32, 32)"/>
+    <ellipse cx="32" cy="14" rx="5" ry="9" transform="rotate(247.5, 32, 32)"/>
+    <ellipse cx="32" cy="14" rx="5" ry="9" transform="rotate(292.5, 32, 32)"/>
+    <ellipse cx="32" cy="14" rx="5" ry="9" transform="rotate(337.5, 32, 32)"/>
+  </g>
+  
+  <!-- Center -->
+  <circle cx="32" cy="32" r="8" fill="url(#centerGrad)"/>
+  <circle cx="32" cy="32" r="5" fill="#654321"/>
+  
+  <!-- Center dots -->
+  <circle cx="30" cy="30" r="1" fill="#FFD700"/>
+  <circle cx="34" cy="30" r="1" fill="#FFD700"/>
+  <circle cx="32" cy="34" r="1" fill="#FFD700"/>
+</svg>

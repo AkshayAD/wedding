@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="bellGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B8860B"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#CD853F"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Left bell -->
+  <g transform="translate(-5, 0)">
+    <path d="M20 8 Q25 4 30 8 L30 12 Q30 18 32 24 L34 40 Q34 46 28 48 L18 48 Q12 46 12 40 L14 24 Q16 18 16 12 L16 8 Z" 
+          fill="url(#bellGrad)"/>
+    <ellipse cx="23" cy="48" rx="8" ry="3" fill="url(#bellGrad)"/>
+    <circle cx="23" cy="52" r="3" fill="#654321"/>
+  </g>
+  
+  <!-- Right bell -->
+  <g transform="translate(15, 0)">
+    <path d="M20 8 Q25 4 30 8 L30 12 Q30 18 32 24 L34 40 Q34 46 28 48 L18 48 Q12 46 12 40 L14 24 Q16 18 16 12 L16 8 Z" 
+          fill="url(#bellGrad)"/>
+    <ellipse cx="23" cy="48" rx="8" ry="3" fill="url(#bellGrad)"/>
+    <circle cx="23" cy="52" r="3" fill="#654321"/>
+  </g>
+  
+  <!-- Ribbon bow -->
+  <path d="M25 6 Q32 2 39 6 L36 14 Q32 10 28 14 Z" fill="#8B1538"/>
+  <path d="M20 14 Q28 8 32 14 Q28 20 20 14" fill="#8B1538"/>
+  <path d="M44 14 Q36 8 32 14 Q36 20 44 14" fill="#8B1538"/>
+  <circle cx="32" cy="12" r="4" fill="#FFD700"/>
+  
+  <!-- Sound waves -->
+  <path d="M8 30 Q4 28 6 24" stroke="#FFD700" stroke-width="1.5" fill="none" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="0.8s" repeatCount="indefinite"/>
+  </path>
+  <path d="M56 30 Q60 28 58 24" stroke="#FFD700" stroke-width="1.5" fill="none" opacity="0.6">
+    <animate attributeName="opacity" values="0.2;0.6;0.2" dur="0.8s" repeatCount="indefinite"/>
+  </path>
+</svg>
