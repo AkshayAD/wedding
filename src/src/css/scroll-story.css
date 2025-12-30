@@ -2000,10 +2000,10 @@
     overflow-y: auto;
     overscroll-behavior: contain;
     padding: var(--space-lg);
-    background: linear-gradient(135deg, rgba(74, 10, 30, 0.98) 0%, rgba(40, 5, 15, 0.98) 100%);
+    background: var(--bg-cream);
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
-    scrollbar-color: var(--gold) transparent;
+    scrollbar-color: var(--maroon) rgba(0, 0, 0, 0.1);
 }
 
 .scrollable-overlay::-webkit-scrollbar {
@@ -2011,11 +2011,11 @@
 }
 
 .scrollable-overlay::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .scrollable-overlay::-webkit-scrollbar-thumb {
-    background: var(--gold);
+    background: var(--maroon);
     border-radius: 3px;
 }
 
@@ -2025,6 +2025,15 @@
     text-align: left;
 }
 
+.scrollable-overlay h2 {
+    color: var(--maroon);
+    margin-bottom: var(--space-sm);
+}
+
+.scrollable-overlay .overlay-tagline {
+    color: var(--charcoal);
+}
+
 .scrollable-content {
     padding-bottom: var(--space-xl);
 }
@@ -2032,26 +2041,26 @@
 .overlay-section {
     margin-bottom: var(--space-lg);
     padding: var(--space-md);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(201, 162, 39, 0.1);
     border-radius: var(--radius-lg);
     border-left: 3px solid var(--gold);
 }
 
 .overlay-section.highlight {
-    background: rgba(201, 162, 39, 0.15);
-    border-left-color: var(--gold);
+    background: rgba(201, 162, 39, 0.2);
+    border-left-color: var(--maroon);
 }
 
 .overlay-section h3 {
     font-family: var(--font-display);
     font-size: var(--text-base);
-    color: var(--gold);
+    color: var(--maroon);
     margin-bottom: var(--space-sm);
 }
 
 .overlay-section p {
     font-size: var(--text-sm);
-    color: var(--cream);
+    color: var(--charcoal);
     margin-bottom: var(--space-sm);
     line-height: 1.6;
 }
@@ -2065,8 +2074,8 @@
 .overlay-list li {
     padding: var(--space-xs) 0;
     font-size: var(--text-sm);
-    color: var(--cream);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--charcoal);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .overlay-list li:last-child {
@@ -2099,24 +2108,24 @@
 }
 
 .overlay-list a {
-    color: var(--gold);
+    color: var(--maroon);
     text-decoration: underline;
 }
 
 .overlay-note {
     font-size: var(--text-sm) !important;
-    color: var(--gold) !important;
+    color: var(--maroon) !important;
     padding: var(--space-xs) var(--space-sm);
-    background: rgba(201, 162, 39, 0.1);
+    background: rgba(201, 162, 39, 0.15);
     border-radius: var(--radius-sm);
     margin-top: var(--space-sm);
 }
 
 .overlay-warning {
     font-size: var(--text-sm);
-    color: #FF6B6B;
+    color: #C0392B;
     padding: var(--space-xs) var(--space-sm);
-    background: rgba(231, 76, 60, 0.15);
+    background: rgba(231, 76, 60, 0.1);
     border-radius: var(--radius-sm);
     margin-top: var(--space-sm);
 }

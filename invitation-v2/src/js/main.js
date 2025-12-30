@@ -129,6 +129,7 @@ function initOverlays() {
                 overlayBackdrop.classList.add('active');
                 overlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
+                if (lenis) lenis.stop();
             }
         });
     });
@@ -156,6 +157,7 @@ function closeAllOverlays() {
     overlays.forEach(o => o.classList.remove('active'));
     if (overlayBackdrop) overlayBackdrop.classList.remove('active');
     document.body.style.overflow = '';
+    if (lenis) lenis.start();
 }
 
 // ===== Progress Bar =====
