@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B8860B"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#B8860B"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer decorative ring -->
+  <circle cx="50" cy="50" r="46" stroke="url(#goldGrad)" stroke-width="2" fill="none"/>
+  <circle cx="50" cy="50" r="42" stroke="url(#goldGrad)" stroke-width="0.5" fill="none" stroke-dasharray="4 2"/>
+  
+  <!-- D Letter -->
+  <path d="M25 30 L25 70 L38 70 Q55 70 55 50 Q55 30 38 30 Z M30 35 L36 35 Q48 35 48 50 Q48 65 36 65 L30 65 Z" 
+        fill="url(#goldGrad)"/>
+  
+  <!-- Heart -->
+  <path d="M50 42 C50 35 42 30 38 35 C35 40 38 48 50 58 C62 48 65 40 62 35 C58 30 50 35 50 42Z" 
+        fill="#8B1538" stroke="url(#goldGrad)" stroke-width="1"/>
+  
+  <!-- C Letter -->
+  <path d="M65 30 Q75 30 75 40 L70 40 Q70 35 65 35 Q58 35 58 50 Q58 65 65 65 Q70 65 70 60 L75 60 Q75 70 65 70 Q52 70 52 50 Q52 30 65 30Z" 
+        fill="url(#goldGrad)"/>
+  
+  <!-- Small decorative dots -->
+  <circle cx="50" cy="22" r="2" fill="url(#goldGrad)"/>
+  <circle cx="50" cy="78" r="2" fill="url(#goldGrad)"/>
+  <circle cx="22" cy="50" r="2" fill="url(#goldGrad)"/>
+  <circle cx="78" cy="50" r="2" fill="url(#goldGrad)"/>
+</svg>

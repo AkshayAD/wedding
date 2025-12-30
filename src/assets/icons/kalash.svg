@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="potGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B8860B"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#CD853F"/>
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#228B22"/>
+      <stop offset="100%" style="stop-color:#32CD32"/>
+    </linearGradient>
+    <linearGradient id="coconutGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B4513"/>
+      <stop offset="100%" style="stop-color:#654321"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Mango leaves spread -->
+  <path d="M18 18 Q12 12 8 18" stroke="url(#leafGrad)" stroke-width="2" fill="none"/>
+  <path d="M22 16 Q18 8 14 14" stroke="url(#leafGrad)" stroke-width="2" fill="none"/>
+  <path d="M28 14 Q26 6 22 10" stroke="url(#leafGrad)" stroke-width="2" fill="none"/>
+  <path d="M32 12 Q32 4 32 12" stroke="url(#leafGrad)" stroke-width="2" fill="none"/>
+  <path d="M36 14 Q38 6 42 10" stroke="url(#leafGrad)" stroke-width="2" fill="none"/>
+  <path d="M42 16 Q46 8 50 14" stroke="url(#leafGrad)" stroke-width="2" fill="none"/>
+  <path d="M46 18 Q52 12 56 18" stroke="url(#leafGrad)" stroke-width="2" fill="none"/>
+  
+  <!-- Coconut on top -->
+  <ellipse cx="32" cy="18" rx="8" ry="6" fill="url(#coconutGrad)"/>
+  <path d="M30 14 L34 14 L32 12 Z" fill="#333"/>
+  
+  <!-- Kalash pot body -->
+  <path d="M20 24 Q18 28 18 35 Q18 45 22 50 L42 50 Q46 45 46 35 Q46 28 44 24 Z" 
+        fill="url(#potGrad)"/>
+  
+  <!-- Pot neck -->
+  <path d="M24 24 Q24 20 28 20 L36 20 Q40 20 40 24" fill="url(#potGrad)"/>
+  
+  <!-- Decorative bands on pot -->
+  <ellipse cx="32" cy="28" rx="12" ry="2" fill="#8B4513" opacity="0.4"/>
+  <ellipse cx="32" cy="40" rx="14" ry="2" fill="#8B4513" opacity="0.3"/>
+  
+  <!-- Om symbol on pot -->
+  <text x="32" y="36" font-size="8" fill="#8B1538" text-anchor="middle" font-family="serif">ॐ</text>
+  
+  <!-- Swastika small decoration -->
+  <path d="M26 44 L28 44 L28 42 M28 44 L28 46 L30 46 M28 44 L26 44 L26 46" 
+        stroke="#8B1538" stroke-width="0.5" fill="none"/>
+  
+  <!-- Base -->
+  <ellipse cx="32" cy="50" rx="10" ry="3" fill="url(#potGrad)"/>
+  <path d="M22 50 L26 58 L38 58 L42 50" fill="url(#potGrad)"/>
+  <ellipse cx="32" cy="58" rx="6" ry="2" fill="url(#potGrad)"/>
+</svg>

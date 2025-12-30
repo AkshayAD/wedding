@@ -2,650 +2,357 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dewalwar - Chachad Wedding Invitation</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap"
-        rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="description" content="You're Invited! Dewalwar-Chachad Wedding - February 7-8, 2026">
+  <meta name="theme-color" content="#4A0A1E">
+
+  <title>Dewalwar ♥ Chachad Wedding</title>
+
+  <link rel="icon" type="image/svg+xml" href="/wedding/assets/logo-D1eN_Jjk.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <script type="module" crossorigin src="/wedding/assets/index-BaQtROZh.js"></script>
+  <link rel="stylesheet" crossorigin href="/wedding/assets/index-YOjGC2vW.css">
 </head>
 
 <body>
-    <!-- Sky Gradient Background -->
-    <div id="sky-gradient"></div>
+  <!-- Scroll Progress Line -->
+  <div class="scroll-progress" id="progress"></div>
 
-    <!-- Particles Container -->
-    <div id="particles-container"></div>
+  <!-- NAVIGATION TABS -->
+  <nav class="nav-tabs" id="nav-tabs">
+    <a href="#events" class="nav-tab">Events</a>
+    <a href="#venue" class="nav-tab">Venue</a>
+    <a href="#travel" class="nav-tab">Travel</a>
+    <a href="details/#safari" class="nav-tab">Safari</a>
+  </nav>
 
-    <!-- Sticky Navigation Bar -->
-    <nav class="sticky-nav" id="sticky-nav">
-        <div class="nav-container">
-            <a href="#hero" class="nav-brand">💒</a>
-            <div class="nav-links">
-                <a href="#day-1" class="nav-link">Day 1</a>
-                <a href="#day-2" class="nav-link">Day 2</a>
-                <a href="#travel-guide" class="nav-link travel-link">🚂 Travel</a>
-                <a href="#tadoba-safari" class="nav-link safari-link">🐯 Safari</a>
-                <a href="invitation-v2/" class="nav-link"
-                    style="background: linear-gradient(135deg, #D4AF37, #E8A435); color: #2A1810; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600;">✨
-                    New Experience</a>
-            </div>
-        </div>
-    </nav>
+  <!-- Music Toggle -->
+  <button class="music-toggle" id="music-toggle" aria-label="Toggle music">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+    </svg>
+  </button>
 
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="ornament-top">
-                <img src="assets/icons/wedding.png" alt="" class="hero-icon">
-            </div>
-            <p class="pre-title fade-in">With Blessings & Joy</p>
-            <h1 class="main-title fade-in delay-1">A Celebration of Love</h1>
-            <p class="sub-title fade-in delay-2">Two days of joy, laughter & sacred moments</p>
+  <!-- Background Audio -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_5cf5e6b0a8.mp3" type="audio/mpeg">
+  </audio>
 
-            <div class="day-nav fade-in delay-3">
-                <a href="#day-1" class="day-chip day-1-chip">
-                    <span class="chip-day">Day 1</span>
-                    <span class="chip-events">Haldi & Sangeet</span>
-                </a>
-                <a href="#day-2" class="day-chip day-2-chip">
-                    <span class="chip-day">Day 2</span>
-                    <span class="chip-events">Barat & Wedding</span>
-                </a>
-            </div>
+  <!-- Floating Parallax -->
+  <div class="parallax-container" id="parallax">
+    <div class="floating-diya diya-1" aria-hidden="true"></div>
+    <div class="floating-diya diya-2" aria-hidden="true"></div>
+    <div class="floating-diya diya-3" aria-hidden="true"></div>
+    <div class="floating-diya diya-4" aria-hidden="true"></div>
+    <div class="floating-diya diya-5" aria-hidden="true"></div>
+    <div class="floating-lantern lantern-1" aria-hidden="true"></div>
+    <div class="floating-lantern lantern-2" aria-hidden="true"></div>
+    <div class="floating-lantern lantern-3" aria-hidden="true"></div>
+    <div class="petal petal-1" aria-hidden="true"></div>
+    <div class="petal petal-2" aria-hidden="true"></div>
+    <div class="petal petal-3" aria-hidden="true"></div>
+    <div class="petal petal-4" aria-hidden="true"></div>
+  </div>
 
-            <div class="info-nav fade-in delay-3">
-                <a href="#travel-guide" class="info-chip travel-chip">
-                    <span class="chip-icon">🚂</span>
-                    <span class="chip-label">Travel Guide</span>
-                </a>
-                <a href="#tadoba-safari" class="info-chip safari-chip">
-                    <span class="chip-icon">🐯</span>
-                    <span class="chip-label">Tadoba Safari</span>
-                </a>
-            </div>
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="invitation-envelope">
+      <div class="envelope-flap"></div>
+      <div class="envelope-body">
+        <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20fill='none'%3e%3cdefs%3e%3clinearGradient%20id='flameGrad'%20x1='0%25'%20y1='100%25'%20x2='0%25'%20y2='0%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%23FF6B00'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23FFD700'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23FFF4BD'/%3e%3c/linearGradient%3e%3clinearGradient%20id='lampGold'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%23B8860B'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23FFD700'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23CD853F'/%3e%3c/linearGradient%3e%3cfilter%20id='glow'%3e%3cfeGaussianBlur%20stdDeviation='2'%20result='coloredBlur'/%3e%3cfeMerge%3e%3cfeMergeNode%20in='coloredBlur'/%3e%3cfeMergeNode%20in='SourceGraphic'/%3e%3c/feMerge%3e%3c/filter%3e%3c/defs%3e%3c!--%20Flame%20glow%20--%3e%3cellipse%20cx='32'%20cy='18'%20rx='8'%20ry='4'%20fill='%23FFD700'%20opacity='0.3'%20filter='url(%23glow)'/%3e%3c!--%20Flame%20--%3e%3cpath%20d='M32%208%20Q38%2016%2036%2022%20Q34%2028%2032%2025%20Q30%2028%2028%2022%20Q26%2016%2032%208Z'%20fill='url(%23flameGrad)'%20filter='url(%23glow)'%3e%3canimate%20attributeName='d'%20values='M32%208%20Q38%2016%2036%2022%20Q34%2028%2032%2025%20Q30%2028%2028%2022%20Q26%2016%2032%208Z;%20M32%206%20Q40%2014%2037%2020%20Q35%2026%2032%2024%20Q29%2026%2027%2020%20Q24%2014%2032%206Z;%20M32%208%20Q38%2016%2036%2022%20Q34%2028%2032%2025%20Q30%2028%2028%2022%20Q26%2016%2032%208Z'%20dur='1.5s'%20repeatCount='indefinite'/%3e%3c/path%3e%3c!--%20Wick%20--%3e%3cline%20x1='32'%20y1='24'%20x2='32'%20y2='30'%20stroke='%23333'%20stroke-width='1.5'/%3e%3c!--%20Oil%20reservoir%20(upper%20part%20of%20diya)%20--%3e%3cellipse%20cx='32'%20cy='32'%20rx='14'%20ry='4'%20fill='url(%23lampGold)'/%3e%3c!--%20Diya%20body%20--%3e%3cpath%20d='M18%2032%20Q16%2040%2020%2048%20L44%2048%20Q48%2040%2046%2032%20Z'%20fill='url(%23lampGold)'/%3e%3c!--%20Decorative%20pattern%20on%20diya%20--%3e%3cpath%20d='M22%2038%20Q32%2042%2042%2038'%20stroke='%238B4513'%20stroke-width='1'%20fill='none'/%3e%3cpath%20d='M24%2044%20Q32%2047%2040%2044'%20stroke='%238B4513'%20stroke-width='0.5'%20fill='none'/%3e%3c!--%20Base%20--%3e%3cellipse%20cx='32'%20cy='48'%20rx='12'%20ry='3'%20fill='url(%23lampGold)'/%3e%3cpath%20d='M20%2048%20L24%2056%20L40%2056%20L44%2048'%20fill='url(%23lampGold)'/%3e%3cellipse%20cx='32'%20cy='56'%20rx='8'%20ry='2'%20fill='url(%23lampGold)'/%3e%3c/svg%3e" alt="" class="preloader-diya">
+      </div>
+    </div>
+    <p class="preloader-text">Tap to open your invitation</p>
+  </div>
 
-            <div class="scroll-indicator fade-in delay-4">
-                <span>Scroll to explore</span>
-                <div class="scroll-line"></div>
-            </div>
-        </div>
+  <!-- EVENT DETAIL OVERLAYS -->
+  <div class="overlay-backdrop" id="overlay-backdrop"></div>
+
+  <!-- Haldi Overlay -->
+  <div class="event-overlay" id="overlay-haldi">
+    <button class="overlay-close" data-close>&times;</button>
+    <div class="overlay-content">
+      <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20fill='none'%3e%3cdefs%3e%3clinearGradient%20id='petalGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%23FF8C00'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23FFA500'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23FF6600'/%3e%3c/linearGradient%3e%3clinearGradient%20id='centerGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%238B4513'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23654321'/%3e%3c/linearGradient%3e%3c/defs%3e%3c!--%20Outer%20petals%20--%3e%3cg%20fill='url(%23petalGrad)'%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(0,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(45,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(90,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(135,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(180,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(225,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(270,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(315,%2032,%2032)'/%3e%3c/g%3e%3c!--%20Middle%20petals%20(offset)%20--%3e%3cg%20fill='%23FFB347'%20transform='scale(0.7)%20translate(14,%2014)'%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(22.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(67.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(112.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(157.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(202.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(247.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(292.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(337.5,%2032,%2032)'/%3e%3c/g%3e%3c!--%20Center%20--%3e%3ccircle%20cx='32'%20cy='32'%20r='8'%20fill='url(%23centerGrad)'/%3e%3ccircle%20cx='32'%20cy='32'%20r='5'%20fill='%23654321'/%3e%3c!--%20Center%20dots%20--%3e%3ccircle%20cx='30'%20cy='30'%20r='1'%20fill='%23FFD700'/%3e%3ccircle%20cx='34'%20cy='30'%20r='1'%20fill='%23FFD700'/%3e%3ccircle%20cx='32'%20cy='34'%20r='1'%20fill='%23FFD700'/%3e%3c/svg%3e" alt="" class="overlay-icon">
+      <h2>Haldi Ceremony</h2>
+      <p class="overlay-tagline">Blessings in golden hues</p>
+      <div class="overlay-time">12:30 PM onwards</div>
+      <p class="overlay-desc">A sacred pre-wedding ritual where turmeric paste is lovingly applied to the bride and
+        groom. This ceremony symbolizes purification and is believed to bring a natural glow to the couple.</p>
+      <div class="overlay-dress"><strong>Dress Code:</strong> Yellow or traditional attire</div>
+    </div>
+  </div>
+
+  <!-- Sangeet Overlay -->
+  <div class="event-overlay" id="overlay-sangeet">
+    <button class="overlay-close" data-close>&times;</button>
+    <div class="overlay-content">
+      <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20fill='none'%3e%3cdefs%3e%3clinearGradient%20id='brassGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%23B8860B'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23FFD700'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23CD853F'/%3e%3c/linearGradient%3e%3c/defs%3e%3c!--%20Sound%20waves%20--%3e%3cpath%20d='M50%2020%20Q56%2026%2056%2032%20Q56%2038%2050%2044'%20stroke='url(%23brassGrad)'%20stroke-width='2'%20fill='none'%20opacity='0.6'%3e%3canimate%20attributeName='opacity'%20values='0.6;0.2;0.6'%20dur='1s'%20repeatCount='indefinite'/%3e%3c/path%3e%3cpath%20d='M54%2016%20Q62%2024%2062%2032%20Q62%2040%2054%2048'%20stroke='url(%23brassGrad)'%20stroke-width='2'%20fill='none'%20opacity='0.4'%3e%3canimate%20attributeName='opacity'%20values='0.4;0.1;0.4'%20dur='1s'%20repeatCount='indefinite'%20begin='0.2s'/%3e%3c/path%3e%3c!--%20Main%20bell%20--%3e%3cpath%20d='M10%2030%20Q10%2020%2020%2018%20L20%2014%20Q20%2012%2022%2012%20L28%2012%20Q30%2012%2030%2014%20L30%2018%20Q40%2020%2040%2030%20L42%2045%20Q42%2050%2035%2050%20L15%2050%20Q8%2050%208%2045%20Z'%20fill='url(%23brassGrad)'/%3e%3c!--%20Bell%20decoration%20rings%20--%3e%3cellipse%20cx='25'%20cy='22'%20rx='8'%20ry='2'%20fill='%238B4513'%20opacity='0.3'/%3e%3cellipse%20cx='25'%20cy='28'%20rx='10'%20ry='2'%20fill='%238B4513'%20opacity='0.2'/%3e%3c!--%20Bell%20opening%20highlight%20--%3e%3cpath%20d='M10%2045%20Q25%2048%2040%2045'%20stroke='%23FFD700'%20stroke-width='1'%20fill='none'/%3e%3c!--%20Clapper/tongue%20--%3e%3cline%20x1='25'%20y1='35'%20x2='25'%20y2='48'%20stroke='%23654321'%20stroke-width='2'/%3e%3ccircle%20cx='25'%20cy='48'%20r='3'%20fill='%23654321'/%3e%3c!--%20Decorative%20top%20--%3e%3ccircle%20cx='25'%20cy='12'%20r='3'%20fill='url(%23brassGrad)'/%3e%3cpath%20d='M22%209%20L25%204%20L28%209'%20fill='url(%23brassGrad)'/%3e%3c!--%20Handle%20--%3e%3cpath%20d='M18%208%20Q25%202%2032%208'%20stroke='url(%23brassGrad)'%20stroke-width='3'%20fill='none'/%3e%3c/svg%3e" alt="" class="overlay-icon">
+      <h2>Sangeet Night</h2>
+      <p class="overlay-tagline">Dance, music & celebration</p>
+      <div class="overlay-time">6:30 PM onwards</div>
+      <p class="overlay-desc">A vibrant evening filled with dance performances, music, and celebration. Family and
+        friends come together to perform choreographed dances and enjoy an unforgettable night.</p>
+      <div class="overlay-dress"><strong>Dress Code:</strong> Colorful festive wear</div>
+    </div>
+  </div>
+
+  <!-- Barat Overlay -->
+  <div class="event-overlay" id="overlay-barat">
+    <button class="overlay-close" data-close>&times;</button>
+    <div class="overlay-content">
+      <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20fill='none'%3e%3cdefs%3e%3clinearGradient%20id='horseGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%238B4513'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23A0522D'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23654321'/%3e%3c/linearGradient%3e%3clinearGradient%20id='decorGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%23FFD700'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23B8860B'/%3e%3c/linearGradient%3e%3c/defs%3e%3c!--%20Horse%20body%20--%3e%3cpath%20d='M15%2035%20Q12%2030%2015%2025%20Q18%2020%2025%2020%20L35%2020%20Q42%2020%2045%2025%20Q50%2028%2048%2035%20L48%2045%20L45%2055%20L42%2055%20L42%2045%20L40%2045%20L40%2055%20L37%2055%20L37%2045%20L27%2045%20L27%2055%20L24%2055%20L24%2045%20L22%2045%20L22%2055%20L19%2055%20L19%2045%20Z'%20fill='url(%23horseGrad)'/%3e%3c!--%20Horse%20neck%20and%20head%20--%3e%3cpath%20d='M15%2025%20Q10%2020%208%2015%20Q7%2010%2012%208%20Q18%206%2022%2010%20Q25%2014%2022%2020%20L15%2025'%20fill='url(%23horseGrad)'/%3e%3c!--%20Mane%20--%3e%3cpath%20d='M12%2012%20Q15%208%2018%2012%20Q20%2016%2017%2020'%20stroke='%23333'%20stroke-width='2'%20fill='none'/%3e%3c!--%20Eye%20--%3e%3ccircle%20cx='13'%20cy='12'%20r='1.5'%20fill='%23333'/%3e%3c!--%20Ear%20--%3e%3cpath%20d='M14%206%20L16%202%20L18%206'%20fill='url(%23horseGrad)'/%3e%3c!--%20Decorative%20cloth%20--%3e%3cpath%20d='M25%2020%20L45%2020%20L48%2030%20L45%2035%20L20%2035%20L15%2030%20Z'%20fill='%238B1538'%20opacity='0.9'/%3e%3cpath%20d='M25%2022%20L43%2022'%20stroke='url(%23decorGrad)'%20stroke-width='2'/%3e%3cpath%20d='M24%2026%20L44%2026'%20stroke='url(%23decorGrad)'%20stroke-width='1'/%3e%3c!--%20Gold%20tassels%20--%3e%3ccircle%20cx='20'%20cy='35'%20r='2'%20fill='url(%23decorGrad)'/%3e%3ccircle%20cx='45'%20cy='35'%20r='2'%20fill='url(%23decorGrad)'/%3e%3c!--%20Bridle%20--%3e%3cpath%20d='M8%2015%20Q5%2015%205%2018%20L8%2018'%20stroke='url(%23decorGrad)'%20stroke-width='1'%20fill='none'/%3e%3c!--%20Feather%20plume%20--%3e%3cpath%20d='M16%202%20Q12%20-2%2010%200%20Q8%202%2010%204%20Q12%206%2016%202'%20fill='%23E8D5C4'/%3e%3cpath%20d='M17%201%20Q20%20-3%2022%20-1%20Q24%201%2022%203%20Q20%205%2017%201'%20fill='%23FFD700'/%3e%3c/svg%3e" alt="" class="overlay-icon">
+      <h2>The Barat</h2>
+      <p class="overlay-tagline">The grand groom's procession</p>
+      <div class="overlay-time">4:00 PM</div>
+      <p class="overlay-desc">The groom arrives in a magnificent procession accompanied by family and friends dancing to
+        the beats of dhol. A joyous celebration marking the groom's journey to meet his bride.</p>
+      <div class="overlay-dress"><strong>Dress Code:</strong> Traditional festive wear</div>
+    </div>
+  </div>
+
+  <!-- Wedding Overlay -->
+  <div class="event-overlay" id="overlay-wedding">
+    <button class="overlay-close" data-close>&times;</button>
+    <div class="overlay-content">
+      <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20fill='none'%3e%3cdefs%3e%3clinearGradient%20id='pillarGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='0%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%23CD853F'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23FFD700'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23CD853F'/%3e%3c/linearGradient%3e%3clinearGradient%20id='roofGrad'%20x1='0%25'%20y1='100%25'%20x2='0%25'%20y2='0%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%238B1538'/%3e%3cstop%20offset='100%25'%20style='stop-color:%236B0F2B'/%3e%3c/linearGradient%3e%3c/defs%3e%3c!--%20Roof/Canopy%20--%3e%3cpath%20d='M4%2022%20L32%204%20L60%2022%20L56%2024%20L32%2010%20L8%2024%20Z'%20fill='url(%23roofGrad)'/%3e%3c!--%20Decorative%20border%20on%20roof%20--%3e%3cpath%20d='M8%2024%20L32%2010%20L56%2024'%20stroke='%23FFD700'%20stroke-width='1'%20fill='none'/%3e%3c!--%20Toran/garland%20on%20top%20--%3e%3cpath%20d='M12%2022%20Q22%2026%2032%2022%20Q42%2026%2052%2022'%20stroke='%23FF8C00'%20stroke-width='3'%20fill='none'/%3e%3c!--%20Front%20pillars%20--%3e%3crect%20x='10'%20y='24'%20width='6'%20height='32'%20fill='url(%23pillarGrad)'/%3e%3crect%20x='48'%20y='24'%20width='6'%20height='32'%20fill='url(%23pillarGrad)'/%3e%3c!--%20Pillar%20decorations%20--%3e%3crect%20x='10'%20y='28'%20width='6'%20height='2'%20fill='%238B4513'/%3e%3crect%20x='10'%20y='50'%20width='6'%20height='2'%20fill='%238B4513'/%3e%3crect%20x='48'%20y='28'%20width='6'%20height='2'%20fill='%238B4513'/%3e%3crect%20x='48'%20y='50'%20width='6'%20height='2'%20fill='%238B4513'/%3e%3c!--%20Back%20pillars%20(subtle)%20--%3e%3crect%20x='18'%20y='26'%20width='4'%20height='28'%20fill='%23B8860B'%20opacity='0.5'/%3e%3crect%20x='42'%20y='26'%20width='4'%20height='28'%20fill='%23B8860B'%20opacity='0.5'/%3e%3c!--%20Sacred%20fire%20(Agni)%20in%20center%20--%3e%3cpath%20d='M32%2045%20Q28%2042%2030%2038%20Q32%2034%2032%2038%20Q32%2034%2034%2038%20Q36%2042%2032%2045'%20fill='%23FF6B00'%3e%3canimate%20attributeName='d'%20values='M32%2045%20Q28%2042%2030%2038%20Q32%2034%2032%2038%20Q32%2034%2034%2038%20Q36%2042%2032%2045;%20M32%2043%20Q27%2040%2029%2036%20Q32%2032%2032%2036%20Q32%2032%2035%2036%20Q37%2040%2032%2043;%20M32%2045%20Q28%2042%2030%2038%20Q32%2034%2032%2038%20Q32%2034%2034%2038%20Q36%2042%2032%2045'%20dur='0.8s'%20repeatCount='indefinite'/%3e%3c/path%3e%3c!--%20Fire%20base%20--%3e%3cpath%20d='M26%2048%20L38%2048%20L36%2052%20L28%2052%20Z'%20fill='%238B4513'/%3e%3c!--%20Marigold%20decorations%20--%3e%3ccircle%20cx='10'%20cy='24'%20r='3'%20fill='%23FF8C00'/%3e%3ccircle%20cx='54'%20cy='24'%20r='3'%20fill='%23FF8C00'/%3e%3c!--%20Floor%20platform%20--%3e%3crect%20x='6'%20y='56'%20width='52'%20height='4'%20fill='%23CD853F'/%3e%3c/svg%3e" alt="" class="overlay-icon">
+      <h2>The Wedding Ceremony</h2>
+      <p class="overlay-tagline">Sacred vows under the stars</p>
+      <div class="overlay-time">Muhurat Time (Evening)</div>
+      <p class="overlay-desc">The sacred wedding ceremony where two souls unite in the presence of the holy fire.
+        Traditional Maharashtrian rituals including Kanyadaan, Mangalsutra, Saptapadi, and blessings from elders.</p>
+      <div class="overlay-dress"><strong>Dress Code:</strong> Traditional formal wear</div>
+    </div>
+  </div>
+
+  <!-- MAIN SCROLL STORY -->
+  <main class="scroll-story" id="main">
+
+    <!-- OPENING -->
+    <section class="story-opening">
+      <div class="velvet-overlay"></div>
+      <div class="golden-light"></div>
+      <div class="opening-content">
+        <p class="blessing">॥ श्री गणेशाय नमः ॥</p>
+        <p class="blessing-english">With Divine Blessings</p>
+      </div>
     </section>
 
-    <!-- Day 1: Haldi + Sangeet Side by Side -->
-    <section class="day-section" id="day-1" data-day="1">
-        <div class="day-header">
-            <div class="day-badge">Day One</div>
-            <h2 class="day-title">The Celebrations Begin</h2>
-            <p class="day-subtitle">Afternoon to Evening</p>
-        </div>
+    <!-- HERO: Couple + Countdown -->
+    <section class="story-hero">
+      <div class="hero-glow"></div>
 
-        <div class="events-grid">
-            <!-- Haldi Card -->
-            <div class="event-card haldi-card reveal">
-                <div class="card-glow haldi-glow"></div>
-                <div class="card-inner">
-                    <div class="card-header">
-                        <img src="assets/icons/haldi.png" alt="Haldi" class="event-icon-img">
-                        <div class="time-badge">12:30 PM</div>
-                    </div>
-                    <div class="card-image">
-                        <img src="assets/Haldi Final.png" alt="Haldi Ceremony">
-                    </div>
-                    <div class="card-content">
-                        <h3>Haldi Ceremony</h3>
-                        <p class="tagline">Blessings in golden hues</p>
-                        <p class="description">An auspicious ceremony where turmeric paste is applied, symbolizing
-                            purification and blessings.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sangeet Card -->
-            <div class="event-card sangeet-card reveal delay-1">
-                <div class="card-glow sangeet-glow"></div>
-                <div class="card-inner">
-                    <div class="card-header">
-                        <img src="assets/icons/sangeet.png" alt="Sangeet" class="event-icon-img">
-                        <div class="time-badge">6:30 PM</div>
-                    </div>
-                    <div class="card-image">
-                        <img src="assets/Sangeet Final.png" alt="Sangeet Night">
-                    </div>
-                    <div class="card-content">
-                        <h3>Sangeet Night</h3>
-                        <p class="tagline">Dance, music & celebration</p>
-                        <p class="description">A night filled with music, dance performances, and joyous celebrations.
-                        </p>
-                    </div>
-                </div>
-            </div>
+      <div class="couple-showcase">
+        <div class="couple-figure groom-figure animated-figure">
+          <img src="/wedding/assets/groom-9xTfAyOw.svg" alt="Groom" class="couple-svg">
+          <span class="couple-name">Dewalwar</span>
         </div>
+        <div class="couple-heart">
+          <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20fill='none'%3e%3cdefs%3e%3clinearGradient%20id='heartGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%238B1538'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23B22222'/%3e%3cstop%20offset='100%25'%20style='stop-color:%236B0F2B'/%3e%3c/linearGradient%3e%3cfilter%20id='heartGlow'%3e%3cfeGaussianBlur%20stdDeviation='2'%20result='coloredBlur'/%3e%3cfeMerge%3e%3cfeMergeNode%20in='coloredBlur'/%3e%3cfeMergeNode%20in='SourceGraphic'/%3e%3c/feMerge%3e%3c/filter%3e%3c/defs%3e%3c!--%20Glow%20effect%20base%20--%3e%3cpath%20d='M32%2056%20C10%2040%204%2024%2016%2012%20C24%204%2032%2010%2032%2018%20C32%2010%2040%204%2048%2012%20C60%2024%2054%2040%2032%2056Z'%20fill='%23FF6B6B'%20opacity='0.3'%20filter='url(%23heartGlow)'/%3e%3c!--%20Main%20heart%20--%3e%3cpath%20d='M32%2052%20C14%2038%208%2024%2018%2014%20C26%206%2032%2012%2032%2020%20C32%2012%2038%206%2046%2014%20C56%2024%2050%2038%2032%2052Z'%20fill='url(%23heartGrad)'%3e%3canimate%20attributeName='d'%20values='M32%2052%20C14%2038%208%2024%2018%2014%20C26%206%2032%2012%2032%2020%20C32%2012%2038%206%2046%2014%20C56%2024%2050%2038%2032%2052Z;%20M32%2050%20C16%2036%2010%2024%2018%2014%20C26%206%2032%2014%2032%2022%20C32%2014%2038%206%2046%2014%20C54%2024%2048%2036%2032%2050Z;%20M32%2052%20C14%2038%208%2024%2018%2014%20C26%206%2032%2012%2032%2020%20C32%2012%2038%206%2046%2014%20C56%2024%2050%2038%2032%2052Z'%20dur='1s'%20repeatCount='indefinite'/%3e%3c/path%3e%3c!--%20Highlight%20on%20heart%20--%3e%3cpath%20d='M22%2020%20Q26%2014%2028%2020'%20stroke='white'%20stroke-width='2'%20fill='none'%20opacity='0.4'/%3e%3c!--%20Small%20sparkles%20around%20heart%20--%3e%3ccircle%20cx='12'%20cy='24'%20r='1'%20fill='%23FFD700'%3e%3canimate%20attributeName='opacity'%20values='1;0.3;1'%20dur='2s'%20repeatCount='indefinite'/%3e%3c/circle%3e%3ccircle%20cx='52'%20cy='24'%20r='1'%20fill='%23FFD700'%3e%3canimate%20attributeName='opacity'%20values='0.3;1;0.3'%20dur='2s'%20repeatCount='indefinite'/%3e%3c/circle%3e%3ccircle%20cx='32'%20cy='8'%20r='1'%20fill='%23FFD700'%3e%3canimate%20attributeName='opacity'%20values='1;0.5;1'%20dur='1.5s'%20repeatCount='indefinite'/%3e%3c/circle%3e%3c/svg%3e" alt="" width="60" height="60">
+        </div>
+        <div class="couple-figure bride-figure animated-figure">
+          <img src="/wedding/assets/bride-CXwTutn2.svg" alt="Bride" class="couple-svg">
+          <span class="couple-name">Chachad</span>
+        </div>
+      </div>
+
+      <div class="hero-details">
+        <p class="wedding-tagline">Together with their families</p>
+        <h1 class="wedding-main-text">Request your presence at their<br>Wedding Celebration</h1>
+      </div>
+
+      <!-- FLIP CLOCK COUNTDOWN -->
+      <div class="flip-countdown" id="countdown">
+        <div class="flip-unit">
+          <div class="flip-card">
+            <div class="flip-top" id="days-tens">0</div>
+            <div class="flip-bottom" id="days-ones">0</div>
+          </div>
+          <span class="flip-label">Days</span>
+        </div>
+        <div class="flip-separator">:</div>
+        <div class="flip-unit">
+          <div class="flip-card">
+            <div class="flip-top" id="hours-tens">0</div>
+            <div class="flip-bottom" id="hours-ones">0</div>
+          </div>
+          <span class="flip-label">Hours</span>
+        </div>
+        <div class="flip-separator">:</div>
+        <div class="flip-unit">
+          <div class="flip-card">
+            <div class="flip-top" id="mins-tens">0</div>
+            <div class="flip-bottom" id="mins-ones">0</div>
+          </div>
+          <span class="flip-label">Mins</span>
+        </div>
+        <div class="flip-separator">:</div>
+        <div class="flip-unit">
+          <div class="flip-card">
+            <div class="flip-top" id="secs-tens">0</div>
+            <div class="flip-bottom" id="secs-ones">0</div>
+          </div>
+          <span class="flip-label">Secs</span>
+        </div>
+      </div>
+
+      <p class="wedding-date-text">February 6-7, 2026 • Chillarwar Farms</p>
     </section>
 
-    <!-- Day 2: Barat + Wedding Side by Side -->
-    <section class="day-section" id="day-2" data-day="2">
-        <div class="day-header">
-            <div class="day-badge">Day Two</div>
-            <h2 class="day-title">The Grand Ceremony</h2>
-            <p class="day-subtitle">Afternoon to Sunset</p>
+    <!-- DAYS OVERVIEW (Compact Chips - Clickable) -->
+    <section class="story-days-overview" id="events">
+      <h2 class="days-title">The Celebration</h2>
+
+      <div class="day-chips-container">
+        <!-- Day 1 Chip -->
+        <div class="day-chip" data-day="1">
+          <div class="day-chip-header">
+            <span class="day-chip-badge">Day 1</span>
+            <span class="day-chip-date">Fri, Feb 6</span>
+          </div>
+          <div class="day-chip-events">
+            <button class="event-chip" data-overlay="haldi">
+              <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20fill='none'%3e%3cdefs%3e%3clinearGradient%20id='petalGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%23FF8C00'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23FFA500'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23FF6600'/%3e%3c/linearGradient%3e%3clinearGradient%20id='centerGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%238B4513'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23654321'/%3e%3c/linearGradient%3e%3c/defs%3e%3c!--%20Outer%20petals%20--%3e%3cg%20fill='url(%23petalGrad)'%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(0,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(45,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(90,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(135,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(180,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(225,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(270,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='12'%20rx='6'%20ry='10'%20transform='rotate(315,%2032,%2032)'/%3e%3c/g%3e%3c!--%20Middle%20petals%20(offset)%20--%3e%3cg%20fill='%23FFB347'%20transform='scale(0.7)%20translate(14,%2014)'%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(22.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(67.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(112.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(157.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(202.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(247.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(292.5,%2032,%2032)'/%3e%3cellipse%20cx='32'%20cy='14'%20rx='5'%20ry='9'%20transform='rotate(337.5,%2032,%2032)'/%3e%3c/g%3e%3c!--%20Center%20--%3e%3ccircle%20cx='32'%20cy='32'%20r='8'%20fill='url(%23centerGrad)'/%3e%3ccircle%20cx='32'%20cy='32'%20r='5'%20fill='%23654321'/%3e%3c!--%20Center%20dots%20--%3e%3ccircle%20cx='30'%20cy='30'%20r='1'%20fill='%23FFD700'/%3e%3ccircle%20cx='34'%20cy='30'%20r='1'%20fill='%23FFD700'/%3e%3ccircle%20cx='32'%20cy='34'%20r='1'%20fill='%23FFD700'/%3e%3c/svg%3e" alt="" class="chip-icon">
+              <span class="chip-name">Haldi</span>
+              <span class="chip-time">12:30 PM</span>
+            </button>
+            <button class="event-chip" data-overlay="sangeet">
+              <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20fill='none'%3e%3cdefs%3e%3clinearGradient%20id='brassGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%23B8860B'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23FFD700'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23CD853F'/%3e%3c/linearGradient%3e%3c/defs%3e%3c!--%20Sound%20waves%20--%3e%3cpath%20d='M50%2020%20Q56%2026%2056%2032%20Q56%2038%2050%2044'%20stroke='url(%23brassGrad)'%20stroke-width='2'%20fill='none'%20opacity='0.6'%3e%3canimate%20attributeName='opacity'%20values='0.6;0.2;0.6'%20dur='1s'%20repeatCount='indefinite'/%3e%3c/path%3e%3cpath%20d='M54%2016%20Q62%2024%2062%2032%20Q62%2040%2054%2048'%20stroke='url(%23brassGrad)'%20stroke-width='2'%20fill='none'%20opacity='0.4'%3e%3canimate%20attributeName='opacity'%20values='0.4;0.1;0.4'%20dur='1s'%20repeatCount='indefinite'%20begin='0.2s'/%3e%3c/path%3e%3c!--%20Main%20bell%20--%3e%3cpath%20d='M10%2030%20Q10%2020%2020%2018%20L20%2014%20Q20%2012%2022%2012%20L28%2012%20Q30%2012%2030%2014%20L30%2018%20Q40%2020%2040%2030%20L42%2045%20Q42%2050%2035%2050%20L15%2050%20Q8%2050%208%2045%20Z'%20fill='url(%23brassGrad)'/%3e%3c!--%20Bell%20decoration%20rings%20--%3e%3cellipse%20cx='25'%20cy='22'%20rx='8'%20ry='2'%20fill='%238B4513'%20opacity='0.3'/%3e%3cellipse%20cx='25'%20cy='28'%20rx='10'%20ry='2'%20fill='%238B4513'%20opacity='0.2'/%3e%3c!--%20Bell%20opening%20highlight%20--%3e%3cpath%20d='M10%2045%20Q25%2048%2040%2045'%20stroke='%23FFD700'%20stroke-width='1'%20fill='none'/%3e%3c!--%20Clapper/tongue%20--%3e%3cline%20x1='25'%20y1='35'%20x2='25'%20y2='48'%20stroke='%23654321'%20stroke-width='2'/%3e%3ccircle%20cx='25'%20cy='48'%20r='3'%20fill='%23654321'/%3e%3c!--%20Decorative%20top%20--%3e%3ccircle%20cx='25'%20cy='12'%20r='3'%20fill='url(%23brassGrad)'/%3e%3cpath%20d='M22%209%20L25%204%20L28%209'%20fill='url(%23brassGrad)'/%3e%3c!--%20Handle%20--%3e%3cpath%20d='M18%208%20Q25%202%2032%208'%20stroke='url(%23brassGrad)'%20stroke-width='3'%20fill='none'/%3e%3c/svg%3e" alt="" class="chip-icon">
+              <span class="chip-name">Sangeet</span>
+              <span class="chip-time">6:30 PM</span>
+            </button>
+          </div>
         </div>
 
-        <div class="events-grid">
-            <!-- Barat Card -->
-            <div class="event-card barat-card reveal">
-                <div class="card-glow barat-glow"></div>
-                <div class="card-inner">
-                    <div class="card-header">
-                        <img src="assets/icons/barat.png" alt="Barat" class="event-icon-img">
-                        <div class="time-badge">4:00 PM</div>
-                    </div>
-                    <div class="card-image">
-                        <img src="assets/Barat.png" alt="The Barat">
-                    </div>
-                    <div class="card-content">
-                        <h3>The Barat</h3>
-                        <p class="tagline">The groom's grand procession</p>
-                        <p class="description">A vibrant procession with music and dancing as the groom arrives.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Wedding Card -->
-            <div class="event-card wedding-card reveal delay-1">
-                <div class="card-glow wedding-glow"></div>
-                <div class="card-inner">
-                    <div class="card-header">
-                        <img src="assets/icons/wedding.png" alt="Wedding" class="event-icon-img">
-                        <div class="time-badge sunset">Sunset</div>
-                    </div>
-                    <div class="card-image">
-                        <img src="assets/Wedding Ceremony.png" alt="Wedding Ceremony">
-                    </div>
-                    <div class="card-content">
-                        <h3>The Wedding</h3>
-                        <p class="tagline">Sacred vows & eternal bond</p>
-                        <p class="description">The sacred ceremony where two souls unite in the presence of divine
-                            blessings.</p>
-                    </div>
-                </div>
-            </div>
+        <!-- Day 2 Chip -->
+        <div class="day-chip" data-day="2">
+          <div class="day-chip-header">
+            <span class="day-chip-badge">Day 2</span>
+            <span class="day-chip-date">Sat, Feb 7</span>
+          </div>
+          <div class="day-chip-events">
+            <button class="event-chip" data-overlay="barat">
+              <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20fill='none'%3e%3cdefs%3e%3clinearGradient%20id='horseGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%238B4513'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23A0522D'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23654321'/%3e%3c/linearGradient%3e%3clinearGradient%20id='decorGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%23FFD700'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23B8860B'/%3e%3c/linearGradient%3e%3c/defs%3e%3c!--%20Horse%20body%20--%3e%3cpath%20d='M15%2035%20Q12%2030%2015%2025%20Q18%2020%2025%2020%20L35%2020%20Q42%2020%2045%2025%20Q50%2028%2048%2035%20L48%2045%20L45%2055%20L42%2055%20L42%2045%20L40%2045%20L40%2055%20L37%2055%20L37%2045%20L27%2045%20L27%2055%20L24%2055%20L24%2045%20L22%2045%20L22%2055%20L19%2055%20L19%2045%20Z'%20fill='url(%23horseGrad)'/%3e%3c!--%20Horse%20neck%20and%20head%20--%3e%3cpath%20d='M15%2025%20Q10%2020%208%2015%20Q7%2010%2012%208%20Q18%206%2022%2010%20Q25%2014%2022%2020%20L15%2025'%20fill='url(%23horseGrad)'/%3e%3c!--%20Mane%20--%3e%3cpath%20d='M12%2012%20Q15%208%2018%2012%20Q20%2016%2017%2020'%20stroke='%23333'%20stroke-width='2'%20fill='none'/%3e%3c!--%20Eye%20--%3e%3ccircle%20cx='13'%20cy='12'%20r='1.5'%20fill='%23333'/%3e%3c!--%20Ear%20--%3e%3cpath%20d='M14%206%20L16%202%20L18%206'%20fill='url(%23horseGrad)'/%3e%3c!--%20Decorative%20cloth%20--%3e%3cpath%20d='M25%2020%20L45%2020%20L48%2030%20L45%2035%20L20%2035%20L15%2030%20Z'%20fill='%238B1538'%20opacity='0.9'/%3e%3cpath%20d='M25%2022%20L43%2022'%20stroke='url(%23decorGrad)'%20stroke-width='2'/%3e%3cpath%20d='M24%2026%20L44%2026'%20stroke='url(%23decorGrad)'%20stroke-width='1'/%3e%3c!--%20Gold%20tassels%20--%3e%3ccircle%20cx='20'%20cy='35'%20r='2'%20fill='url(%23decorGrad)'/%3e%3ccircle%20cx='45'%20cy='35'%20r='2'%20fill='url(%23decorGrad)'/%3e%3c!--%20Bridle%20--%3e%3cpath%20d='M8%2015%20Q5%2015%205%2018%20L8%2018'%20stroke='url(%23decorGrad)'%20stroke-width='1'%20fill='none'/%3e%3c!--%20Feather%20plume%20--%3e%3cpath%20d='M16%202%20Q12%20-2%2010%200%20Q8%202%2010%204%20Q12%206%2016%202'%20fill='%23E8D5C4'/%3e%3cpath%20d='M17%201%20Q20%20-3%2022%20-1%20Q24%201%2022%203%20Q20%205%2017%201'%20fill='%23FFD700'/%3e%3c/svg%3e" alt="" class="chip-icon">
+              <span class="chip-name">Barat</span>
+              <span class="chip-time">4:00 PM</span>
+            </button>
+            <button class="event-chip" data-overlay="wedding">
+              <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20fill='none'%3e%3cdefs%3e%3clinearGradient%20id='pillarGrad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='0%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%23CD853F'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23FFD700'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23CD853F'/%3e%3c/linearGradient%3e%3clinearGradient%20id='roofGrad'%20x1='0%25'%20y1='100%25'%20x2='0%25'%20y2='0%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%238B1538'/%3e%3cstop%20offset='100%25'%20style='stop-color:%236B0F2B'/%3e%3c/linearGradient%3e%3c/defs%3e%3c!--%20Roof/Canopy%20--%3e%3cpath%20d='M4%2022%20L32%204%20L60%2022%20L56%2024%20L32%2010%20L8%2024%20Z'%20fill='url(%23roofGrad)'/%3e%3c!--%20Decorative%20border%20on%20roof%20--%3e%3cpath%20d='M8%2024%20L32%2010%20L56%2024'%20stroke='%23FFD700'%20stroke-width='1'%20fill='none'/%3e%3c!--%20Toran/garland%20on%20top%20--%3e%3cpath%20d='M12%2022%20Q22%2026%2032%2022%20Q42%2026%2052%2022'%20stroke='%23FF8C00'%20stroke-width='3'%20fill='none'/%3e%3c!--%20Front%20pillars%20--%3e%3crect%20x='10'%20y='24'%20width='6'%20height='32'%20fill='url(%23pillarGrad)'/%3e%3crect%20x='48'%20y='24'%20width='6'%20height='32'%20fill='url(%23pillarGrad)'/%3e%3c!--%20Pillar%20decorations%20--%3e%3crect%20x='10'%20y='28'%20width='6'%20height='2'%20fill='%238B4513'/%3e%3crect%20x='10'%20y='50'%20width='6'%20height='2'%20fill='%238B4513'/%3e%3crect%20x='48'%20y='28'%20width='6'%20height='2'%20fill='%238B4513'/%3e%3crect%20x='48'%20y='50'%20width='6'%20height='2'%20fill='%238B4513'/%3e%3c!--%20Back%20pillars%20(subtle)%20--%3e%3crect%20x='18'%20y='26'%20width='4'%20height='28'%20fill='%23B8860B'%20opacity='0.5'/%3e%3crect%20x='42'%20y='26'%20width='4'%20height='28'%20fill='%23B8860B'%20opacity='0.5'/%3e%3c!--%20Sacred%20fire%20(Agni)%20in%20center%20--%3e%3cpath%20d='M32%2045%20Q28%2042%2030%2038%20Q32%2034%2032%2038%20Q32%2034%2034%2038%20Q36%2042%2032%2045'%20fill='%23FF6B00'%3e%3canimate%20attributeName='d'%20values='M32%2045%20Q28%2042%2030%2038%20Q32%2034%2032%2038%20Q32%2034%2034%2038%20Q36%2042%2032%2045;%20M32%2043%20Q27%2040%2029%2036%20Q32%2032%2032%2036%20Q32%2032%2035%2036%20Q37%2040%2032%2043;%20M32%2045%20Q28%2042%2030%2038%20Q32%2034%2032%2038%20Q32%2034%2034%2038%20Q36%2042%2032%2045'%20dur='0.8s'%20repeatCount='indefinite'/%3e%3c/path%3e%3c!--%20Fire%20base%20--%3e%3cpath%20d='M26%2048%20L38%2048%20L36%2052%20L28%2052%20Z'%20fill='%238B4513'/%3e%3c!--%20Marigold%20decorations%20--%3e%3ccircle%20cx='10'%20cy='24'%20r='3'%20fill='%23FF8C00'/%3e%3ccircle%20cx='54'%20cy='24'%20r='3'%20fill='%23FF8C00'/%3e%3c!--%20Floor%20platform%20--%3e%3crect%20x='6'%20y='56'%20width='52'%20height='4'%20fill='%23CD853F'/%3e%3c/svg%3e" alt="" class="chip-icon">
+              <span class="chip-name">Wedding</span>
+              <span class="chip-time">Sunset</span>
+            </button>
+          </div>
         </div>
+      </div>
+
+      <p class="tap-hint">Tap any event for details</p>
     </section>
 
-    <!-- Travel Guide Section -->
-    <section class="info-section travel-section" id="travel-guide">
-        <div class="section-header">
-            <div class="section-badge travel-badge">🚂 Getting Here</div>
-            <h2 class="section-title">Travel Guide</h2>
-            <p class="section-subtitle">Your journey to Chillarwar Farms</p>
+    <!-- VENUE with MAP -->
+    <section class="story-venue" id="venue">
+      <div class="venue-content">
+        <h2 class="venue-title">The Venue</h2>
+        <p class="venue-name">Chillarwar Farms</p>
+        <p class="venue-address">Village Chillarwar, Near Chandrapur, Maharashtra</p>
+
+        <div class="venue-map-container">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3752.123456789!2d79.45678901234567!3d19.98765432109876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDU5JzE1LjYiTiA3OcKwMjcnMjQuNCJF!5e0!3m2!1sen!2sin!4v1234567890"
+            width="100%" height="200" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy"
+            title="Venue Location">
+          </iframe>
         </div>
 
-        <div class="info-cards-container">
-            <!-- From Nagpur Card -->
-            <div class="info-card travel-card reveal">
-                <div class="card-glow travel-glow"></div>
-                <div class="card-inner">
-                    <div class="info-card-header">
-                        <span class="info-icon">🚂</span>
-                        <h3>Nagpur → Chandrapur Trains</h3>
-                    </div>
-                    <div class="info-card-body">
-                        <p class="intro-text">If arriving at Nagpur, take a connecting train to Chandrapur (~2-3 hrs,
-                            ₹150-1200)</p>
-
-                        <div class="arrival-based-options">
-                            <h4>📅 Choose Based on Your Nagpur Arrival</h4>
-
-                            <div class="time-slot-grid">
-                                <div class="time-slot">
-                                    <div class="slot-header morning-slot">🌅 Early Morning (4-6 AM)</div>
-                                    <div class="train-list">
-                                        <div class="train-item">
-                                            <span class="train-name">Kerala Express</span>
-                                            <span class="train-time">Dep: 4:10 AM</span>
-                                        </div>
-                                        <div class="train-item">
-                                            <span class="train-name">SC Vande Bharat</span>
-                                            <span class="train-time">Dep: 5:00 AM</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="time-slot">
-                                    <div class="slot-header noon-slot">☀️ Morning (6 AM - 12 PM)</div>
-                                    <div class="train-list">
-                                        <div class="train-item">
-                                            <span class="train-name">Intercity Express</span>
-                                            <span class="train-time">Dep: 6:15 AM</span>
-                                        </div>
-                                        <div class="train-item">
-                                            <span class="train-name">Telangana Express</span>
-                                            <span class="train-time">Dep: 9:40 AM</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="time-slot">
-                                    <div class="slot-header afternoon-slot">🌤️ Afternoon (12-6 PM)</div>
-                                    <div class="train-list">
-                                        <div class="train-item">
-                                            <span class="train-name">Grand Trunk Express</span>
-                                            <span class="train-time">Dep: 12:25 PM</span>
-                                        </div>
-                                        <div class="train-item">
-                                            <span class="train-name">JP Mysore Express</span>
-                                            <span class="train-time">Dep: 2:15 PM</span>
-                                        </div>
-                                        <div class="train-item">
-                                            <span class="train-name">Sangha Mitra Express</span>
-                                            <span class="train-time">Dep: 4:25 PM</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="time-slot">
-                                    <div class="slot-header evening-slot">🌙 Evening (6 PM+)</div>
-                                    <div class="train-list">
-                                        <div class="train-item">
-                                            <span class="train-name">Swarna Jayanti Exp</span>
-                                            <span class="train-time">Dep: 9:55 PM</span>
-                                        </div>
-                                        <div class="train-item">
-                                            <span class="train-name">Navjeevan Express</span>
-                                            <span class="train-time">Dep: 10:30 PM ⚡1.5hrs</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="booking-tips">
-                            <p>✈️ <strong>From Airport:</strong> Take cab/auto to Ganeshpeth Bus Stand or Railway
-                                Station</p>
-                            <p>💡 <strong>Fastest:</strong> Navjeevan Express (12655) - 1.5 hrs</p>
-                            <p>🔗 <strong>Book on:</strong> <a href="https://www.irctc.co.in" target="_blank"
-                                    class="booking-link">IRCTC</a> - search "Nagpur to Chandrapur"</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bus Schedule Card -->
-            <div class="info-card travel-card reveal">
-                <div class="card-glow travel-glow"></div>
-                <div class="card-inner">
-                    <div class="info-card-header">
-                        <span class="info-icon">🚌</span>
-                        <h3>Nagpur → Chandrapur Buses</h3>
-                        <span class="option-badge recommended">Flexible</span>
-                    </div>
-                    <div class="info-card-body">
-                        <p class="intro-text">Buses run every 15-30 min from Nagpur Ganeshpeth Bus Stand (~3 hrs,
-                            ₹280-500)</p>
-
-                        <div class="arrival-based-options">
-                            <h4>📅 Bus Departures Throughout the Day</h4>
-
-                            <div class="time-slot-grid">
-                                <div class="time-slot">
-                                    <div class="slot-header morning-slot">🌅 Early Morning</div>
-                                    <div class="train-list">
-                                        <div class="train-item">
-                                            <span class="train-name">First Bus (MSRTC)</span>
-                                            <span class="train-time">5:00 AM</span>
-                                        </div>
-                                        <div class="train-item">
-                                            <span class="train-name">DNR Express</span>
-                                            <span class="train-time">6:30 AM</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="time-slot">
-                                    <div class="slot-header noon-slot">☀️ Morning</div>
-                                    <div class="train-list">
-                                        <div class="train-item">
-                                            <span class="train-name">DNR Express</span>
-                                            <span class="train-time">7:40 AM</span>
-                                        </div>
-                                        <div class="train-item">
-                                            <span class="train-name">Ganraj Travels</span>
-                                            <span class="train-time">8:00 AM</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="time-slot">
-                                    <div class="slot-header afternoon-slot">🌤️ Afternoon</div>
-                                    <div class="train-list">
-                                        <div class="train-item">
-                                            <span class="train-name">MSRTC (every 30 min)</span>
-                                            <span class="train-time">12 PM - 4 PM</span>
-                                        </div>
-                                        <div class="train-item">
-                                            <span class="train-name">Private Operators</span>
-                                            <span class="train-time">Frequent</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="time-slot">
-                                    <div class="slot-header evening-slot">🌙 Evening</div>
-                                    <div class="train-list">
-                                        <div class="train-item">
-                                            <span class="train-name">DNR Express</span>
-                                            <span class="train-time">6:30 PM</span>
-                                        </div>
-                                        <div class="train-item">
-                                            <span class="train-name">Last Bus</span>
-                                            <span class="train-time">8:00 PM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="booking-tips">
-                            <p>💡 <strong>No advance booking needed</strong> - Buy ticket at bus stand</p>
-                            <p>🚏 <strong>Board at:</strong> Nagpur Ganeshpeth Bus Stand (near Railway Station)</p>
-                            <p>🔗 <strong>Book online:</strong> <a href="https://www.redbus.in" target="_blank"
-                                    class="booking-link">RedBus</a> for private operators</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Chandrapur to Venue Card -->
-            <div class="info-card travel-card reveal delay-1">
-                <div class="card-glow travel-glow"></div>
-                <div class="card-inner">
-                    <div class="info-card-header">
-                        <span class="info-icon">📍</span>
-                        <h3>Getting to Chillarwar Farms</h3>
-                    </div>
-                    <div class="info-card-body">
-                        <div class="highlight-box">
-                            <span class="highlight-icon">🚐</span>
-                            <div class="highlight-content">
-                                <h4>Pickup Arranged!</h4>
-                                <p>We will arrange vehicle pickup from Chandrapur Railway Station and bus stops to
-                                    Chillarwar Farms for all guests.</p>
-                            </div>
-                        </div>
-
-                        <div class="drop-point-box">
-                            <h4>🚌 DNR Express Drop Point</h4>
-                            <p><strong>Closest Stop:</strong> Chandrapur Bus Stand (Main)</p>
-                            <p><strong>Alternative:</strong> Buses also stop at Chandrapur bypass - inform us if getting
-                                down here</p>
-                            <p class="tip">💡 Let us know your arrival time and we'll have a vehicle ready!</p>
-                        </div>
-
-                        <div class="venue-details">
-                            <p><strong>Distance:</strong> ~25-30 km from Chandrapur</p>
-                            <p><strong>Drive Time:</strong> ~45 minutes</p>
-                            <p><strong>Venue:</strong> Chillarwar Farms, Near Chillarwar Village</p>
-                        </div>
-                        <div class="contact-box">
-                            <p class="contact-label">For pickup coordination, please contact:</p>
-                            <p class="contact-note">Details will be shared closer to the event</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <a href="https://maps.google.com/?q=Chillarwar+Farms+Chandrapur" target="_blank" class="btn-directions">
+          Get Directions →
+        </a>
+      </div>
     </section>
 
-    <!-- Tadoba Safari Section -->
-    <section class="info-section safari-section" id="tadoba-safari">
-        <div class="section-header">
-            <div class="section-badge safari-badge">🐯 Wildlife Adventure</div>
-            <h2 class="section-title">Tadoba Safari</h2>
-            <p class="section-subtitle">Experience India's oldest tiger reserve</p>
+    <!-- TRAVEL INFO -->
+    <section class="story-travel" id="travel">
+      <h2 class="travel-title">Getting There</h2>
+      <div class="travel-options">
+        <div class="travel-option">
+          <span class="travel-icon">🚆</span>
+          <span class="travel-label">Train</span>
+          <span class="travel-detail">Chandrapur Jn</span>
         </div>
-
-        <div class="info-cards-container">
-            <!-- Safari Info Card -->
-            <div class="info-card safari-card reveal">
-                <div class="card-glow safari-glow"></div>
-                <div class="card-inner">
-                    <div class="info-card-header">
-                        <span class="info-icon">🌿</span>
-                        <h3>About Tadoba & Entry Gates</h3>
-                    </div>
-                    <div class="info-card-body">
-                        <p class="intro-text">Tadoba Andhari Tiger Reserve is Maharashtra's oldest and largest national
-                            park, famous for its high tiger density and beautiful landscape.</p>
-
-                        <div class="gates-grid">
-                            <div class="gate-item recommended-gate">
-                                <div class="gate-name">🏆 Moharli Gate</div>
-                                <div class="gate-distance">~55 km from Chillarwar Farms (~1 hr)</div>
-                                <div class="gate-note">Most popular, best tiger sightings</div>
-                            </div>
-                            <div class="gate-item">
-                                <div class="gate-name">📍 Mamla Gate</div>
-                                <div class="gate-distance">~40 km from Chillarwar Farms (~45 min)</div>
-                                <div class="gate-note">Closest gate, buffer zone</div>
-                            </div>
-                            <div class="gate-item">
-                                <div class="gate-name">📍 Kolara Gate</div>
-                                <div class="gate-distance">~55 km from Chillarwar Farms (~1 hr)</div>
-                                <div class="gate-note">Core zone, good availability</div>
-                            </div>
-                            <div class="gate-item">
-                                <div class="gate-name">📍 Keslaghat Gate</div>
-                                <div class="gate-distance">~70 km from Chillarwar Farms (~1.5 hr)</div>
-                                <div class="gate-note">Buffer zone (Pangdi-Zari)</div>
-                            </div>
-                        </div>
-
-                        <div class="safari-note">
-                            <p>⚠️ <strong>Important:</strong> Core gates (Moharli, Kolara) closed on Tuesdays. Buffer
-                                gates closed on Wednesdays.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recommended Safari Card -->
-            <div class="info-card safari-card featured-card reveal delay-1">
-                <div class="card-glow safari-glow"></div>
-                <div class="card-inner">
-                    <div class="info-card-header">
-                        <span class="info-icon">⭐</span>
-                        <h3>Recommended Dates</h3>
-                        <span class="featured-badge">Best Experience</span>
-                    </div>
-                    <div class="info-card-body">
-                        <div class="recommended-dates">
-                            <div class="highlight-box safari-highlight">
-                                <span class="highlight-icon">🌅</span>
-                                <div class="highlight-content">
-                                    <h4>7th February - Morning Safari</h4>
-                                    <p>Before the wedding festivities begin! Early morning tiger sighting adventure.</p>
-                                </div>
-                            </div>
-                            <div class="highlight-box safari-highlight">
-                                <span class="highlight-icon">🌄</span>
-                                <div class="highlight-content">
-                                    <h4>8th February - Morning Safari</h4>
-                                    <p>Perfect day after the wedding! Relax and enjoy wildlife before departing.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="safari-timing">
-                            <div class="timing-slot morning">
-                                <span class="slot-icon">🌄</span>
-                                <div class="slot-info">
-                                    <strong>Morning Safari</strong>
-                                    <span>6:00 AM - 10:00 AM</span>
-                                </div>
-                            </div>
-                            <div class="timing-slot evening">
-                                <span class="slot-icon">🌅</span>
-                                <div class="slot-info">
-                                    <strong>Evening Safari</strong>
-                                    <span>2:30 PM - 6:30 PM</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- How to Book Card -->
-            <div class="info-card safari-card reveal">
-                <div class="card-glow safari-glow"></div>
-                <div class="card-inner">
-                    <div class="info-card-header">
-                        <span class="info-icon">📝</span>
-                        <h3>How to Book</h3>
-                    </div>
-                    <div class="info-card-body">
-                        <div class="booking-steps">
-                            <div class="step">
-                                <span class="step-number">1</span>
-                                <div class="step-content">
-                                    <strong>Visit Official Website</strong>
-                                    <a href="https://tadobaandharinationalpark.com/" target="_blank"
-                                        class="booking-link">tadobaandharinationalpark.com</a>
-                                </div>
-                            </div>
-                            <div class="step">
-                                <span class="step-number">2</span>
-                                <div class="step-content">
-                                    <strong>Click "Online Safari Booking"</strong>
-                                    <p>Select Moharli Gate for nearest access</p>
-                                </div>
-                            </div>
-                            <div class="step">
-                                <span class="step-number">3</span>
-                                <div class="step-content">
-                                    <strong>Choose Date & Slot</strong>
-                                    <p>Morning 6 AM slot recommended</p>
-                                </div>
-                            </div>
-                            <div class="step">
-                                <span class="step-number">4</span>
-                                <div class="step-content">
-                                    <strong>Complete Payment</strong>
-                                    <p>~₹2,000-3,000 per person (Gypsy)</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="booking-tips">
-                            <p>💡 <strong>Book 120 days in advance</strong> for guaranteed slots</p>
-                            <p>⚡ <strong>Tatkal booking</strong> opens 3 days before at 8 AM</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gypsy vs Canter Card -->
-            <div class="info-card safari-card reveal">
-                <div class="card-glow safari-glow"></div>
-                <div class="card-inner">
-                    <div class="info-card-header">
-                        <span class="info-icon">🚙</span>
-                        <h3>Safari Vehicles: Gypsy vs Canter</h3>
-                    </div>
-                    <div class="info-card-body">
-                        <div class="vehicle-comparison">
-                            <div class="vehicle-option gypsy-option">
-                                <div class="vehicle-header">
-                                    <span class="vehicle-icon">🚗</span>
-                                    <div class="vehicle-title">
-                                        <strong>Gypsy (Jeep)</strong>
-                                        <span class="vehicle-badge recommended">Recommended</span>
-                                    </div>
-                                </div>
-                                <div class="vehicle-details">
-                                    <p><strong>Capacity:</strong> 6 guests + driver + guide</p>
-                                    <p><strong>Cost:</strong> ₹5,000-9,000 per vehicle</p>
-                                    <p><strong>Booking:</strong> Online, 120 days in advance</p>
-                                    <p><strong>Pros:</strong> Private, flexible, better sightings</p>
-                                </div>
-                            </div>
-                            <div class="vehicle-option canter-option">
-                                <div class="vehicle-header">
-                                    <span class="vehicle-icon">🚌</span>
-                                    <div class="vehicle-title">
-                                        <strong>Canter (Mini-bus)</strong>
-                                        <span class="vehicle-badge budget">Budget Option</span>
-                                    </div>
-                                </div>
-                                <div class="vehicle-details">
-                                    <p><strong>Capacity:</strong> 18-22 guests</p>
-                                    <p><strong>Cost:</strong> ₹800-1,000 per person</p>
-                                    <p><strong>Booking:</strong> Often offline at gate counter</p>
-                                    <p><strong>Cons:</strong> Limited routes, less flexibility</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="vehicle-note">
-                            <p>⚠️ <strong>Canter Booking Caveat:</strong> Online booking for Canters is limited. Most
-                                Canter tickets are sold at gate counters on first-come-first-serve basis. Arrive early
-                                (5:30 AM) if opting for Canter. Canters only available at Moharli & Kolara gates.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cab Services Card -->
-            <div class="info-card safari-card reveal delay-1">
-                <div class="card-glow safari-glow"></div>
-                <div class="card-inner">
-                    <div class="info-card-header">
-                        <span class="info-icon">🚕</span>
-                        <h3>Cab Services for Safari</h3>
-                    </div>
-                    <div class="info-card-body">
-                        <p class="intro-text">Need transport from the farm to Tadoba? Contact these local cab services:
-                        </p>
-
-                        <div class="cab-services">
-                            <div class="cab-item">
-                                <div class="cab-name">AMZ Cabs</div>
-                                <a href="tel:9370444541" class="cab-phone">📞 9370444541</a>
-                            </div>
-                            <div class="cab-item">
-                                <div class="cab-name">Robin Hood Tours & Travels</div>
-                                <a href="tel:9049044318" class="cab-phone">📞 9049044318</a>
-                            </div>
-                            <div class="cab-item">
-                                <div class="cab-name">CabBazar</div>
-                                <a href="tel:08068249401" class="cab-phone">📞 08068249401</a>
-                            </div>
-                        </div>
-
-                        <div class="cab-note">
-                            <p>💡 Safari jeeps from the gate include the drive through the reserve. These cabs are for
-                                transport to/from the gate.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="travel-option">
+          <span class="travel-icon">✈️</span>
+          <span class="travel-label">Flight</span>
+          <span class="travel-detail">Nagpur (150km)</span>
         </div>
+        <div class="travel-option">
+          <span class="travel-icon">🚗</span>
+          <span class="travel-label">Road</span>
+          <span class="travel-detail">NH44</span>
+        </div>
+      </div>
+      <div class="travel-links">
+        <a href="details/" class="btn-secondary">Travel Guide</a>
+        <a href="details/#safari" class="btn-secondary">🐯 Tadoba Safari</a>
+      </div>
     </section>
 
-    <!-- Closing Section -->
-    <section class="closing-section" id="closing">
-        <div class="closing-content">
-            <div class="closing-icon">❤️</div>
-            <p class="closing-text">Your presence would make our celebration complete</p>
-            <h2 class="closing-title">We Await Your Gracious Presence</h2>
-            <p class="closing-signature">With Love & Blessings</p>
+    <!-- CLOSING -->
+    <section class="story-closing">
+      <div class="closing-glow"></div>
+      <div class="closing-content">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSI+DQogIDxkZWZzPg0KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0icG90R3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+DQogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojQjg4NjBCIi8+DQogICAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3R5bGU9InN0b3AtY29sb3I6I0ZGRDcwMCIvPg0KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojQ0Q4NTNGIi8+DQogICAgPC9saW5lYXJHcmFkaWVudD4NCiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImxlYWZHcmFkIiB4MT0iMCUiIHkxPSIxMDAlIiB4Mj0iMCUiIHkyPSIwJSI+DQogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMjI4QjIyIi8+DQogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMzMkNEMzIiLz4NCiAgICA8L2xpbmVhckdyYWRpZW50Pg0KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iY29jb251dEdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPg0KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzhCNDUxMyIvPg0KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNjU0MzIxIi8+DQogICAgPC9saW5lYXJHcmFkaWVudD4NCiAgPC9kZWZzPg0KICANCiAgPCEtLSBNYW5nbyBsZWF2ZXMgc3ByZWFkIC0tPg0KICA8cGF0aCBkPSJNMTggMTggUTEyIDEyIDggMTgiIHN0cm9rZT0idXJsKCNsZWFmR3JhZCkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPg0KICA8cGF0aCBkPSJNMjIgMTYgUTE4IDggMTQgMTQiIHN0cm9rZT0idXJsKCNsZWFmR3JhZCkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPg0KICA8cGF0aCBkPSJNMjggMTQgUTI2IDYgMjIgMTAiIHN0cm9rZT0idXJsKCNsZWFmR3JhZCkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPg0KICA8cGF0aCBkPSJNMzIgMTIgUTMyIDQgMzIgMTIiIHN0cm9rZT0idXJsKCNsZWFmR3JhZCkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPg0KICA8cGF0aCBkPSJNMzYgMTQgUTM4IDYgNDIgMTAiIHN0cm9rZT0idXJsKCNsZWFmR3JhZCkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPg0KICA8cGF0aCBkPSJNNDIgMTYgUTQ2IDggNTAgMTQiIHN0cm9rZT0idXJsKCNsZWFmR3JhZCkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPg0KICA8cGF0aCBkPSJNNDYgMTggUTUyIDEyIDU2IDE4IiBzdHJva2U9InVybCgjbGVhZkdyYWQpIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz4NCiAgDQogIDwhLS0gQ29jb251dCBvbiB0b3AgLS0+DQogIDxlbGxpcHNlIGN4PSIzMiIgY3k9IjE4IiByeD0iOCIgcnk9IjYiIGZpbGw9InVybCgjY29jb251dEdyYWQpIi8+DQogIDxwYXRoIGQ9Ik0zMCAxNCBMMzQgMTQgTDMyIDEyIFoiIGZpbGw9IiMzMzMiLz4NCiAgDQogIDwhLS0gS2FsYXNoIHBvdCBib2R5IC0tPg0KICA8cGF0aCBkPSJNMjAgMjQgUTE4IDI4IDE4IDM1IFExOCA0NSAyMiA1MCBMNDIgNTAgUTQ2IDQ1IDQ2IDM1IFE0NiAyOCA0NCAyNCBaIiANCiAgICAgICAgZmlsbD0idXJsKCNwb3RHcmFkKSIvPg0KICANCiAgPCEtLSBQb3QgbmVjayAtLT4NCiAgPHBhdGggZD0iTTI0IDI0IFEyNCAyMCAyOCAyMCBMMzYgMjAgUTQwIDIwIDQwIDI0IiBmaWxsPSJ1cmwoI3BvdEdyYWQpIi8+DQogIA0KICA8IS0tIERlY29yYXRpdmUgYmFuZHMgb24gcG90IC0tPg0KICA8ZWxsaXBzZSBjeD0iMzIiIGN5PSIyOCIgcng9IjEyIiByeT0iMiIgZmlsbD0iIzhCNDUxMyIgb3BhY2l0eT0iMC40Ii8+DQogIDxlbGxpcHNlIGN4PSIzMiIgY3k9IjQwIiByeD0iMTQiIHJ5PSIyIiBmaWxsPSIjOEI0NTEzIiBvcGFjaXR5PSIwLjMiLz4NCiAgDQogIDwhLS0gT20gc3ltYm9sIG9uIHBvdCAtLT4NCiAgPHRleHQgeD0iMzIiIHk9IjM2IiBmb250LXNpemU9IjgiIGZpbGw9IiM4QjE1MzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzZXJpZiI+4KWQPC90ZXh0Pg0KICANCiAgPCEtLSBTd2FzdGlrYSBzbWFsbCBkZWNvcmF0aW9uIC0tPg0KICA8cGF0aCBkPSJNMjYgNDQgTDI4IDQ0IEwyOCA0MiBNMjggNDQgTDI4IDQ2IEwzMCA0NiBNMjggNDQgTDI2IDQ0IEwyNiA0NiIgDQogICAgICAgIHN0cm9rZT0iIzhCMTUzOCIgc3Ryb2tlLXdpZHRoPSIwLjUiIGZpbGw9Im5vbmUiLz4NCiAgDQogIDwhLS0gQmFzZSAtLT4NCiAgPGVsbGlwc2UgY3g9IjMyIiBjeT0iNTAiIHJ4PSIxMCIgcnk9IjMiIGZpbGw9InVybCgjcG90R3JhZCkiLz4NCiAgPHBhdGggZD0iTTIyIDUwIEwyNiA1OCBMMzggNTggTDQyIDUwIiBmaWxsPSJ1cmwoI3BvdEdyYWQpIi8+DQogIDxlbGxpcHNlIGN4PSIzMiIgY3k9IjU4IiByeD0iNiIgcnk9IjIiIGZpbGw9InVybCgjcG90R3JhZCkiLz4NCjwvc3ZnPg0K" alt="" class="closing-icon">
+        <p class="closing-message">Your presence would be our most cherished blessing</p>
+        <h2 class="closing-title">We Await You</h2>
+        <div class="closing-signature">
+          <span>With Love & Warmth</span>
+          <span class="signature-families">Dewalwar & Chachad Families</span>
         </div>
+        <div class="closing-actions">
+          <button class="btn-primary" id="add-calendar">📅 Save the Date</button>
+          <button class="btn-share" id="share-btn">📤 Share</button>
+        </div>
+      </div>
+      <div class="footer-diya">
+        <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20fill='none'%3e%3cdefs%3e%3clinearGradient%20id='flameGrad'%20x1='0%25'%20y1='100%25'%20x2='0%25'%20y2='0%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%23FF6B00'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23FFD700'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23FFF4BD'/%3e%3c/linearGradient%3e%3clinearGradient%20id='lampGold'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20style='stop-color:%23B8860B'/%3e%3cstop%20offset='50%25'%20style='stop-color:%23FFD700'/%3e%3cstop%20offset='100%25'%20style='stop-color:%23CD853F'/%3e%3c/linearGradient%3e%3cfilter%20id='glow'%3e%3cfeGaussianBlur%20stdDeviation='2'%20result='coloredBlur'/%3e%3cfeMerge%3e%3cfeMergeNode%20in='coloredBlur'/%3e%3cfeMergeNode%20in='SourceGraphic'/%3e%3c/feMerge%3e%3c/filter%3e%3c/defs%3e%3c!--%20Flame%20glow%20--%3e%3cellipse%20cx='32'%20cy='18'%20rx='8'%20ry='4'%20fill='%23FFD700'%20opacity='0.3'%20filter='url(%23glow)'/%3e%3c!--%20Flame%20--%3e%3cpath%20d='M32%208%20Q38%2016%2036%2022%20Q34%2028%2032%2025%20Q30%2028%2028%2022%20Q26%2016%2032%208Z'%20fill='url(%23flameGrad)'%20filter='url(%23glow)'%3e%3canimate%20attributeName='d'%20values='M32%208%20Q38%2016%2036%2022%20Q34%2028%2032%2025%20Q30%2028%2028%2022%20Q26%2016%2032%208Z;%20M32%206%20Q40%2014%2037%2020%20Q35%2026%2032%2024%20Q29%2026%2027%2020%20Q24%2014%2032%206Z;%20M32%208%20Q38%2016%2036%2022%20Q34%2028%2032%2025%20Q30%2028%2028%2022%20Q26%2016%2032%208Z'%20dur='1.5s'%20repeatCount='indefinite'/%3e%3c/path%3e%3c!--%20Wick%20--%3e%3cline%20x1='32'%20y1='24'%20x2='32'%20y2='30'%20stroke='%23333'%20stroke-width='1.5'/%3e%3c!--%20Oil%20reservoir%20(upper%20part%20of%20diya)%20--%3e%3cellipse%20cx='32'%20cy='32'%20rx='14'%20ry='4'%20fill='url(%23lampGold)'/%3e%3c!--%20Diya%20body%20--%3e%3cpath%20d='M18%2032%20Q16%2040%2020%2048%20L44%2048%20Q48%2040%2046%2032%20Z'%20fill='url(%23lampGold)'/%3e%3c!--%20Decorative%20pattern%20on%20diya%20--%3e%3cpath%20d='M22%2038%20Q32%2042%2042%2038'%20stroke='%238B4513'%20stroke-width='1'%20fill='none'/%3e%3cpath%20d='M24%2044%20Q32%2047%2040%2044'%20stroke='%238B4513'%20stroke-width='0.5'%20fill='none'/%3e%3c!--%20Base%20--%3e%3cellipse%20cx='32'%20cy='48'%20rx='12'%20ry='3'%20fill='url(%23lampGold)'/%3e%3cpath%20d='M20%2048%20L24%2056%20L40%2056%20L44%2048'%20fill='url(%23lampGold)'/%3e%3cellipse%20cx='32'%20cy='56'%20rx='8'%20ry='2'%20fill='url(%23lampGold)'/%3e%3c/svg%3e" alt="" width="50">
+      </div>
     </section>
 
-    <script src="script.js"></script>
+  </main>
+
+  <!-- Reminder FAB Button -->
+  <button class="reminder-fab" id="reminder-fab" data-open-reminder aria-label="Set reminder">🔔</button>
+
+  <!-- Reminder Modal -->
+  <div class="reminder-backdrop" id="reminder-backdrop"></div>
+  <div class="reminder-modal" id="reminder-modal">
+    <button class="modal-close">&times;</button>
+    <h3>Set a Reminder</h3>
+    <p>We'll notify you at the scheduled time</p>
+    <form id="reminder-form">
+      <label>
+        Reminder Type
+        <select name="reminder-type" required>
+          <option value="flights">✈️ Book Flights</option>
+          <option value="travel">🚆 Book Train/Travel</option>
+          <option value="tadoba">🐯 Book Tadoba Safari</option>
+        </select>
+      </label>
+      <label>
+        Date
+        <input type="date" name="reminder-date" required>
+      </label>
+      <label>
+        Time
+        <input type="time" name="reminder-time" required>
+      </label>
+      <button type="submit" class="btn-primary" style="margin-top: 10px;">Set Reminder</button>
+    </form>
+  </div>
+
 </body>
 
 </html>

@@ -324,6 +324,36 @@
 
   </main>
 
+  <!-- Reminder FAB Button -->
+  <button class="reminder-fab" id="reminder-fab" data-open-reminder aria-label="Set reminder">🔔</button>
+
+  <!-- Reminder Modal -->
+  <div class="reminder-backdrop" id="reminder-backdrop"></div>
+  <div class="reminder-modal" id="reminder-modal">
+    <button class="modal-close">&times;</button>
+    <h3>Set a Reminder</h3>
+    <p>We'll notify you at the scheduled time</p>
+    <form id="reminder-form">
+      <label>
+        Reminder Type
+        <select name="reminder-type" required>
+          <option value="flights">✈️ Book Flights</option>
+          <option value="travel">🚆 Book Train/Travel</option>
+          <option value="tadoba">🐯 Book Tadoba Safari</option>
+        </select>
+      </label>
+      <label>
+        Date
+        <input type="date" name="reminder-date" required>
+      </label>
+      <label>
+        Time
+        <input type="time" name="reminder-time" required>
+      </label>
+      <button type="submit" class="btn-primary" style="margin-top: 10px;">Set Reminder</button>
+    </form>
+  </div>
+
   <script type="module" src="/src/js/main.js"></script>
 </body>
 

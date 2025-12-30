@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B1538"/>
+      <stop offset="50%" style="stop-color:#B22222"/>
+      <stop offset="100%" style="stop-color:#6B0F2B"/>
+    </linearGradient>
+    <filter id="heartGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Glow effect base -->
+  <path d="M32 56 C10 40 4 24 16 12 C24 4 32 10 32 18 C32 10 40 4 48 12 C60 24 54 40 32 56Z" 
+        fill="#FF6B6B" opacity="0.3" filter="url(#heartGlow)"/>
+  
+  <!-- Main heart -->
+  <path d="M32 52 C14 38 8 24 18 14 C26 6 32 12 32 20 C32 12 38 6 46 14 C56 24 50 38 32 52Z" 
+        fill="url(#heartGrad)">
+    <animate attributeName="d" 
+             values="M32 52 C14 38 8 24 18 14 C26 6 32 12 32 20 C32 12 38 6 46 14 C56 24 50 38 32 52Z;
+                     M32 50 C16 36 10 24 18 14 C26 6 32 14 32 22 C32 14 38 6 46 14 C54 24 48 36 32 50Z;
+                     M32 52 C14 38 8 24 18 14 C26 6 32 12 32 20 C32 12 38 6 46 14 C56 24 50 38 32 52Z"
+             dur="1s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- Highlight on heart -->
+  <path d="M22 20 Q26 14 28 20" stroke="white" stroke-width="2" fill="none" opacity="0.4"/>
+  
+  <!-- Small sparkles around heart -->
+  <circle cx="12" cy="24" r="1" fill="#FFD700">
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="52" cy="24" r="1" fill="#FFD700">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="32" cy="8" r="1" fill="#FFD700">
+    <animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+</svg>

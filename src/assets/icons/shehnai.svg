@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="brassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B8860B"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#CD853F"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Sound waves -->
+  <path d="M50 20 Q56 26 56 32 Q56 38 50 44" stroke="url(#brassGrad)" stroke-width="2" fill="none" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1s" repeatCount="indefinite"/>
+  </path>
+  <path d="M54 16 Q62 24 62 32 Q62 40 54 48" stroke="url(#brassGrad)" stroke-width="2" fill="none" opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.1;0.4" dur="1s" repeatCount="indefinite" begin="0.2s"/>
+  </path>
+  
+  <!-- Main bell -->
+  <path d="M10 30 Q10 20 20 18 L20 14 Q20 12 22 12 L28 12 Q30 12 30 14 L30 18 Q40 20 40 30 L42 45 Q42 50 35 50 L15 50 Q8 50 8 45 Z" 
+        fill="url(#brassGrad)"/>
+  
+  <!-- Bell decoration rings -->
+  <ellipse cx="25" cy="22" rx="8" ry="2" fill="#8B4513" opacity="0.3"/>
+  <ellipse cx="25" cy="28" rx="10" ry="2" fill="#8B4513" opacity="0.2"/>
+  
+  <!-- Bell opening highlight -->
+  <path d="M10 45 Q25 48 40 45" stroke="#FFD700" stroke-width="1" fill="none"/>
+  
+  <!-- Clapper/tongue -->
+  <line x1="25" y1="35" x2="25" y2="48" stroke="#654321" stroke-width="2"/>
+  <circle cx="25" cy="48" r="3" fill="#654321"/>
+  
+  <!-- Decorative top -->
+  <circle cx="25" cy="12" r="3" fill="url(#brassGrad)"/>
+  <path d="M22 9 L25 4 L28 9" fill="url(#brassGrad)"/>
+  
+  <!-- Handle -->
+  <path d="M18 8 Q25 2 32 8" stroke="url(#brassGrad)" stroke-width="3" fill="none"/>
+</svg>

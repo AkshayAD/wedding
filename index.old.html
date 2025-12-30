@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dewalwar - Chachad Wedding Invitation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Sky Gradient Background -->
+    <div id="sky-gradient"></div>
+
+    <!-- Particles Container -->
+    <div id="particles-container"></div>
+
+    <!-- Sticky Navigation Bar -->
+    <nav class="sticky-nav" id="sticky-nav">
+        <div class="nav-container">
+            <a href="#hero" class="nav-brand">💒</a>
+            <div class="nav-links">
+                <a href="#day-1" class="nav-link">Day 1</a>
+                <a href="#day-2" class="nav-link">Day 2</a>
+                <a href="#travel-guide" class="nav-link travel-link">🚂 Travel</a>
+                <a href="#tadoba-safari" class="nav-link safari-link">🐯 Safari</a>
+                <a href="invitation-v2/" class="nav-link"
+                    style="background: linear-gradient(135deg, #D4AF37, #E8A435); color: #2A1810; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600;">✨
+                    New Experience</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="ornament-top">
+                <img src="assets/icons/wedding.png" alt="" class="hero-icon">
+            </div>
+            <p class="pre-title fade-in">With Blessings & Joy</p>
+            <h1 class="main-title fade-in delay-1">A Celebration of Love</h1>
+            <p class="sub-title fade-in delay-2">Two days of joy, laughter & sacred moments</p>
+
+            <div class="day-nav fade-in delay-3">
+                <a href="#day-1" class="day-chip day-1-chip">
+                    <span class="chip-day">Day 1</span>
+                    <span class="chip-events">Haldi & Sangeet</span>
+                </a>
+                <a href="#day-2" class="day-chip day-2-chip">
+                    <span class="chip-day">Day 2</span>
+                    <span class="chip-events">Barat & Wedding</span>
+                </a>
+            </div>
+
+            <div class="info-nav fade-in delay-3">
+                <a href="#travel-guide" class="info-chip travel-chip">
+                    <span class="chip-icon">🚂</span>
+                    <span class="chip-label">Travel Guide</span>
+                </a>
+                <a href="#tadoba-safari" class="info-chip safari-chip">
+                    <span class="chip-icon">🐯</span>
+                    <span class="chip-label">Tadoba Safari</span>
+                </a>
+            </div>
+
+            <div class="scroll-indicator fade-in delay-4">
+                <span>Scroll to explore</span>
+                <div class="scroll-line"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Day 1: Haldi + Sangeet Side by Side -->
+    <section class="day-section" id="day-1" data-day="1">
+        <div class="day-header">
+            <div class="day-badge">Day One</div>
+            <h2 class="day-title">The Celebrations Begin</h2>
+            <p class="day-subtitle">Afternoon to Evening</p>
+        </div>
+
+        <div class="events-grid">
+            <!-- Haldi Card -->
+            <div class="event-card haldi-card reveal">
+                <div class="card-glow haldi-glow"></div>
+                <div class="card-inner">
+                    <div class="card-header">
+                        <img src="assets/icons/haldi.png" alt="Haldi" class="event-icon-img">
+                        <div class="time-badge">12:30 PM</div>
+                    </div>
+                    <div class="card-image">
+                        <img src="assets/Haldi Final.png" alt="Haldi Ceremony">
+                    </div>
+                    <div class="card-content">
+                        <h3>Haldi Ceremony</h3>
+                        <p class="tagline">Blessings in golden hues</p>
+                        <p class="description">An auspicious ceremony where turmeric paste is applied, symbolizing
+                            purification and blessings.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sangeet Card -->
+            <div class="event-card sangeet-card reveal delay-1">
+                <div class="card-glow sangeet-glow"></div>
+                <div class="card-inner">
+                    <div class="card-header">
+                        <img src="assets/icons/sangeet.png" alt="Sangeet" class="event-icon-img">
+                        <div class="time-badge">6:30 PM</div>
+                    </div>
+                    <div class="card-image">
+                        <img src="assets/Sangeet Final.png" alt="Sangeet Night">
+                    </div>
+                    <div class="card-content">
+                        <h3>Sangeet Night</h3>
+                        <p class="tagline">Dance, music & celebration</p>
+                        <p class="description">A night filled with music, dance performances, and joyous celebrations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Day 2: Barat + Wedding Side by Side -->
+    <section class="day-section" id="day-2" data-day="2">
+        <div class="day-header">
+            <div class="day-badge">Day Two</div>
+            <h2 class="day-title">The Grand Ceremony</h2>
+            <p class="day-subtitle">Afternoon to Sunset</p>
+        </div>
+
+        <div class="events-grid">
+            <!-- Barat Card -->
+            <div class="event-card barat-card reveal">
+                <div class="card-glow barat-glow"></div>
+                <div class="card-inner">
+                    <div class="card-header">
+                        <img src="assets/icons/barat.png" alt="Barat" class="event-icon-img">
+                        <div class="time-badge">4:00 PM</div>
+                    </div>
+                    <div class="card-image">
+                        <img src="assets/Barat.png" alt="The Barat">
+                    </div>
+                    <div class="card-content">
+                        <h3>The Barat</h3>
+                        <p class="tagline">The groom's grand procession</p>
+                        <p class="description">A vibrant procession with music and dancing as the groom arrives.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wedding Card -->
+            <div class="event-card wedding-card reveal delay-1">
+                <div class="card-glow wedding-glow"></div>
+                <div class="card-inner">
+                    <div class="card-header">
+                        <img src="assets/icons/wedding.png" alt="Wedding" class="event-icon-img">
+                        <div class="time-badge sunset">Sunset</div>
+                    </div>
+                    <div class="card-image">
+                        <img src="assets/Wedding Ceremony.png" alt="Wedding Ceremony">
+                    </div>
+                    <div class="card-content">
+                        <h3>The Wedding</h3>
+                        <p class="tagline">Sacred vows & eternal bond</p>
+                        <p class="description">The sacred ceremony where two souls unite in the presence of divine
+                            blessings.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Travel Guide Section -->
+    <section class="info-section travel-section" id="travel-guide">
+        <div class="section-header">
+            <div class="section-badge travel-badge">🚂 Getting Here</div>
+            <h2 class="section-title">Travel Guide</h2>
+            <p class="section-subtitle">Your journey to Chillarwar Farms</p>
+        </div>
+
+        <div class="info-cards-container">
+            <!-- From Nagpur Card -->
+            <div class="info-card travel-card reveal">
+                <div class="card-glow travel-glow"></div>
+                <div class="card-inner">
+                    <div class="info-card-header">
+                        <span class="info-icon">🚂</span>
+                        <h3>Nagpur → Chandrapur Trains</h3>
+                    </div>
+                    <div class="info-card-body">
+                        <p class="intro-text">If arriving at Nagpur, take a connecting train to Chandrapur (~2-3 hrs,
+                            ₹150-1200)</p>
+
+                        <div class="arrival-based-options">
+                            <h4>📅 Choose Based on Your Nagpur Arrival</h4>
+
+                            <div class="time-slot-grid">
+                                <div class="time-slot">
+                                    <div class="slot-header morning-slot">🌅 Early Morning (4-6 AM)</div>
+                                    <div class="train-list">
+                                        <div class="train-item">
+                                            <span class="train-name">Kerala Express</span>
+                                            <span class="train-time">Dep: 4:10 AM</span>
+                                        </div>
+                                        <div class="train-item">
+                                            <span class="train-name">SC Vande Bharat</span>
+                                            <span class="train-time">Dep: 5:00 AM</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="time-slot">
+                                    <div class="slot-header noon-slot">☀️ Morning (6 AM - 12 PM)</div>
+                                    <div class="train-list">
+                                        <div class="train-item">
+                                            <span class="train-name">Intercity Express</span>
+                                            <span class="train-time">Dep: 6:15 AM</span>
+                                        </div>
+                                        <div class="train-item">
+                                            <span class="train-name">Telangana Express</span>
+                                            <span class="train-time">Dep: 9:40 AM</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="time-slot">
+                                    <div class="slot-header afternoon-slot">🌤️ Afternoon (12-6 PM)</div>
+                                    <div class="train-list">
+                                        <div class="train-item">
+                                            <span class="train-name">Grand Trunk Express</span>
+                                            <span class="train-time">Dep: 12:25 PM</span>
+                                        </div>
+                                        <div class="train-item">
+                                            <span class="train-name">JP Mysore Express</span>
+                                            <span class="train-time">Dep: 2:15 PM</span>
+                                        </div>
+                                        <div class="train-item">
+                                            <span class="train-name">Sangha Mitra Express</span>
+                                            <span class="train-time">Dep: 4:25 PM</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="time-slot">
+                                    <div class="slot-header evening-slot">🌙 Evening (6 PM+)</div>
+                                    <div class="train-list">
+                                        <div class="train-item">
+                                            <span class="train-name">Swarna Jayanti Exp</span>
+                                            <span class="train-time">Dep: 9:55 PM</span>
+                                        </div>
+                                        <div class="train-item">
+                                            <span class="train-name">Navjeevan Express</span>
+                                            <span class="train-time">Dep: 10:30 PM ⚡1.5hrs</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="booking-tips">
+                            <p>✈️ <strong>From Airport:</strong> Take cab/auto to Ganeshpeth Bus Stand or Railway
+                                Station</p>
+                            <p>💡 <strong>Fastest:</strong> Navjeevan Express (12655) - 1.5 hrs</p>
+                            <p>🔗 <strong>Book on:</strong> <a href="https://www.irctc.co.in" target="_blank"
+                                    class="booking-link">IRCTC</a> - search "Nagpur to Chandrapur"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bus Schedule Card -->
+            <div class="info-card travel-card reveal">
+                <div class="card-glow travel-glow"></div>
+                <div class="card-inner">
+                    <div class="info-card-header">
+                        <span class="info-icon">🚌</span>
+                        <h3>Nagpur → Chandrapur Buses</h3>
+                        <span class="option-badge recommended">Flexible</span>
+                    </div>
+                    <div class="info-card-body">
+                        <p class="intro-text">Buses run every 15-30 min from Nagpur Ganeshpeth Bus Stand (~3 hrs,
+                            ₹280-500)</p>
+
+                        <div class="arrival-based-options">
+                            <h4>📅 Bus Departures Throughout the Day</h4>
+
+                            <div class="time-slot-grid">
+                                <div class="time-slot">
+                                    <div class="slot-header morning-slot">🌅 Early Morning</div>
+                                    <div class="train-list">
+                                        <div class="train-item">
+                                            <span class="train-name">First Bus (MSRTC)</span>
+                                            <span class="train-time">5:00 AM</span>
+                                        </div>
+                                        <div class="train-item">
+                                            <span class="train-name">DNR Express</span>
+                                            <span class="train-time">6:30 AM</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="time-slot">
+                                    <div class="slot-header noon-slot">☀️ Morning</div>
+                                    <div class="train-list">
+                                        <div class="train-item">
+                                            <span class="train-name">DNR Express</span>
+                                            <span class="train-time">7:40 AM</span>
+                                        </div>
+                                        <div class="train-item">
+                                            <span class="train-name">Ganraj Travels</span>
+                                            <span class="train-time">8:00 AM</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="time-slot">
+                                    <div class="slot-header afternoon-slot">🌤️ Afternoon</div>
+                                    <div class="train-list">
+                                        <div class="train-item">
+                                            <span class="train-name">MSRTC (every 30 min)</span>
+                                            <span class="train-time">12 PM - 4 PM</span>
+                                        </div>
+                                        <div class="train-item">
+                                            <span class="train-name">Private Operators</span>
+                                            <span class="train-time">Frequent</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="time-slot">
+                                    <div class="slot-header evening-slot">🌙 Evening</div>
+                                    <div class="train-list">
+                                        <div class="train-item">
+                                            <span class="train-name">DNR Express</span>
+                                            <span class="train-time">6:30 PM</span>
+                                        </div>
+                                        <div class="train-item">
+                                            <span class="train-name">Last Bus</span>
+                                            <span class="train-time">8:00 PM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="booking-tips">
+                            <p>💡 <strong>No advance booking needed</strong> - Buy ticket at bus stand</p>
+                            <p>🚏 <strong>Board at:</strong> Nagpur Ganeshpeth Bus Stand (near Railway Station)</p>
+                            <p>🔗 <strong>Book online:</strong> <a href="https://www.redbus.in" target="_blank"
+                                    class="booking-link">RedBus</a> for private operators</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chandrapur to Venue Card -->
+            <div class="info-card travel-card reveal delay-1">
+                <div class="card-glow travel-glow"></div>
+                <div class="card-inner">
+                    <div class="info-card-header">
+                        <span class="info-icon">📍</span>
+                        <h3>Getting to Chillarwar Farms</h3>
+                    </div>
+                    <div class="info-card-body">
+                        <div class="highlight-box">
+                            <span class="highlight-icon">🚐</span>
+                            <div class="highlight-content">
+                                <h4>Pickup Arranged!</h4>
+                                <p>We will arrange vehicle pickup from Chandrapur Railway Station and bus stops to
+                                    Chillarwar Farms for all guests.</p>
+                            </div>
+                        </div>
+
+                        <div class="drop-point-box">
+                            <h4>🚌 DNR Express Drop Point</h4>
+                            <p><strong>Closest Stop:</strong> Chandrapur Bus Stand (Main)</p>
+                            <p><strong>Alternative:</strong> Buses also stop at Chandrapur bypass - inform us if getting
+                                down here</p>
+                            <p class="tip">💡 Let us know your arrival time and we'll have a vehicle ready!</p>
+                        </div>
+
+                        <div class="venue-details">
+                            <p><strong>Distance:</strong> ~25-30 km from Chandrapur</p>
+                            <p><strong>Drive Time:</strong> ~45 minutes</p>
+                            <p><strong>Venue:</strong> Chillarwar Farms, Near Chillarwar Village</p>
+                        </div>
+                        <div class="contact-box">
+                            <p class="contact-label">For pickup coordination, please contact:</p>
+                            <p class="contact-note">Details will be shared closer to the event</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tadoba Safari Section -->
+    <section class="info-section safari-section" id="tadoba-safari">
+        <div class="section-header">
+            <div class="section-badge safari-badge">🐯 Wildlife Adventure</div>
+            <h2 class="section-title">Tadoba Safari</h2>
+            <p class="section-subtitle">Experience India's oldest tiger reserve</p>
+        </div>
+
+        <div class="info-cards-container">
+            <!-- Safari Info Card -->
+            <div class="info-card safari-card reveal">
+                <div class="card-glow safari-glow"></div>
+                <div class="card-inner">
+                    <div class="info-card-header">
+                        <span class="info-icon">🌿</span>
+                        <h3>About Tadoba & Entry Gates</h3>
+                    </div>
+                    <div class="info-card-body">
+                        <p class="intro-text">Tadoba Andhari Tiger Reserve is Maharashtra's oldest and largest national
+                            park, famous for its high tiger density and beautiful landscape.</p>
+
+                        <div class="gates-grid">
+                            <div class="gate-item recommended-gate">
+                                <div class="gate-name">🏆 Moharli Gate</div>
+                                <div class="gate-distance">~55 km from Chillarwar Farms (~1 hr)</div>
+                                <div class="gate-note">Most popular, best tiger sightings</div>
+                            </div>
+                            <div class="gate-item">
+                                <div class="gate-name">📍 Mamla Gate</div>
+                                <div class="gate-distance">~40 km from Chillarwar Farms (~45 min)</div>
+                                <div class="gate-note">Closest gate, buffer zone</div>
+                            </div>
+                            <div class="gate-item">
+                                <div class="gate-name">📍 Kolara Gate</div>
+                                <div class="gate-distance">~55 km from Chillarwar Farms (~1 hr)</div>
+                                <div class="gate-note">Core zone, good availability</div>
+                            </div>
+                            <div class="gate-item">
+                                <div class="gate-name">📍 Keslaghat Gate</div>
+                                <div class="gate-distance">~70 km from Chillarwar Farms (~1.5 hr)</div>
+                                <div class="gate-note">Buffer zone (Pangdi-Zari)</div>
+                            </div>
+                        </div>
+
+                        <div class="safari-note">
+                            <p>⚠️ <strong>Important:</strong> Core gates (Moharli, Kolara) closed on Tuesdays. Buffer
+                                gates closed on Wednesdays.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended Safari Card -->
+            <div class="info-card safari-card featured-card reveal delay-1">
+                <div class="card-glow safari-glow"></div>
+                <div class="card-inner">
+                    <div class="info-card-header">
+                        <span class="info-icon">⭐</span>
+                        <h3>Recommended Dates</h3>
+                        <span class="featured-badge">Best Experience</span>
+                    </div>
+                    <div class="info-card-body">
+                        <div class="recommended-dates">
+                            <div class="highlight-box safari-highlight">
+                                <span class="highlight-icon">🌅</span>
+                                <div class="highlight-content">
+                                    <h4>7th February - Morning Safari</h4>
+                                    <p>Before the wedding festivities begin! Early morning tiger sighting adventure.</p>
+                                </div>
+                            </div>
+                            <div class="highlight-box safari-highlight">
+                                <span class="highlight-icon">🌄</span>
+                                <div class="highlight-content">
+                                    <h4>8th February - Morning Safari</h4>
+                                    <p>Perfect day after the wedding! Relax and enjoy wildlife before departing.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="safari-timing">
+                            <div class="timing-slot morning">
+                                <span class="slot-icon">🌄</span>
+                                <div class="slot-info">
+                                    <strong>Morning Safari</strong>
+                                    <span>6:00 AM - 10:00 AM</span>
+                                </div>
+                            </div>
+                            <div class="timing-slot evening">
+                                <span class="slot-icon">🌅</span>
+                                <div class="slot-info">
+                                    <strong>Evening Safari</strong>
+                                    <span>2:30 PM - 6:30 PM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How to Book Card -->
+            <div class="info-card safari-card reveal">
+                <div class="card-glow safari-glow"></div>
+                <div class="card-inner">
+                    <div class="info-card-header">
+                        <span class="info-icon">📝</span>
+                        <h3>How to Book</h3>
+                    </div>
+                    <div class="info-card-body">
+                        <div class="booking-steps">
+                            <div class="step">
+                                <span class="step-number">1</span>
+                                <div class="step-content">
+                                    <strong>Visit Official Website</strong>
+                                    <a href="https://tadobaandharinationalpark.com/" target="_blank"
+                                        class="booking-link">tadobaandharinationalpark.com</a>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">2</span>
+                                <div class="step-content">
+                                    <strong>Click "Online Safari Booking"</strong>
+                                    <p>Select Moharli Gate for nearest access</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">3</span>
+                                <div class="step-content">
+                                    <strong>Choose Date & Slot</strong>
+                                    <p>Morning 6 AM slot recommended</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">4</span>
+                                <div class="step-content">
+                                    <strong>Complete Payment</strong>
+                                    <p>~₹2,000-3,000 per person (Gypsy)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="booking-tips">
+                            <p>💡 <strong>Book 120 days in advance</strong> for guaranteed slots</p>
+                            <p>⚡ <strong>Tatkal booking</strong> opens 3 days before at 8 AM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gypsy vs Canter Card -->
+            <div class="info-card safari-card reveal">
+                <div class="card-glow safari-glow"></div>
+                <div class="card-inner">
+                    <div class="info-card-header">
+                        <span class="info-icon">🚙</span>
+                        <h3>Safari Vehicles: Gypsy vs Canter</h3>
+                    </div>
+                    <div class="info-card-body">
+                        <div class="vehicle-comparison">
+                            <div class="vehicle-option gypsy-option">
+                                <div class="vehicle-header">
+                                    <span class="vehicle-icon">🚗</span>
+                                    <div class="vehicle-title">
+                                        <strong>Gypsy (Jeep)</strong>
+                                        <span class="vehicle-badge recommended">Recommended</span>
+                                    </div>
+                                </div>
+                                <div class="vehicle-details">
+                                    <p><strong>Capacity:</strong> 6 guests + driver + guide</p>
+                                    <p><strong>Cost:</strong> ₹5,000-9,000 per vehicle</p>
+                                    <p><strong>Booking:</strong> Online, 120 days in advance</p>
+                                    <p><strong>Pros:</strong> Private, flexible, better sightings</p>
+                                </div>
+                            </div>
+                            <div class="vehicle-option canter-option">
+                                <div class="vehicle-header">
+                                    <span class="vehicle-icon">🚌</span>
+                                    <div class="vehicle-title">
+                                        <strong>Canter (Mini-bus)</strong>
+                                        <span class="vehicle-badge budget">Budget Option</span>
+                                    </div>
+                                </div>
+                                <div class="vehicle-details">
+                                    <p><strong>Capacity:</strong> 18-22 guests</p>
+                                    <p><strong>Cost:</strong> ₹800-1,000 per person</p>
+                                    <p><strong>Booking:</strong> Often offline at gate counter</p>
+                                    <p><strong>Cons:</strong> Limited routes, less flexibility</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="vehicle-note">
+                            <p>⚠️ <strong>Canter Booking Caveat:</strong> Online booking for Canters is limited. Most
+                                Canter tickets are sold at gate counters on first-come-first-serve basis. Arrive early
+                                (5:30 AM) if opting for Canter. Canters only available at Moharli & Kolara gates.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cab Services Card -->
+            <div class="info-card safari-card reveal delay-1">
+                <div class="card-glow safari-glow"></div>
+                <div class="card-inner">
+                    <div class="info-card-header">
+                        <span class="info-icon">🚕</span>
+                        <h3>Cab Services for Safari</h3>
+                    </div>
+                    <div class="info-card-body">
+                        <p class="intro-text">Need transport from the farm to Tadoba? Contact these local cab services:
+                        </p>
+
+                        <div class="cab-services">
+                            <div class="cab-item">
+                                <div class="cab-name">AMZ Cabs</div>
+                                <a href="tel:9370444541" class="cab-phone">📞 9370444541</a>
+                            </div>
+                            <div class="cab-item">
+                                <div class="cab-name">Robin Hood Tours & Travels</div>
+                                <a href="tel:9049044318" class="cab-phone">📞 9049044318</a>
+                            </div>
+                            <div class="cab-item">
+                                <div class="cab-name">CabBazar</div>
+                                <a href="tel:08068249401" class="cab-phone">📞 08068249401</a>
+                            </div>
+                        </div>
+
+                        <div class="cab-note">
+                            <p>💡 Safari jeeps from the gate include the drive through the reserve. These cabs are for
+                                transport to/from the gate.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Closing Section -->
+    <section class="closing-section" id="closing">
+        <div class="closing-content">
+            <div class="closing-icon">❤️</div>
+            <p class="closing-text">Your presence would make our celebration complete</p>
+            <h2 class="closing-title">We Await Your Gracious Presence</h2>
+            <p class="closing-signature">With Love & Blessings</p>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

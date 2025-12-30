@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="featherGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#006D6F"/>
+      <stop offset="30%" style="stop-color:#008B8B"/>
+      <stop offset="60%" style="stop-color:#20B2AA"/>
+      <stop offset="100%" style="stop-color:#006D6F"/>
+    </linearGradient>
+    <linearGradient id="eyeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700"/>
+      <stop offset="50%" style="stop-color:#006D6F"/>
+      <stop offset="100%" style="stop-color:#000080"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Main feather shaft -->
+  <line x1="32" y1="60" x2="32" y2="8" stroke="#2F4F4F" stroke-width="2"/>
+  
+  <!-- Feather barbs (left side) -->
+  <path d="M32 55 Q20 50 16 40" stroke="url(#featherGrad)" stroke-width="0.5" fill="none"/>
+  <path d="M32 50 Q18 45 12 35" stroke="url(#featherGrad)" stroke-width="0.5" fill="none"/>
+  <path d="M32 45 Q16 40 10 30" stroke="url(#featherGrad)" stroke-width="0.5" fill="none"/>
+  <path d="M32 40 Q14 35 8 25" stroke="url(#featherGrad)" stroke-width="0.5" fill="none"/>
+  <path d="M32 35 Q16 30 12 22" stroke="url(#featherGrad)" stroke-width="0.5" fill="none"/>
+  
+  <!-- Feather barbs (right side) -->
+  <path d="M32 55 Q44 50 48 40" stroke="url(#featherGrad)" stroke-width="0.5" fill="none"/>
+  <path d="M32 50 Q46 45 52 35" stroke="url(#featherGrad)" stroke-width="0.5" fill="none"/>
+  <path d="M32 45 Q48 40 54 30" stroke="url(#featherGrad)" stroke-width="0.5" fill="none"/>
+  <path d="M32 40 Q50 35 56 25" stroke="url(#featherGrad)" stroke-width="0.5" fill="none"/>
+  <path d="M32 35 Q48 30 52 22" stroke="url(#featherGrad)" stroke-width="0.5" fill="none"/>
+  
+  <!-- Feather body fill -->
+  <path d="M32 55 Q15 45 8 25 Q12 15 20 14 Q28 12 32 15 Q36 12 44 14 Q52 15 56 25 Q49 45 32 55Z" 
+        fill="url(#featherGrad)" opacity="0.7"/>
+  
+  <!-- Eye pattern - outer -->
+  <ellipse cx="32" cy="28" rx="12" ry="10" fill="#006D6F" stroke="#FFD700" stroke-width="1"/>
+  
+  <!-- Eye pattern - middle -->
+  <ellipse cx="32" cy="28" rx="8" ry="6" fill="#000080"/>
+  
+  <!-- Eye pattern - inner -->
+  <ellipse cx="32" cy="28" rx="4" ry="3" fill="#FFD700"/>
+  
+  <!-- Eye center dot -->
+  <circle cx="32" cy="28" r="1.5" fill="#006D6F"/>
+  
+  <!-- Eye highlight -->
+  <ellipse cx="30" cy="26" rx="1" ry="0.5" fill="white" opacity="0.5"/>
+  
+  <!-- Top tip -->
+  <path d="M30 8 Q32 4 34 8 Q32 10 30 8" fill="url(#featherGrad)"/>
+</svg>

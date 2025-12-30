@@ -1,9 +1,8 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-    // Base path for GitHub Pages
-    // Change 'wedding' to your repository name
-    base: '/wedding/invitation-v2/',
+    // Base path for GitHub Pages - deploying to root
+    base: '/wedding/',
 
     build: {
         outDir: 'dist',

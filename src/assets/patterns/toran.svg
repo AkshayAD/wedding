@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="marigoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8C00"/>
+      <stop offset="50%" style="stop-color:#FFA500"/>
+      <stop offset="100%" style="stop-color:#FF6600"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#228B22"/>
+      <stop offset="100%" style="stop-color:#32CD32"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- String/rope -->
+  <path d="M0 5 Q50 15 100 5 Q150 15 200 5" stroke="#8B4513" stroke-width="3" fill="none"/>
+  
+  <!-- Mango leaves (left group) -->
+  <path d="M10 5 Q5 15 10 25" stroke="url(#greenGrad)" stroke-width="2" fill="none"/>
+  <path d="M15 5 Q10 18 15 28" stroke="url(#greenGrad)" stroke-width="2" fill="none"/>
+  <path d="M20 5 Q15 20 25 30" stroke="url(#greenGrad)" stroke-width="2" fill="none"/>
+  
+  <!-- Mango leaves (center-left) -->
+  <path d="M60 5 Q55 15 60 25" stroke="url(#greenGrad)" stroke-width="2" fill="none"/>
+  <path d="M65 5 Q60 18 65 28" stroke="url(#greenGrad)" stroke-width="2" fill="none"/>
+  <path d="M70 5 Q65 20 75 30" stroke="url(#greenGrad)" stroke-width="2" fill="none"/>
+  
+  <!-- Mango leaves (center-right) -->
+  <path d="M130 5 Q125 15 130 25" stroke="url(#greenGrad)" stroke-width="2" fill="none"/>
+  <path d="M135 5 Q130 18 135 28" stroke="url(#greenGrad)" stroke-width="2" fill="none"/>
+  <path d="M140 5 Q135 20 145 30" stroke="url(#greenGrad)" stroke-width="2" fill="none"/>
+  
+  <!-- Mango leaves (right group) -->
+  <path d="M180 5 Q175 15 180 25" stroke="url(#greenGrad)" stroke-width="2" fill="none"/>
+  <path d="M185 5 Q180 18 185 28" stroke="url(#greenGrad)" stroke-width="2" fill="none"/>
+  <path d="M190 5 Q185 20 195 30" stroke="url(#greenGrad)" stroke-width="2" fill="none"/>
+  
+  <!-- Marigold flowers -->
+  <g transform="translate(40, 15)">
+    <circle cx="0" cy="0" r="10" fill="url(#marigoldGrad)"/>
+    <circle cx="0" cy="0" r="6" fill="#FFB347"/>
+    <circle cx="0" cy="0" r="3" fill="#8B4513"/>
+  </g>
+  
+  <g transform="translate(100, 12)">
+    <circle cx="0" cy="0" r="12" fill="url(#marigoldGrad)"/>
+    <circle cx="0" cy="0" r="8" fill="#FFB347"/>
+    <circle cx="0" cy="0" r="4" fill="#8B4513"/>
+  </g>
+  
+  <g transform="translate(160, 15)">
+    <circle cx="0" cy="0" r="10" fill="url(#marigoldGrad)"/>
+    <circle cx="0" cy="0" r="6" fill="#FFB347"/>
+    <circle cx="0" cy="0" r="3" fill="#8B4513"/>
+  </g>
+  
+  <!-- Hanging tassels -->
+  <path d="M40 25 L40 45 Q38 50 40 55" stroke="#FFD700" stroke-width="2" fill="none"/>
+  <circle cx="40" cy="55" r="3" fill="#FFD700"/>
+  
+  <path d="M100 22 L100 48 Q98 53 100 58" stroke="#FFD700" stroke-width="2" fill="none"/>
+  <circle cx="100" cy="58" r="4" fill="#FFD700"/>
+  
+  <path d="M160 25 L160 45 Q158 50 160 55" stroke="#FFD700" stroke-width="2" fill="none"/>
+  <circle cx="160" cy="55" r="3" fill="#FFD700"/>
+</svg>
