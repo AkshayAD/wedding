@@ -1625,6 +1625,7 @@
     visibility: hidden;
     transition: all 0.3s ease;
     overflow-y: auto;
+    overscroll-behavior: contain;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
 }
 
@@ -1994,14 +1995,34 @@
    SCROLLABLE OVERLAY MODALS (Travel Guide, Safari)
    ========================================================================== */
 .scrollable-overlay {
+    max-width: 550px;
     max-height: 85vh;
     overflow-y: auto;
+    overscroll-behavior: contain;
     padding: var(--space-lg);
+    background: linear-gradient(135deg, rgba(74, 10, 30, 0.98) 0%, rgba(40, 5, 15, 0.98) 100%);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) transparent;
+}
+
+.scrollable-overlay::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollable-overlay::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollable-overlay::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 3px;
 }
 
 .scrollable-overlay .overlay-content {
-    max-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
+    text-align: left;
 }
 
 .scrollable-content {
