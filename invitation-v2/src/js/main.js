@@ -115,14 +115,14 @@ function setFlipValue(unit, value) {
 
 // ===== EVENT OVERLAYS =====
 function initOverlays() {
-    const eventChips = document.querySelectorAll('.event-chip[data-overlay]');
+    const overlayTriggers = document.querySelectorAll('[data-overlay]');
     const overlays = document.querySelectorAll('.event-overlay');
     const closeButtons = document.querySelectorAll('.overlay-close');
 
     // Open overlay
-    eventChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-            const overlayId = chip.dataset.overlay;
+    overlayTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const overlayId = trigger.dataset.overlay;
             const overlay = document.getElementById(`overlay-${overlayId}`);
 
             if (overlay && overlayBackdrop) {
