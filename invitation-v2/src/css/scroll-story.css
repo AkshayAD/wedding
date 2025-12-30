@@ -1989,3 +1989,129 @@
     opacity: 0;
     pointer-events: none;
 }
+
+/* ==========================================================================
+   SCROLLABLE OVERLAY MODALS (Travel Guide, Safari)
+   ========================================================================== */
+.scrollable-overlay {
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: var(--space-lg);
+}
+
+.scrollable-overlay .overlay-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.scrollable-content {
+    padding-bottom: var(--space-xl);
+}
+
+.overlay-section {
+    margin-bottom: var(--space-lg);
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    border-left: 3px solid var(--gold);
+}
+
+.overlay-section.highlight {
+    background: rgba(201, 162, 39, 0.15);
+    border-left-color: var(--gold);
+}
+
+.overlay-section h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    color: var(--gold);
+    margin-bottom: var(--space-sm);
+}
+
+.overlay-section p {
+    font-size: var(--text-sm);
+    color: var(--cream);
+    margin-bottom: var(--space-sm);
+    line-height: 1.6;
+}
+
+.overlay-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-sm) 0;
+}
+
+.overlay-list li {
+    padding: var(--space-xs) 0;
+    font-size: var(--text-sm);
+    color: var(--cream);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.overlay-list li:last-child {
+    border-bottom: none;
+}
+
+.overlay-list.numbered {
+    counter-reset: step;
+}
+
+.overlay-list.numbered li {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.overlay-list.numbered li::before {
+    content: counter(step);
+    counter-increment: step;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: var(--gold);
+    color: var(--charcoal);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.overlay-list a {
+    color: var(--gold);
+    text-decoration: underline;
+}
+
+.overlay-note {
+    font-size: var(--text-sm) !important;
+    color: var(--gold) !important;
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(201, 162, 39, 0.1);
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-sm);
+}
+
+.overlay-warning {
+    font-size: var(--text-sm);
+    color: #FF6B6B;
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(231, 76, 60, 0.15);
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-sm);
+}
+
+/* Scrollable overlay mobile adjustments */
+@media (max-width: 480px) {
+    .scrollable-overlay {
+        max-height: 90vh;
+        padding: var(--space-md);
+    }
+
+    .overlay-section {
+        padding: var(--space-sm);
+    }
+
+    .overlay-section h3 {
+        font-size: var(--text-sm);
+    }
+}
