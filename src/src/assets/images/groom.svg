@@ -22,7 +22,7 @@
   </defs>
   
   <!-- Groom silhouette -->
-  <g id="groom" transform="translate(20, 20)">
+  <g id="groom" transform="translate(50, 20)">
     <!-- Pheta (Marathi turban) -->
     <ellipse cx="50" cy="32" rx="32" ry="22" fill="url(#phetaGrad)"/>
     <path d="M20 32 Q50 45 80 32" fill="url(#phetaGrad)"/>

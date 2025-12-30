@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="ganpatiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700"/>
+      <stop offset="50%" style="stop-color:#B8860B"/>
+      <stop offset="100%" style="stop-color:#CD853F"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Crown/Head decoration -->
+  <ellipse cx="32" cy="12" rx="14" ry="8" fill="url(#ganpatiGrad)"/>
+  <circle cx="32" cy="8" r="4" fill="#E34234"/>
+  
+  <!-- Head -->
+  <ellipse cx="32" cy="24" rx="12" ry="10" fill="url(#ganpatiGrad)"/>
+  
+  <!-- Trunk -->
+  <path d="M32 34 Q36 38 34 48 Q30 50 28 46" fill="url(#ganpatiGrad)" stroke="#B8860B" stroke-width="1"/>
+  
+  <!-- Ears -->
+  <ellipse cx="18" cy="22" rx="6" ry="10" fill="url(#ganpatiGrad)"/>
+  <ellipse cx="46" cy="22" rx="6" ry="10" fill="url(#ganpatiGrad)"/>
+  
+  <!-- Eyes -->
+  <circle cx="27" cy="22" r="2" fill="#1A0A0F"/>
+  <circle cx="37" cy="22" r="2" fill="#1A0A0F"/>
+  
+  <!-- Tilak -->
+  <ellipse cx="32" cy="18" rx="2" ry="3" fill="#E34234"/>
+  
+  <!-- Body -->
+  <ellipse cx="32" cy="46" rx="14" ry="12" fill="url(#ganpatiGrad)"/>
+  
+  <!-- Arms -->
+  <path d="M18 42 Q10 38 14 46" fill="url(#ganpatiGrad)"/>
+  <path d="M46 42 Q54 38 50 46" fill="url(#ganpatiGrad)"/>
+  <path d="M18 48 Q10 52 14 56" fill="url(#ganpatiGrad)"/>
+  <path d="M46 48 Q54 52 50 56" fill="url(#ganpatiGrad)"/>
+  
+  <!-- Modak in hand -->
+  <circle cx="52" cy="44" r="4" fill="#FFF8DC" stroke="#B8860B" stroke-width="1"/>
+  
+  <!-- Lotus seat hint -->
+  <path d="M16 58 Q32 64 48 58" stroke="#FF69B4" stroke-width="2" fill="none"/>
+</svg>

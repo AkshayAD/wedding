@@ -144,8 +144,19 @@
       <div class="velvet-overlay"></div>
       <div class="golden-light"></div>
       <div class="opening-content">
+        <img src="/src/assets/icons/ganpati.svg" alt="Lord Ganesha" class="ganpati-icon">
         <p class="blessing">॥ श्री गणेशाय नमः ॥</p>
         <p class="blessing-english">With Divine Blessings</p>
+
+        <!-- Scroll Down Indicator -->
+        <div class="scroll-indicator">
+          <span class="scroll-text">Scroll Down</span>
+          <div class="scroll-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 10l5 5 5-5" />
+            </svg>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -208,16 +219,6 @@
       </div>
 
       <p class="wedding-date-text">February 6-7, 2026 • Chillarwar Farms</p>
-
-      <!-- Scroll Down Indicator -->
-      <div class="scroll-indicator">
-        <span class="scroll-text">Scroll Down</span>
-        <div class="scroll-arrow">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M7 10l5 5 5-5" />
-          </svg>
-        </div>
-      </div>
     </section>
 
     <!-- DAYS OVERVIEW (Compact Chips - Clickable) -->
@@ -276,11 +277,14 @@
         <p class="venue-name">Chillarwar Farms</p>
         <p class="venue-address">Near Borda Village Borda Indarpawar, Mul Road, Chandrapur, Maharashtra</p>
 
-        <div class="venue-map-container">
+        <div class="venue-map-container" id="map-container">
+          <div class="map-overlay" id="map-overlay">
+            <span>Click to interact with map</span>
+          </div>
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3752.123456789!2d79.45678901234567!3d19.98765432109876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDU5JzE1LjYiTiA3OcKwMjcnMjQuNCJF!5e0!3m2!1sen!2sin!4v1234567890"
             width="100%" height="200" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy"
-            title="Venue Location">
+            title="Venue Location" id="venue-map">
           </iframe>
         </div>
 
@@ -311,9 +315,10 @@
         </div>
       </div>
       <div class="travel-links">
-        <a href="details/" class="btn-secondary">Travel Guide</a>
-        <a href="details/#safari" class="btn-secondary"><img src="/src/assets/icons/tiger.svg" alt="" class="btn-icon">
-          Tadoba Safari</a>
+        <a href="https://maps.google.com/?q=Chillarwar+Farms+Chandrapur" target="_blank" class="btn-secondary">Travel
+          Guide</a>
+        <a href="https://tadoba.com" target="_blank" class="btn-secondary"><img src="/src/assets/icons/tiger.svg" alt=""
+            class="btn-icon"> Tadoba Safari</a>
       </div>
     </section>
 

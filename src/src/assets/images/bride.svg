@@ -17,7 +17,7 @@
   </defs>
   
   <!-- Bride silhouette -->
-  <g id="bride" transform="translate(20, 20)">
+  <g id="bride" transform="translate(50, 20)">
     <!-- Hair bun with flowers -->
     <ellipse cx="50" cy="35" rx="25" ry="20" fill="#1A0A0F"/>
     <circle cx="35" cy="25" r="5" fill="#FF7518"/>

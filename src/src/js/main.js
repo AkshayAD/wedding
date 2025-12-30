@@ -332,8 +332,27 @@ function init() {
     initCustomCursor();
     initReminderModal();
     initShootingStars();
+    initMapInteraction();
 
     console.log('✅ Invitation ready');
+}
+
+// ===== Map Interaction =====
+function initMapInteraction() {
+    const mapOverlay = document.getElementById('map-overlay');
+    if (!mapOverlay) return;
+
+    mapOverlay.addEventListener('click', () => {
+        mapOverlay.classList.add('hidden');
+    });
+
+    // Re-show overlay when clicking outside map
+    document.addEventListener('click', (e) => {
+        const mapContainer = document.getElementById('map-container');
+        if (mapContainer && !mapContainer.contains(e.target)) {
+            mapOverlay.classList.remove('hidden');
+        }
+    });
 }
 
 // Start
