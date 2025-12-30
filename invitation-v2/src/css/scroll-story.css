@@ -1367,25 +1367,27 @@
     }
 
     .flip-card {
-        width: 32px;
-        height: 44px;
-        padding: 4px;
+        width: 40px;
+        height: 50px;
+        padding: 2px;
+        overflow: hidden;
     }
 
     .flip-top,
     .flip-bottom {
-        width: 24px;
-        height: 34px;
-        font-size: 1rem;
+        width: 36px;
+        height: 44px;
+        font-size: 0.85rem;
+        overflow: hidden;
     }
 
     .flip-separator {
-        font-size: var(--text-lg);
-        margin-top: -15px;
+        font-size: var(--text-base);
+        margin-top: -12px;
     }
 
     .flip-label {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
     }
 
     .day-chips-container {
