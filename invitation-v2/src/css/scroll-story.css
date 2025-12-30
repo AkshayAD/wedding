@@ -29,7 +29,7 @@
     height: 150vmax;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.25;
+    opacity: 0.08;
 }
 
 .mandala-bg img {
@@ -1943,8 +1943,8 @@
    GANPATI ICON STYLING
    ========================================================================== */
 .ganpati-icon {
-    width: 150px;
-    height: 150px;
+    width: auto;
+    height: 250px;
     margin-bottom: var(--space-md);
     filter: drop-shadow(0 4px 15px rgba(255, 215, 0, 0.4));
 }

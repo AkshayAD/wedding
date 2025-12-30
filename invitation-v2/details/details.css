@@ -1,6 +1,86 @@
 /* ==========================================================================
-   Details Page CSS
+   Details Page CSS - Self-contained with CSS variables
    ========================================================================== */
+
+/* ===== CSS Variables ===== */
+:root {
+    /* Colors */
+    --maroon: #7A1E3E;
+    --gold: #C9A227;
+    --peacock: #1E7A6D;
+    --charcoal: #2C2C2C;
+    --cream: #FBF7F0;
+    --cream-dark: #F5EFE4;
+
+    /* Text */
+    --text-primary: #2C2C2C;
+    --text-secondary: #5A5A5A;
+    --text-muted: #8A8A8A;
+
+    /* Backgrounds */
+    --bg-primary: #FFFFFF;
+
+    /* Typography */
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Lora', Georgia, serif;
+
+    /* Font Sizes */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 2rem;
+
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;
+
+    /* Shadows */
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    /* Gradients */
+    --gradient-gold: linear-gradient(135deg, #FFD700 0%, #C9A227 100%);
+    --gradient-sunset: linear-gradient(180deg, #FBF7F0 0%, #F5EFE4 100%);
+
+    /* Z-index */
+    --z-overlay: 100;
+
+    /* Transitions */
+    --duration-fast: 0.2s;
+    --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ===== Base Styles ===== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
 
 /* ===== Nav ===== */
 .details-nav {
