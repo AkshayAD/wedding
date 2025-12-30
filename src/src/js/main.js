@@ -114,6 +114,15 @@ function setFlipValue(unit, value) {
 }
 
 // ===== EVENT OVERLAYS =====
+// Scroll blocking function
+function blockBodyScroll(e) {
+    const activeOverlay = document.querySelector('.event-overlay.active');
+    if (activeOverlay && !activeOverlay.contains(e.target)) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+}
+
 function initOverlays() {
     const overlayTriggers = document.querySelectorAll('[data-overlay]');
     const overlays = document.querySelectorAll('.event-overlay');
@@ -130,6 +139,9 @@ function initOverlays() {
                 overlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
                 if (lenis) lenis.stop();
+                // Add scroll blocking
+                document.addEventListener('wheel', blockBodyScroll, { passive: false });
+                document.addEventListener('touchmove', blockBodyScroll, { passive: false });
             }
         });
     });
@@ -158,6 +170,9 @@ function closeAllOverlays() {
     if (overlayBackdrop) overlayBackdrop.classList.remove('active');
     document.body.style.overflow = '';
     if (lenis) lenis.start();
+    // Remove scroll blocking
+    document.removeEventListener('wheel', blockBodyScroll);
+    document.removeEventListener('touchmove', blockBodyScroll);
 }
 
 // ===== Progress Bar =====
