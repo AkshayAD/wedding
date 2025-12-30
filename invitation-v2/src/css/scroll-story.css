@@ -471,6 +471,7 @@
     justify-content: center;
     gap: var(--space-lg);
     margin-bottom: var(--space-xl);
+    width: 100%;
 }
 
 .couple-figure {
@@ -1333,17 +1334,29 @@
     }
 
     .flip-countdown {
-        gap: var(--space-sm);
+        gap: var(--space-xs);
     }
 
     .flip-card {
-        width: 36px;
-        height: 50px;
+        width: 32px;
+        height: 44px;
+        padding: 4px;
     }
 
     .flip-top,
     .flip-bottom {
-        font-size: 1.2rem;
+        width: 24px;
+        height: 34px;
+        font-size: 1rem;
+    }
+
+    .flip-separator {
+        font-size: var(--text-lg);
+        margin-top: -15px;
+    }
+
+    .flip-label {
+        font-size: 0.6rem;
     }
 
     .day-chips-container {
@@ -1675,7 +1688,8 @@
     font-size: 1.5rem;
     cursor: pointer;
     box-shadow: 0 4px 20px rgba(74, 10, 30, 0.4);
-    z-index: 1000;
+    z-index: 90;
+    /* Lower than overlay-backdrop (1000) */
     transition: transform 0.3s ease, background 0.3s ease;
 }
 
