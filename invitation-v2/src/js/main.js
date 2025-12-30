@@ -241,6 +241,7 @@ function initScrollAnimations() {
         duration: 0.6,
         delay: 0.5,
         ease: 'back.out(1.7)',
+        clearProps: 'all',
         scrollTrigger: {
             trigger: '.story-hero',
             start: 'top 60%',
@@ -248,11 +249,11 @@ function initScrollAnimations() {
         }
     });
 
-    // Flip countdown
     gsap.from('.flip-countdown', {
         y: 30,
         opacity: 0,
         duration: 0.8,
+        clearProps: 'all',
         scrollTrigger: {
             trigger: '.flip-countdown',
             start: 'top 85%',
@@ -260,12 +261,12 @@ function initScrollAnimations() {
         }
     });
 
-    // Day chips
     gsap.from('.day-chip', {
         y: 30,
         opacity: 0,
         duration: 0.6,
         stagger: 0.2,
+        clearProps: 'all',
         scrollTrigger: {
             trigger: '.day-chips-container',
             start: 'top 80%',
