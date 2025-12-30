@@ -1,0 +1,516 @@
+/* ==========================================================================
+   Layout CSS - Organic Scroll Story
+   ========================================================================== */
+
+/* ===== Main Container ===== */
+.scroll-story {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* ===== Section Base ===== */
+.section {
+    position: relative;
+    width: 100%;
+    padding: var(--space-3xl) var(--space-lg);
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .section {
+        padding: var(--space-4xl) var(--space-2xl);
+    }
+}
+
+.section-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+/* ===== Hero Section ===== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(180deg,
+            var(--bg-cream) 0%,
+            var(--bg-parchment) 100%);
+}
+
+.hero-names {
+    margin-bottom: var(--space-lg);
+}
+
+.hero-name {
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
+    font-weight: 600;
+    color: var(--maroon);
+    display: block;
+    line-height: 1.1;
+}
+
+.hero-ampersand {
+    font-family: var(--font-accent);
+    font-size: var(--text-2xl);
+    color: var(--gold);
+    display: block;
+    margin: var(--space-sm) 0;
+}
+
+.hero-tagline {
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: var(--space-xl);
+}
+
+/* ===== Elegant Timer Badge (Top Right) ===== */
+.timer-badge {
+    position: fixed;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    background: var(--maroon);
+    color: var(--bg-cream);
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-full);
+    font-family: var(--font-accent);
+    font-size: var(--text-sm);
+    letter-spacing: 0.1em;
+    box-shadow: var(--shadow-gold);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.timer-badge::before {
+    content: '🪔';
+    font-size: 1.2em;
+}
+
+.timer-number {
+    font-weight: 600;
+    color: var(--gold-bright);
+}
+
+/* ===== Wavy Section Divider ===== */
+.wave-divider {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    overflow: hidden;
+    line-height: 0;
+    z-index: 3;
+}
+
+.wave-divider svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 80px;
+}
+
+.wave-divider path {
+    fill: var(--bg-cream);
+}
+
+/* ===== Day Cards Grid (Aligned) ===== */
+.day-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+    .day-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        align-items: stretch;
+    }
+}
+
+.day-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--gold);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    text-align: center;
+    transition: transform 0.3s var(--ease-smooth), box-shadow 0.3s var(--ease-smooth);
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+}
+
+.day-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-gold);
+}
+
+.day-card-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--maroon-dark);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    font-family: var(--font-accent);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: var(--space-md);
+}
+
+.day-card-date {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--maroon);
+    margin-bottom: var(--space-md);
+}
+
+.day-card-events {
+    list-style: none;
+    flex: 1;
+}
+
+.day-card-events li {
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid rgba(184, 134, 11, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.day-card-events li:last-child {
+    border-bottom: none;
+}
+
+.event-name {
+    font-weight: 500;
+    color: var(--text-maroon);
+}
+
+.event-time {
+    font-family: var(--font-accent);
+    font-size: var(--text-sm);
+    color: var(--gold-dark);
+}
+
+/* ===== Event Sections ===== */
+.event-section {
+    background: var(--bg-parchment);
+    position: relative;
+}
+
+.event-section.haldi {
+    background: linear-gradient(135deg,
+            var(--bg-cream) 0%,
+            rgba(244, 196, 48, 0.15) 100%);
+}
+
+.event-section.sangeet {
+    background: linear-gradient(135deg,
+            var(--bg-cream) 0%,
+            rgba(107, 15, 43, 0.1) 100%);
+}
+
+.event-section.barat {
+    background: linear-gradient(135deg,
+            var(--bg-cream) 0%,
+            rgba(184, 134, 11, 0.15) 100%);
+}
+
+.event-section.wedding {
+    background: linear-gradient(135deg,
+            var(--bg-cream) 0%,
+            rgba(0, 109, 111, 0.1) 100%);
+}
+
+.event-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.event-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: var(--space-lg);
+}
+
+.event-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-sm);
+}
+
+.event-tagline {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: var(--space-md);
+}
+
+.event-time-badge {
+    display: inline-block;
+    background: var(--maroon);
+    color: var(--gold-bright);
+    padding: var(--space-xs) var(--space-lg);
+    border-radius: var(--radius-full);
+    font-family: var(--font-accent);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.event-description {
+    color: var(--text-dark);
+    max-width: 500px;
+}
+
+/* ===== Venue Section with Map ===== */
+.venue-section {
+    background: var(--bg-cream);
+}
+
+.venue-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .venue-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.venue-info h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-md);
+}
+
+.venue-address {
+    color: var(--text-muted);
+    margin-bottom: var(--space-lg);
+}
+
+.venue-map {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    aspect-ratio: 16/12;
+}
+
+.venue-map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* ===== Closing Section ===== */
+.closing-section {
+    background: var(--maroon);
+    color: var(--bg-cream);
+    text-align: center;
+    padding: var(--space-4xl) var(--space-lg);
+}
+
+.closing-section h2 {
+    color: var(--gold-bright);
+    margin-bottom: var(--space-lg);
+}
+
+.closing-message {
+    font-size: var(--text-lg);
+    color: var(--bg-parchment);
+    max-width: 600px;
+    margin: 0 auto var(--space-xl);
+}
+
+/* ===== Buttons ===== */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: var(--gold);
+    color: var(--maroon-dark);
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-full);
+    font-family: var(--font-accent);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-smooth);
+}
+
+.btn-primary:hover {
+    background: var(--gold-bright);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: transparent;
+    color: var(--gold);
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-full);
+    font-family: var(--font-accent);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 2px solid var(--gold);
+    cursor: pointer;
+    transition: all 0.3s var(--ease-smooth);
+}
+
+.btn-secondary:hover {
+    background: var(--gold);
+    color: var(--maroon-dark);
+}
+
+/* ===== Floating Parallax Elements ===== */
+.parallax-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.parallax-element {
+    position: absolute;
+    opacity: 0.6;
+}
+
+.parallax-element.diya {
+    width: 40px;
+    height: 40px;
+}
+
+.parallax-element.petal {
+    width: 20px;
+    height: 20px;
+    border-radius: 50% 0;
+    background: linear-gradient(135deg, var(--saffron), var(--haldi-yellow));
+    transform: rotate(45deg);
+}
+
+/* ===== Preloader ===== */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-cream);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.preloader-diya {
+    width: 80px;
+    height: 100px;
+    margin-bottom: var(--space-lg);
+}
+
+.preloader-text {
+    font-family: var(--font-accent);
+    color: var(--maroon);
+    letter-spacing: 0.2em;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ===== Scroll Progress Line ===== */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+    z-index: 1000;
+    transform-origin: left;
+    transform: scaleX(0);
+}
+
+/* ===== Music Toggle ===== */
+.music-toggle {
+    position: fixed;
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--maroon);
+    color: var(--gold-bright);
+    border: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s var(--ease-smooth);
+}
+
+.music-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-gold);
+}
+
+.music-toggle.playing {
+    animation: musicPulse 1s ease-in-out infinite;
+}
+
+@keyframes musicPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(184, 134, 11, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 0 15px rgba(184, 134, 11, 0);
+    }
+}

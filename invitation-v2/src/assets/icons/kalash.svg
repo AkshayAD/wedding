@@ -43,8 +43,14 @@
   <text x="32" y="36" font-size="8" fill="#8B1538" text-anchor="middle" font-family="serif">ॐ</text>
   
   <!-- Swastika small decoration -->
-  <path d="M26 44 L28 44 L28 42 M28 44 L28 46 L30 46 M28 44 L26 44 L26 46" 
-        stroke="#8B1538" stroke-width="0.5" fill="none"/>
+  <g transform="translate(27, 42)" stroke="#8B1538" stroke-width="0.8" fill="none">
+    <line x1="0" y1="-2.5" x2="0" y2="2.5"/>
+    <line x1="-2.5" y1="0" x2="2.5" y2="0"/>
+    <line x1="0" y1="-2.5" x2="1.5" y2="-2.5"/>
+    <line x1="0" y1="2.5" x2="-1.5" y2="2.5"/>
+    <line x1="-2.5" y1="0" x2="-2.5" y2="1.5"/>
+    <line x1="2.5" y1="0" x2="2.5" y2="-1.5"/>
+  </g>
   
   <!-- Base -->
   <ellipse cx="32" cy="50" rx="10" ry="3" fill="url(#potGrad)"/>

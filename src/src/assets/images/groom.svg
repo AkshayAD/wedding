@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" fill="none">
+  <defs>
+    <linearGradient id="kurtaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF8DC"/>
+      <stop offset="50%" style="stop-color:#FAEBD7"/>
+      <stop offset="100%" style="stop-color:#F5DEB3"/>
+    </linearGradient>
+    <linearGradient id="phetaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#C41E3A"/>
+      <stop offset="50%" style="stop-color:#8B0000"/>
+      <stop offset="100%" style="stop-color:#4A0A1E"/>
+    </linearGradient>
+    <linearGradient id="shawlGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B8860B"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#B8860B"/>
+    </linearGradient>
+    <linearGradient id="skinGroom" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4A574"/>
+      <stop offset="100%" style="stop-color:#C49A6C"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Groom silhouette -->
+  <g id="groom" transform="translate(20, 20)">
+    <!-- Pheta (Marathi turban) -->
+    <ellipse cx="50" cy="32" rx="32" ry="22" fill="url(#phetaGrad)"/>
+    <path d="M20 32 Q50 45 80 32" fill="url(#phetaGrad)"/>
+    
+    <!-- Turban folds -->
+    <path d="M25 28 Q35 35 45 28" stroke="#4A0A1E" stroke-width="1" fill="none"/>
+    <path d="M35 25 Q45 32 55 25" stroke="#4A0A1E" stroke-width="1" fill="none"/>
+    <path d="M45 22 Q55 29 65 22" stroke="#4A0A1E" stroke-width="1" fill="none"/>
+    <path d="M55 28 Q65 35 75 28" stroke="#4A0A1E" stroke-width="1" fill="none"/>
+    
+    <!-- Turban ornament -->
+    <circle cx="50" cy="18" r="6" fill="#FFD700"/>
+    <circle cx="50" cy="18" r="3" fill="#E34234"/>
+    
+    <!-- Feather/sarpech -->
+    <path d="M50 12 Q55 2 52 8 Q58 4 54 10 Q60 6 56 12" fill="#FFD700"/>
+    
+    <!-- Face -->
+    <ellipse cx="50" cy="58" rx="20" ry="24" fill="url(#skinGroom)"/>
+    
+    <!-- Eyes -->
+    <ellipse cx="43" cy="55" rx="3.5" ry="2" fill="#1A0A0F"/>
+    <ellipse cx="57" cy="55" rx="3.5" ry="2" fill="#1A0A0F"/>
+    
+    <!-- Eyebrows -->
+    <path d="M38 50 Q43 48 48 50" stroke="#1A0A0F" stroke-width="1.5" fill="none"/>
+    <path d="M52 50 Q57 48 62 50" stroke="#1A0A0F" stroke-width="1.5" fill="none"/>
+    
+    <!-- Nose -->
+    <path d="M50 55 Q52 62 50 68" stroke="#C49A6C" stroke-width="1.5" fill="none"/>
+    
+    <!-- Mustache -->
+    <path d="M40 72 Q45 70 50 72 Q55 70 60 72" stroke="#1A0A0F" stroke-width="2" fill="none"/>
+    
+    <!-- Smile -->
+    <path d="M44 76 Q50 80 56 76" stroke="#8B4513" stroke-width="1.5" fill="none"/>
+    
+    <!-- Ears -->
+    <ellipse cx="30" cy="58" rx="4" ry="8" fill="url(#skinGroom)"/>
+    <ellipse cx="70" cy="58" rx="4" ry="8" fill="url(#skinGroom)"/>
+    
+    <!-- Neck -->
+    <rect x="40" y="80" width="20" height="15" fill="url(#skinGroom)"/>
+    
+    <!-- Kurta (cream/white) -->
+    <path d="M25 95 Q20 140 22 200 L78 200 Q80 140 75 95 Z" fill="url(#kurtaGrad)"/>
+    
+    <!-- Kurta collar -->
+    <path d="M35 95 L50 110 L65 95" stroke="#D4A84B" stroke-width="2" fill="none"/>
+    
+    <!-- Golden shawl (Uparna) -->
+    <path d="M25 100 Q5 130 10 180 L25 180 Q15 140 30 110 Z" fill="url(#shawlGrad)"/>
+    <path d="M75 100 Q95 130 90 180 L75 180 Q85 140 70 110 Z" fill="url(#shawlGrad)"/>
+    
+    <!-- Shawl crossing -->
+    <path d="M30 110 Q50 125 70 110" stroke="url(#shawlGrad)" stroke-width="4" fill="none"/>
+    
+    <!-- Arms -->
+    <path d="M25 100 Q12 120 18 150" fill="url(#kurtaGrad)"/>
+    <path d="M75 100 Q88 120 82 150" fill="url(#kurtaGrad)"/>
+    
+    <!-- Hands in namaste -->
+    <ellipse cx="50" cy="155" rx="12" ry="8" fill="url(#skinGroom)"/>
+    
+    <!-- Dhoti lower portion -->
+    <path d="M22 200 L20 250 Q50 260 80 250 L78 200" fill="url(#kurtaGrad)"/>
+    
+    <!-- Dhoti pleats -->
+    <path d="M30 200 L28 245" stroke="#D4A84B" stroke-width="1" opacity="0.4"/>
+    <path d="M40 200 L38 250" stroke="#D4A84B" stroke-width="1" opacity="0.4"/>
+    <path d="M50 200 L50 255" stroke="#D4A84B" stroke-width="1" opacity="0.4"/>
+    <path d="M60 200 L62 250" stroke="#D4A84B" stroke-width="1" opacity="0.4"/>
+    <path d="M70 200 L72 245" stroke="#D4A84B" stroke-width="1" opacity="0.4"/>
+    
+    <!-- Gold border bottom -->
+    <path d="M20 250 Q50 260 80 250" stroke="url(#shawlGrad)" stroke-width="3" fill="none"/>
+  </g>
+</svg>

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="paisleyGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B8860B"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#CD853F"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Main paisley shape -->
+  <path d="M32 8 Q56 16 50 40 Q44 56 28 56 Q12 56 16 40 Q20 24 32 16 Q38 12 32 8Z" 
+        fill="none" stroke="url(#paisleyGold)" stroke-width="2"/>
+  
+  <!-- Inner decorative layer -->
+  <path d="M32 14 Q48 20 44 38 Q40 50 28 50 Q18 50 20 38 Q24 26 32 20 Q36 16 32 14Z" 
+        fill="none" stroke="#8B1538" stroke-width="1"/>
+  
+  <!-- Curved tip detail -->
+  <path d="M32 8 Q28 12 30 16 Q34 12 32 8" fill="url(#paisleyGold)"/>
+  
+  <!-- Inner dots pattern -->
+  <circle cx="32" cy="28" r="2" fill="url(#paisleyGold)"/>
+  <circle cx="34" cy="36" r="1.5" fill="#8B1538"/>
+  <circle cx="30" cy="42" r="1.5" fill="url(#paisleyGold)"/>
+  <circle cx="28" cy="34" r="1" fill="#8B1538"/>
+  <circle cx="36" cy="44" r="1" fill="url(#paisleyGold)"/>
+  
+  <!-- Decorative swirl inside -->
+  <path d="M28 32 Q32 28 36 32 Q40 36 36 40 Q32 44 28 40" 
+        fill="none" stroke="url(#paisleyGold)" stroke-width="0.5"/>
+  
+  <!-- Base decorative elements -->
+  <ellipse cx="28" cy="52" rx="3" ry="1" fill="url(#paisleyGold)"/>
+</svg>

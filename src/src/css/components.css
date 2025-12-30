@@ -1,0 +1,304 @@
+/* ==========================================================================
+   Components CSS - Day Cards, Buttons, Countdown
+   Mobile First Design
+   ========================================================================== */
+
+/* ===== Day Summary Cards ===== */
+.day-card {
+    display: block;
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid transparent;
+    transition: all var(--duration-normal) var(--ease-out);
+}
+
+.day-card:hover,
+.day-card:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--gold);
+}
+
+.day-card:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+.day-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--cream-dark);
+}
+
+.day-badge {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--maroon);
+}
+
+.day-date {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+}
+
+.day-events {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.day-events li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) 0;
+}
+
+.event-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.event-name {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.day-events .event-time {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+}
+
+/* Day-specific accent */
+.day-card-1 {
+    border-top: 3px solid var(--saffron);
+}
+
+.day-card-2 {
+    border-top: 3px solid var(--maroon);
+}
+
+/* ===== Countdown ===== */
+.countdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin: var(--space-lg) 0;
+}
+
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+}
+
+.countdown-number {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 600;
+    color: var(--maroon);
+    line-height: 1;
+}
+
+.countdown-label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: var(--space-xs);
+}
+
+.countdown-sep {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    color: var(--gold);
+    padding-bottom: var(--space-md);
+}
+
+/* ===== Buttons ===== */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: 500;
+
+    color: var(--cream);
+    background: var(--maroon);
+
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-full);
+
+    box-shadow: var(--shadow-md);
+    transition: all var(--duration-normal) var(--ease-out);
+
+    /* Mobile touch target */
+    min-height: 48px;
+}
+
+.btn-primary:hover {
+    background: var(--maroon-light);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.btn-primary:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.btn-primary svg {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.btn-primary:hover svg {
+    transform: translateX(2px);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 500;
+
+    color: var(--maroon);
+    background: transparent;
+
+    padding: var(--space-sm) var(--space-lg);
+    border: 1px solid var(--maroon);
+    border-radius: var(--radius-full);
+
+    transition: all var(--duration-fast) var(--ease-out);
+    min-height: 44px;
+}
+
+.btn-secondary:hover {
+    background: var(--maroon);
+    color: var(--cream);
+}
+
+/* ===== Reveal Text (Animation Target) ===== */
+.reveal-text {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.reveal-text.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+/* Character-level reveal for SplitType */
+.reveal-text .word {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.reveal-text .char {
+    display: inline-block;
+    transform: translateY(100%);
+    transition: transform 0.4s var(--ease-out);
+}
+
+.reveal-text.visible .char {
+    transform: translateY(0);
+}
+
+/* Stagger delay for chars */
+.reveal-text.visible .char:nth-child(1) {
+    transition-delay: 0ms;
+}
+
+.reveal-text.visible .char:nth-child(2) {
+    transition-delay: 20ms;
+}
+
+.reveal-text.visible .char:nth-child(3) {
+    transition-delay: 40ms;
+}
+
+.reveal-text.visible .char:nth-child(4) {
+    transition-delay: 60ms;
+}
+
+.reveal-text.visible .char:nth-child(5) {
+    transition-delay: 80ms;
+}
+
+.reveal-text.visible .char:nth-child(6) {
+    transition-delay: 100ms;
+}
+
+.reveal-text.visible .char:nth-child(7) {
+    transition-delay: 120ms;
+}
+
+.reveal-text.visible .char:nth-child(8) {
+    transition-delay: 140ms;
+}
+
+.reveal-text.visible .char:nth-child(9) {
+    transition-delay: 160ms;
+}
+
+.reveal-text.visible .char:nth-child(10) {
+    transition-delay: 180ms;
+}
+
+/* ===== Decorative Elements ===== */
+.ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    margin: var(--space-lg) 0;
+}
+
+.ornament-line {
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+}
+
+.ornament-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+}
+
+/* ===== Responsive ===== */
+@media (min-width: 768px) {
+    .countdown-item {
+        min-width: 80px;
+    }
+
+    .countdown-number {
+        font-size: clamp(2.5rem, 2rem + 2vw, 4rem);
+    }
+
+    .btn-primary {
+        padding: var(--space-md) var(--space-2xl);
+    }
+}

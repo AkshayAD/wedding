@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-  <meta name="description" content="You're Invited! Dewalwar-Chachad Wedding - February 7-8, 2026">
+  <meta name="description" content="You're Invited! Dewalwar-Chachad Wedding - February 6-7, 2026">
   <meta name="theme-color" content="#4A0A1E">
 
   <title>Dewalwar ♥ Chachad Wedding</title>
@@ -44,6 +44,11 @@
   <audio id="bg-music" loop preload="auto">
     <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_5cf5e6b0a8.mp3" type="audio/mpeg">
   </audio>
+
+  <!-- Mandala Background -->
+  <div class="mandala-bg" aria-hidden="true">
+    <img src="/src/assets/mandala-bg.svg" alt="">
+  </div>
 
   <!-- Floating Parallax -->
   <div class="parallax-container" id="parallax">
@@ -259,7 +264,7 @@
       <div class="venue-content">
         <h2 class="venue-title">The Venue</h2>
         <p class="venue-name">Chillarwar Farms</p>
-        <p class="venue-address">Village Chillarwar, Near Chandrapur, Maharashtra</p>
+        <p class="venue-address">Near Borda Village Borda Indarpawar, Mul Road, Chandrapur, Maharashtra</p>
 
         <div class="venue-map-container">
           <iframe
@@ -280,24 +285,25 @@
       <h2 class="travel-title">Getting There</h2>
       <div class="travel-options">
         <div class="travel-option">
-          <span class="travel-icon">🚆</span>
+          <img src="/src/assets/icons/train.svg" alt="" class="travel-icon-svg">
           <span class="travel-label">Train</span>
           <span class="travel-detail">Chandrapur Jn</span>
         </div>
         <div class="travel-option">
-          <span class="travel-icon">✈️</span>
+          <img src="/src/assets/icons/plane.svg" alt="" class="travel-icon-svg">
           <span class="travel-label">Flight</span>
           <span class="travel-detail">Nagpur (150km)</span>
         </div>
         <div class="travel-option">
-          <span class="travel-icon">🚗</span>
+          <img src="/src/assets/icons/car.svg" alt="" class="travel-icon-svg">
           <span class="travel-label">Road</span>
           <span class="travel-detail">NH44</span>
         </div>
       </div>
       <div class="travel-links">
         <a href="details/" class="btn-secondary">Travel Guide</a>
-        <a href="details/#safari" class="btn-secondary">🐯 Tadoba Safari</a>
+        <a href="details/#safari" class="btn-secondary"><img src="/src/assets/icons/tiger.svg" alt="" class="btn-icon">
+          Tadoba Safari</a>
       </div>
     </section>
 
@@ -309,12 +315,14 @@
         <p class="closing-message">Your presence would be our most cherished blessing</p>
         <h2 class="closing-title">We Await You</h2>
         <div class="closing-signature">
-          <span>With Love & Warmth</span>
-          <span class="signature-families">Dewalwar & Chachad Families</span>
+          <span><strong>With Love & Warmth</strong></span>
+          <span class="signature-families"><strong>Dewalwar & Chachad Families</strong></span>
         </div>
         <div class="closing-actions">
-          <button class="btn-primary" id="add-calendar">📅 Save the Date</button>
-          <button class="btn-share" id="share-btn">📤 Share</button>
+          <button class="btn-primary" id="add-calendar"><img src="/src/assets/icons/calendar.svg" alt=""
+              class="btn-icon"> Save the Date</button>
+          <button class="btn-share" id="share-btn"><img src="/src/assets/icons/share.svg" alt="" class="btn-icon">
+            Share</button>
         </div>
       </div>
       <div class="footer-diya">
@@ -325,7 +333,8 @@
   </main>
 
   <!-- Reminder FAB Button -->
-  <button class="reminder-fab" id="reminder-fab" data-open-reminder aria-label="Set reminder">🔔</button>
+  <button class="reminder-fab" id="reminder-fab" data-open-reminder aria-label="Set reminder"><img
+      src="/src/assets/icons/bell.svg" alt="" width="24" height="24"></button>
 
   <!-- Reminder Modal -->
   <div class="reminder-backdrop" id="reminder-backdrop"></div>
@@ -337,9 +346,9 @@
       <label>
         Reminder Type
         <select name="reminder-type" required>
-          <option value="flights">✈️ Book Flights</option>
-          <option value="travel">🚆 Book Train/Travel</option>
-          <option value="tadoba">🐯 Book Tadoba Safari</option>
+          <option value="flights">Book Flights</option>
+          <option value="travel">Book Train/Travel</option>
+          <option value="tadoba">Book Tadoba Safari</option>
         </select>
       </label>
       <label>

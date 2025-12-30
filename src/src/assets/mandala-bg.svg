@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" opacity="0.12">
+  <defs>
+    <linearGradient id="mandalaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B8860B;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#4A0A1E;stop-opacity:0.4"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke="url(#mandalaGrad)" stroke-width="0.5" transform="translate(200,200)">
+    <!-- Outer circles -->
+    <circle r="180"/>
+    <circle r="160"/>
+    <circle r="140"/>
+    <circle r="120"/>
+    <circle r="100"/>
+    <circle r="80"/>
+    <circle r="60"/>
+    <circle r="40"/>
+    <circle r="20"/>
+    <!-- Petals layer 1 -->
+    <g>
+      <path d="M0,-180 Q30,-120 0,-60 Q-30,-120 0,-180"/>
+      <path d="M0,-180 Q30,-120 0,-60 Q-30,-120 0,-180" transform="rotate(30)"/>
+      <path d="M0,-180 Q30,-120 0,-60 Q-30,-120 0,-180" transform="rotate(60)"/>
+      <path d="M0,-180 Q30,-120 0,-60 Q-30,-120 0,-180" transform="rotate(90)"/>
+      <path d="M0,-180 Q30,-120 0,-60 Q-30,-120 0,-180" transform="rotate(120)"/>
+      <path d="M0,-180 Q30,-120 0,-60 Q-30,-120 0,-180" transform="rotate(150)"/>
+      <path d="M0,-180 Q30,-120 0,-60 Q-30,-120 0,-180" transform="rotate(180)"/>
+      <path d="M0,-180 Q30,-120 0,-60 Q-30,-120 0,-180" transform="rotate(210)"/>
+      <path d="M0,-180 Q30,-120 0,-60 Q-30,-120 0,-180" transform="rotate(240)"/>
+      <path d="M0,-180 Q30,-120 0,-60 Q-30,-120 0,-180" transform="rotate(270)"/>
+      <path d="M0,-180 Q30,-120 0,-60 Q-30,-120 0,-180" transform="rotate(300)"/>
+      <path d="M0,-180 Q30,-120 0,-60 Q-30,-120 0,-180" transform="rotate(330)"/>
+    </g>
+    <!-- Inner petals -->
+    <g>
+      <path d="M0,-100 Q15,-60 0,-20 Q-15,-60 0,-100"/>
+      <path d="M0,-100 Q15,-60 0,-20 Q-15,-60 0,-100" transform="rotate(45)"/>
+      <path d="M0,-100 Q15,-60 0,-20 Q-15,-60 0,-100" transform="rotate(90)"/>
+      <path d="M0,-100 Q15,-60 0,-20 Q-15,-60 0,-100" transform="rotate(135)"/>
+      <path d="M0,-100 Q15,-60 0,-20 Q-15,-60 0,-100" transform="rotate(180)"/>
+      <path d="M0,-100 Q15,-60 0,-20 Q-15,-60 0,-100" transform="rotate(225)"/>
+      <path d="M0,-100 Q15,-60 0,-20 Q-15,-60 0,-100" transform="rotate(270)"/>
+      <path d="M0,-100 Q15,-60 0,-20 Q-15,-60 0,-100" transform="rotate(315)"/>
+    </g>
+    <!-- Diamond accents -->
+    <g stroke-width="1">
+      <path d="M0,-150 L10,-140 L0,-130 L-10,-140 Z"/>
+      <path d="M0,-150 L10,-140 L0,-130 L-10,-140 Z" transform="rotate(60)"/>
+      <path d="M0,-150 L10,-140 L0,-130 L-10,-140 Z" transform="rotate(120)"/>
+      <path d="M0,-150 L10,-140 L0,-130 L-10,-140 Z" transform="rotate(180)"/>
+      <path d="M0,-150 L10,-140 L0,-130 L-10,-140 Z" transform="rotate(240)"/>
+      <path d="M0,-150 L10,-140 L0,-130 L-10,-140 Z" transform="rotate(300)"/>
+    </g>
+  </g>
+  <style>
+    svg { animation: mandalaRotate 120s linear infinite; }
+    @keyframes mandalaRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  </style>
+</svg>

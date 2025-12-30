@@ -19,6 +19,35 @@
     overflow: hidden;
 }
 
+/* ===== Mandala Background ===== */
+.mandala-bg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150vmax;
+    height: 150vmax;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.12;
+}
+
+.mandala-bg img {
+    width: 100%;
+    height: 100%;
+    animation: mandalaRotate 120s linear infinite;
+}
+
+@keyframes mandalaRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 /* ===== Parallax Container ===== */
 .parallax-container {
     position: fixed;
@@ -1788,4 +1817,68 @@
     border-radius: 10px;
     font-size: 1rem;
     background: white;
+}
+
+/* ==========================================================================
+   TAP HINT & STORY DAYS OVERVIEW SPACING
+   ========================================================================== */
+.tap-hint {
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-sm);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.story-days-overview {
+    padding-bottom: var(--space-md);
+}
+
+/* ==========================================================================
+   BUTTON ICONS & SHARE BUTTON STYLING
+   ========================================================================== */
+.btn-icon {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 6px;
+    filter: brightness(0) invert(1);
+}
+
+.btn-share .btn-icon {
+    filter: none;
+}
+
+.btn-share {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(74, 10, 30, 0.15);
+    color: var(--maroon);
+    padding: var(--space-sm) var(--space-lg);
+    border: 2px solid var(--maroon);
+    border-radius: var(--radius-full);
+    font-family: var(--font-accent);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-share:hover {
+    background: var(--maroon);
+    color: var(--bg-cream);
+}
+
+.btn-share:hover .btn-icon {
+    filter: brightness(0) invert(1);
+}
+
+/* ==========================================================================
+   TRAVEL ICON STYLING
+   ========================================================================== */
+.travel-icon-svg {
+    width: 32px;
+    height: 32px;
 }

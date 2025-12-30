@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="pillarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#CD853F"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#CD853F"/>
+    </linearGradient>
+    <linearGradient id="roofGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#8B1538"/>
+      <stop offset="100%" style="stop-color:#6B0F2B"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Roof/Canopy -->
+  <path d="M4 22 L32 4 L60 22 L56 24 L32 10 L8 24 Z" fill="url(#roofGrad)"/>
+  
+  <!-- Decorative border on roof -->
+  <path d="M8 24 L32 10 L56 24" stroke="#FFD700" stroke-width="1" fill="none"/>
+  
+  <!-- Toran/garland on top -->
+  <path d="M12 22 Q22 26 32 22 Q42 26 52 22" stroke="#FF8C00" stroke-width="3" fill="none"/>
+  
+  <!-- Front pillars -->
+  <rect x="10" y="24" width="6" height="32" fill="url(#pillarGrad)"/>
+  <rect x="48" y="24" width="6" height="32" fill="url(#pillarGrad)"/>
+  
+  <!-- Pillar decorations -->
+  <rect x="10" y="28" width="6" height="2" fill="#8B4513"/>
+  <rect x="10" y="50" width="6" height="2" fill="#8B4513"/>
+  <rect x="48" y="28" width="6" height="2" fill="#8B4513"/>
+  <rect x="48" y="50" width="6" height="2" fill="#8B4513"/>
+  
+  <!-- Back pillars (subtle) -->
+  <rect x="18" y="26" width="4" height="28" fill="#B8860B" opacity="0.5"/>
+  <rect x="42" y="26" width="4" height="28" fill="#B8860B" opacity="0.5"/>
+  
+  <!-- Sacred fire (Agni) in center -->
+  <path d="M32 45 Q28 42 30 38 Q32 34 32 38 Q32 34 34 38 Q36 42 32 45" fill="#FF6B00">
+    <animate attributeName="d" 
+             values="M32 45 Q28 42 30 38 Q32 34 32 38 Q32 34 34 38 Q36 42 32 45;
+                     M32 43 Q27 40 29 36 Q32 32 32 36 Q32 32 35 36 Q37 40 32 43;
+                     M32 45 Q28 42 30 38 Q32 34 32 38 Q32 34 34 38 Q36 42 32 45"
+             dur="0.8s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- Fire base -->
+  <path d="M26 48 L38 48 L36 52 L28 52 Z" fill="#8B4513"/>
+  
+  <!-- Marigold decorations -->
+  <circle cx="10" cy="24" r="3" fill="#FF8C00"/>
+  <circle cx="54" cy="24" r="3" fill="#FF8C00"/>
+  
+  <!-- Floor platform -->
+  <rect x="6" y="56" width="52" height="4" fill="#CD853F"/>
+</svg>
