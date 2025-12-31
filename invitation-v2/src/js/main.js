@@ -51,20 +51,36 @@ function initPreloader() {
         preloader.classList.add('hidden');
         document.body.style.overflow = '';
 
-        // Start music on interaction
+        // Force scroll to top immediately
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+
+        // Start music on interaction - Enhanced for mobile/Android
         if (bgMusic) {
             bgMusic.volume = 0.3;
-            bgMusic.play().catch(() => {
-                console.log('Audio autoplay blocked');
-            });
+
+            // Load audio first to unlock on mobile
+            bgMusic.load();
+
+            const playPromise = bgMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    if (musicToggle) musicToggle.classList.add('playing');
+                }).catch(() => {
+                    console.log('Audio autoplay blocked - user can click music button');
+                });
+            }
         }
 
         // Start countdown
         updateFlipClock();
         setInterval(updateFlipClock, 1000);
 
-        // Init scroll animations
-        initScrollAnimations();
+        // Init scroll animations after a small delay to ensure scroll position is set
+        setTimeout(() => {
+            initScrollAnimations();
+        }, 50);
     };
 
     preloader.addEventListener('click', openInvitation);
@@ -329,6 +345,16 @@ function initShare() {
 // ===== Init =====
 function init() {
     console.log('🪔 Wedding Invitation Loading...');
+
+    // Prevent browser from restoring scroll position
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+
+    // Force scroll to top immediately
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
 
     // Check reduced motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
