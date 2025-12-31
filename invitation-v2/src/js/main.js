@@ -130,12 +130,15 @@ function setFlipValue(unit, value) {
 }
 
 // ===== EVENT OVERLAYS =====
-// Scroll blocking function
+// Scroll blocking function - only blocks scrolling outside the overlay
 function blockBodyScroll(e) {
     const activeOverlay = document.querySelector('.event-overlay.active');
-    if (activeOverlay && !activeOverlay.contains(e.target)) {
+    if (!activeOverlay) return;
+
+    // Only block scroll if the event target is outside the overlay
+    if (!activeOverlay.contains(e.target)) {
         e.preventDefault();
-        e.stopPropagation();
+        // Don't use stopPropagation - it prevents scroll events from working inside overlay
     }
 }
 

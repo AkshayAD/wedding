@@ -1612,7 +1612,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    touch-action: none;
+    /* Removed touch-action: none to allow overlay content scrolling */
 }
 
 .overlay-backdrop.active {
@@ -1639,6 +1639,8 @@
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    touch-action: pan-y;
+    /* Enable vertical scrolling on touch devices */
 }
 
 .event-overlay.active {
@@ -2016,6 +2018,8 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--maroon) rgba(0, 0, 0, 0.1);
+    touch-action: pan-y;
+    /* Enable vertical scrolling on touch devices */
 }
 
 .scrollable-overlay::-webkit-scrollbar {
