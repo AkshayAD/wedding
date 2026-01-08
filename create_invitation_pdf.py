@@ -4,6 +4,7 @@ from PIL import Image
 def create_wedding_invitation():
     # Define file order
     files = [
+        "Invitation Cover Page.png",
         "Invitation Cover.png",
         "Haldi Final.png",
         "Sangeet Final.png",

@@ -351,6 +351,35 @@
     pointer-events: none;
 }
 
+/* ===== iOS Touch Compatibility ===== */
+.preloader,
+.event-chip,
+.btn-secondary[data-overlay],
+.overlay-close,
+.music-toggle,
+.btn-primary,
+.btn-share {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* Body scroll lock when overlay is open */
+body.overlay-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+/* Scrollable overlay touch fix */
+.scrollable-overlay {
+    touch-action: pan-y;
+}
+
+.scrollable-overlay .scrollable-content {
+    touch-action: pan-y;
+}
+
 .invitation-envelope {
     width: 120px;
     height: 80px;

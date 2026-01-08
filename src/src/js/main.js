@@ -113,7 +113,9 @@ function setFlipValue(unit, value) {
     if (onesEl) onesEl.textContent = ones;
 }
 
-// ===== EVENT OVERLAYS =====
+// ===== EVENT OVERLAYS (iOS Compatible) =====
+let savedScrollY = 0;
+
 // Scroll blocking function
 function blockBodyScroll(e) {
     const activeOverlay = document.querySelector('.event-overlay.active');
@@ -125,35 +127,68 @@ function blockBodyScroll(e) {
 
 function initOverlays() {
     const overlayTriggers = document.querySelectorAll('[data-overlay]');
-    const overlays = document.querySelectorAll('.event-overlay');
     const closeButtons = document.querySelectorAll('.overlay-close');
 
-    // Open overlay
+    // Open overlay - handle both click and touch for iOS
     overlayTriggers.forEach(trigger => {
-        trigger.addEventListener('click', () => {
+        const openHandler = (e) => {
+            e.preventDefault();
             const overlayId = trigger.dataset.overlay;
             const overlay = document.getElementById(`overlay-${overlayId}`);
 
             if (overlay && overlayBackdrop) {
+                // Save scroll position and lock body
+                savedScrollY = window.scrollY;
+                document.body.style.overflow = 'hidden';
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${savedScrollY}px`;
+                document.body.style.width = '100%';
+                document.body.classList.add('overlay-open');
+
                 overlayBackdrop.classList.add('active');
                 overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
+
                 if (lenis) lenis.stop();
-                // Add scroll blocking
+
+                // Add scroll blocking for non-overlay areas
                 document.addEventListener('wheel', blockBodyScroll, { passive: false });
                 document.addEventListener('touchmove', blockBodyScroll, { passive: false });
+
+                // Allow touch scroll inside scrollable overlays
+                if (overlay.classList.contains('scrollable-overlay')) {
+                    overlay.addEventListener('touchmove', (evt) => {
+                        evt.stopPropagation();
+                    }, { passive: true });
+                }
             }
-        });
+        };
+
+        trigger.addEventListener('click', openHandler);
+        trigger.addEventListener('touchend', openHandler, { passive: false });
     });
 
     // Close overlay - close button
     closeButtons.forEach(btn => {
         btn.addEventListener('click', closeAllOverlays);
+        btn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            closeAllOverlays();
+        }, { passive: false });
     });
 
     // Close overlay - backdrop click
     if (overlayBackdrop) {
-        overlayBackdrop.addEventListener('click', closeAllOverlays);
+        overlayBackdrop.addEventListener('click', (e) => {
+            if (e.target === overlayBackdrop) {
+                closeAllOverlays();
+            }
+        });
+        overlayBackdrop.addEventListener('touchend', (e) => {
+            if (e.target === overlayBackdrop) {
+                e.preventDefault();
+                closeAllOverlays();
+            }
+        }, { passive: false });
     }
 
     // Close overlay - Escape key
@@ -168,8 +203,17 @@ function closeAllOverlays() {
     const overlays = document.querySelectorAll('.event-overlay');
     overlays.forEach(o => o.classList.remove('active'));
     if (overlayBackdrop) overlayBackdrop.classList.remove('active');
+
+    // Restore scroll position
     document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.classList.remove('overlay-open');
+    window.scrollTo(0, savedScrollY);
+
     if (lenis) lenis.start();
+
     // Remove scroll blocking
     document.removeEventListener('wheel', blockBodyScroll);
     document.removeEventListener('touchmove', blockBodyScroll);

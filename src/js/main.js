@@ -113,34 +113,66 @@ function setFlipValue(unit, value) {
     if (onesEl) onesEl.textContent = ones;
 }
 
-// ===== EVENT OVERLAYS =====
+// ===== EVENT OVERLAYS (iOS Compatible) =====
+let savedScrollY = 0;
+
 function initOverlays() {
-    const eventChips = document.querySelectorAll('.event-chip[data-overlay]');
-    const overlays = document.querySelectorAll('.event-overlay');
+    // Handle ALL elements with data-overlay attribute (event chips + btn-secondary)
+    const overlayTriggers = document.querySelectorAll('[data-overlay]');
     const closeButtons = document.querySelectorAll('.overlay-close');
 
-    // Open overlay
-    eventChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-            const overlayId = chip.dataset.overlay;
+    // Open overlay - handle both click and touch for iOS
+    overlayTriggers.forEach(trigger => {
+        const openHandler = (e) => {
+            e.preventDefault();
+            const overlayId = trigger.dataset.overlay;
             const overlay = document.getElementById(`overlay-${overlayId}`);
 
             if (overlay && overlayBackdrop) {
+                // Save scroll position and lock body
+                savedScrollY = window.scrollY;
+                document.body.style.overflow = 'hidden';
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${savedScrollY}px`;
+                document.body.style.width = '100%';
+                document.body.classList.add('overlay-open');
+
                 overlayBackdrop.classList.add('active');
                 overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
+
+                // Allow touch scroll inside scrollable overlays
+                if (overlay.classList.contains('scrollable-overlay')) {
+                    enableOverlayScroll(overlay);
+                }
             }
-        });
+        };
+
+        trigger.addEventListener('click', openHandler);
+        trigger.addEventListener('touchend', openHandler, { passive: false });
     });
 
     // Close overlay - close button
     closeButtons.forEach(btn => {
         btn.addEventListener('click', closeAllOverlays);
+        btn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            closeAllOverlays();
+        }, { passive: false });
     });
 
     // Close overlay - backdrop click
     if (overlayBackdrop) {
-        overlayBackdrop.addEventListener('click', closeAllOverlays);
+        overlayBackdrop.addEventListener('click', (e) => {
+            if (e.target === overlayBackdrop) {
+                closeAllOverlays();
+            }
+        });
+        overlayBackdrop.addEventListener('touchend', (e) => {
+            if (e.target === overlayBackdrop) {
+                e.preventDefault();
+                closeAllOverlays();
+            }
+        }, { passive: false });
     }
 
     // Close overlay - Escape key
@@ -151,11 +183,25 @@ function initOverlays() {
     });
 }
 
+function enableOverlayScroll(overlay) {
+    // Allow touch scrolling within the overlay content
+    overlay.addEventListener('touchmove', (e) => {
+        e.stopPropagation();
+    }, { passive: true });
+}
+
 function closeAllOverlays() {
     const overlays = document.querySelectorAll('.event-overlay');
     overlays.forEach(o => o.classList.remove('active'));
     if (overlayBackdrop) overlayBackdrop.classList.remove('active');
+
+    // Restore scroll position
     document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.classList.remove('overlay-open');
+    window.scrollTo(0, savedScrollY);
 }
 
 // ===== Progress Bar =====
