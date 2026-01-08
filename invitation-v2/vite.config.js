@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-    // Base path for GitHub Pages - deploying to root
-    base: '/wedding/',
+    // Base path for custom domain - serving from root
+    base: '/',
 
     build: {
         outDir: 'dist',
