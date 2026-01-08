@@ -116,6 +116,26 @@ function setFlipValue(unit, value) {
 // ===== EVENT OVERLAYS (iOS Compatible) =====
 let savedScrollY = 0;
 
+// Scroll blocking function - only blocks scrolling outside the overlay
+// For scrollable overlays, allow scroll inside
+function blockBodyScroll(e) {
+    const activeOverlay = document.querySelector('.event-overlay.active');
+    if (!activeOverlay) return;
+
+    // Check if the target is inside the overlay
+    if (activeOverlay.contains(e.target)) {
+        // If it's a scrollable overlay, allow scrolling
+        if (activeOverlay.classList.contains('scrollable-overlay')) {
+            // Allow wheel/trackpad scroll - don't prevent default
+            return;
+        }
+    }
+
+    // Block scroll for everything outside the overlay 
+    // or inside non-scrollable overlays
+    e.preventDefault();
+}
+
 function initOverlays() {
     // Handle ALL elements with data-overlay attribute (event chips + btn-secondary)
     const overlayTriggers = document.querySelectorAll('[data-overlay]');
