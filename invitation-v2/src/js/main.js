@@ -156,66 +156,97 @@ function initOverlays() {
     const overlayTriggers = document.querySelectorAll('[data-overlay]');
     const closeButtons = document.querySelectorAll('.overlay-close');
 
-    // Open overlay - handle both click and touch for iOS
-    overlayTriggers.forEach(trigger => {
-        const openHandler = (e) => {
-            e.preventDefault();
-            const overlayId = trigger.dataset.overlay;
-            const overlay = document.getElementById(`overlay-${overlayId}`);
+    // Flag to prevent double-firing on iOS (touchstart + click)
+    let touchHandled = false;
 
-            if (overlay && overlayBackdrop) {
-                // Save scroll position and lock body
-                savedScrollY = window.scrollY;
-                document.body.style.overflow = 'hidden';
-                document.body.style.position = 'fixed';
-                document.body.style.top = `-${savedScrollY}px`;
-                document.body.style.width = '100%';
-                document.body.classList.add('overlay-open');
+    // Open overlay handler
+    const openOverlay = (trigger) => {
+        const overlayId = trigger.dataset.overlay;
+        const overlay = document.getElementById(`overlay-${overlayId}`);
 
-                overlayBackdrop.classList.add('active');
-                overlay.classList.add('active');
+        if (overlay && overlayBackdrop) {
+            // Save scroll position and lock body
+            savedScrollY = window.scrollY;
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${savedScrollY}px`;
+            document.body.style.width = '100%';
+            document.body.classList.add('overlay-open');
 
-                if (lenis) lenis.stop();
+            overlayBackdrop.classList.add('active');
+            overlay.classList.add('active');
 
-                // Add scroll blocking for non-overlay areas
-                document.addEventListener('wheel', blockBodyScroll, { passive: false });
-                document.addEventListener('touchmove', blockBodyScroll, { passive: false });
+            if (lenis) lenis.stop();
 
-                // Allow touch scroll inside scrollable overlays
-                if (overlay.classList.contains('scrollable-overlay')) {
-                    overlay.addEventListener('touchmove', (evt) => {
-                        evt.stopPropagation();
-                    }, { passive: true });
-                }
+            // Add scroll blocking for non-overlay areas
+            document.addEventListener('wheel', blockBodyScroll, { passive: false });
+            document.addEventListener('touchmove', blockBodyScroll, { passive: false });
+
+            // Allow touch scroll inside scrollable overlays
+            if (overlay.classList.contains('scrollable-overlay')) {
+                overlay.addEventListener('touchmove', (evt) => {
+                    evt.stopPropagation();
+                }, { passive: true });
             }
-        };
+        }
+    };
 
-        trigger.addEventListener('click', openHandler);
-        trigger.addEventListener('touchend', openHandler, { passive: false });
+    // Open overlay - handle touch and click with double-fire prevention
+    overlayTriggers.forEach(trigger => {
+        // Touch handler - fires first on iOS
+        trigger.addEventListener('touchstart', (e) => {
+            touchHandled = true;
+            // Small delay then open to allow touch feedback
+            setTimeout(() => {
+                openOverlay(trigger);
+            }, 50);
+        }, { passive: true });
+
+        // Click handler - for desktop and as fallback
+        trigger.addEventListener('click', (e) => {
+            // If touch already handled this interaction, skip
+            if (touchHandled) {
+                touchHandled = false;
+                return;
+            }
+            openOverlay(trigger);
+        });
     });
 
     // Close overlay - close button
     closeButtons.forEach(btn => {
-        btn.addEventListener('click', closeAllOverlays);
-        btn.addEventListener('touchend', (e) => {
-            e.preventDefault();
+        btn.addEventListener('touchstart', (e) => {
+            touchHandled = true;
+            setTimeout(() => closeAllOverlays(), 50);
+        }, { passive: true });
+
+        btn.addEventListener('click', (e) => {
+            if (touchHandled) {
+                touchHandled = false;
+                return;
+            }
             closeAllOverlays();
-        }, { passive: false });
+        });
     });
 
-    // Close overlay - backdrop click
+    // Close overlay - backdrop click/touch
     if (overlayBackdrop) {
+        overlayBackdrop.addEventListener('touchstart', (e) => {
+            if (e.target === overlayBackdrop) {
+                touchHandled = true;
+                setTimeout(() => closeAllOverlays(), 50);
+            }
+        }, { passive: true });
+
         overlayBackdrop.addEventListener('click', (e) => {
             if (e.target === overlayBackdrop) {
+                if (touchHandled) {
+                    touchHandled = false;
+                    return;
+                }
                 closeAllOverlays();
             }
         });
-        overlayBackdrop.addEventListener('touchend', (e) => {
-            if (e.target === overlayBackdrop) {
-                e.preventDefault();
-                closeAllOverlays();
-            }
-        }, { passive: false });
     }
 
     // Close overlay - Escape key
