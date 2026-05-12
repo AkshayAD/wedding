@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Order — MemoryWrapped</title>
+<style>
+  /* ── RESET & BASE ── */
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  :root {
+    --bg:       #07070d;
+    --surface:  #0d0d1c;
+    --gold:     #c9a96e;
+    --rose:     #e8b4b8;
+    --text:     #f0ece4;
+    --dim:      rgba(240,236,228,0.45);
+    --border:   rgba(201,169,110,0.18);
+  }
+  body {
+    background:var(--bg); color:var(--text);
+    font-family:'Georgia',serif;
+    min-height:100vh;
+    padding:0 0 80px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align:center; padding:64px 24px 48px;
+    border-bottom:1px solid var(--border);
+  }
+  .header-eyebrow {
+    font-family:'Arial',sans-serif; font-size:11px;
+    letter-spacing:0.36em; text-transform:uppercase;
+    color:rgba(201,169,110,0.5); margin-bottom:20px;
+  }
+  .header-title {
+    font-size:clamp(36px,5vw,56px); font-weight:400;
+    color:var(--text); letter-spacing:0.04em; margin-bottom:16px;
+  }
+  .header-sub {
+    font-family:'Arial',sans-serif; font-size:15px;
+    color:var(--dim); max-width:480px; margin:0 auto;
+    line-height:1.7;
+  }
+
+  /* ── FORM WRAPPER ── */
+  .form-wrap { max-width:680px; margin:0 auto; padding:0 24px; }
+
+  /* ── STEPS ── */
+  .step { margin-top:56px; }
+  .step-header {
+    display:flex; align-items:center; gap:16px; margin-bottom:28px;
+    padding-bottom:16px; border-bottom:1px solid var(--border);
+  }
+  .step-num {
+    width:36px; height:36px; border-radius:50%;
+    border:1px solid var(--gold); color:var(--gold);
+    font-family:'Arial',sans-serif; font-size:14px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .step-title {
+    font-size:22px; font-weight:400; color:var(--text);
+  }
+
+  /* ── FIELD ── */
+  .field { margin-bottom:22px; }
+  .field label {
+    display:block; font-family:'Arial',sans-serif;
+    font-size:11px; letter-spacing:0.28em; text-transform:uppercase;
+    color:rgba(201,169,110,0.6); margin-bottom:8px;
+  }
+  .field label .req { color:var(--rose); }
+  .field input, .field select, .field textarea {
+    width:100%; background:var(--surface);
+    border:1px solid var(--border); border-radius:8px;
+    padding:14px 16px; color:var(--text);
+    font-family:'Georgia',serif; font-size:16px;
+    outline:none; transition:border-color 0.2s;
+    -webkit-appearance:none;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color:rgba(201,169,110,0.5);
+  }
+  .field input::placeholder, .field textarea::placeholder { color:rgba(240,236,228,0.22); }
+  .field select { cursor:pointer; }
+  .field select option { background:#0d0d1c; }
+  .field textarea { resize:vertical; min-height:80px; }
+  .field-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media(max-width:520px) { .field-row { grid-template-columns:1fr; } }
+
+  /* ── UPLOAD ZONES ── */
+  .upload-zone {
+    border:1px dashed rgba(201,169,110,0.3);
+    border-radius:10px; padding:32px 24px;
+    text-align:center; cursor:pointer;
+    transition:border-color 0.2s, background 0.2s;
+  }
+  .upload-zone:hover { border-color:rgba(201,169,110,0.55); background:rgba(201,169,110,0.04); }
+  .upload-zone.has-file { border-color:rgba(201,169,110,0.6); background:rgba(201,169,110,0.06); }
+  .upload-icon { font-size:28px; margin-bottom:10px; }
+  .upload-title { font-family:'Arial',sans-serif; font-size:13px; letter-spacing:0.18em; text-transform:uppercase; color:var(--dim); margin-bottom:6px; }
+  .upload-hint { font-family:'Arial',sans-serif; font-size:12px; color:rgba(240,236,228,0.3); }
+  .upload-filename { font-family:'Arial',sans-serif; font-size:13px; color:var(--gold); margin-top:8px; }
+  .upload-zone input[type=file] { display:none; }
+
+  /* ── PACKAGES ── */
+  .package-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media(max-width:520px) { .package-grid { grid-template-columns:1fr; } }
+  .pkg-card {
+    border:1px solid var(--border); border-radius:10px;
+    padding:20px 16px; cursor:pointer; transition:border-color 0.2s, background 0.2s;
+    position:relative;
+  }
+  .pkg-card:hover { border-color:rgba(201,169,110,0.4); background:rgba(201,169,110,0.04); }
+  .pkg-card.selected { border-color:var(--gold); background:rgba(201,169,110,0.07); }
+  .pkg-card input[type=radio] { position:absolute; opacity:0; pointer-events:none; }
+  .pkg-name { font-family:'Arial',sans-serif; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--dim); margin-bottom:6px; }
+  .pkg-price { font-size:26px; color:var(--gold); letter-spacing:-0.01em; margin-bottom:8px; }
+  .pkg-desc { font-family:'Arial',sans-serif; font-size:11px; color:rgba(240,236,228,0.35); line-height:1.5; }
+
+  /* ── ANALYZER STATUS ── */
+  .analyzer-status {
+    background:rgba(201,169,110,0.06); border:1px solid var(--border);
+    border-radius:8px; padding:16px 20px; margin-top:16px;
+    font-family:'Arial',sans-serif; font-size:13px;
+    color:var(--dim); display:none;
+  }
+  .analyzer-status.visible { display:block; }
+  .analyzer-status .ok { color:var(--gold); }
+  .analyzer-status .err { color:var(--rose); }
+  .analyzer-bar {
+    width:100%; height:4px; background:rgba(201,169,110,0.1);
+    border-radius:2px; margin-top:10px; overflow:hidden;
+  }
+  .analyzer-fill {
+    height:100%; background:var(--gold);
+    transition:width 0.4s ease; width:0%;
+  }
+
+  /* ── PRIVACY NOTE ── */
+  .privacy-note {
+    background:rgba(232,180,184,0.05); border:1px solid rgba(232,180,184,0.12);
+    border-radius:8px; padding:16px 20px; margin-top:24px;
+    font-family:'Arial',sans-serif; font-size:12px;
+    color:rgba(240,236,228,0.45); line-height:1.6;
+    display:flex; gap:12px; align-items:flex-start;
+  }
+  .privacy-note .lock { font-size:18px; flex-shrink:0; margin-top:1px; }
+
+  /* ── SUBMIT ── */
+  .submit-wrap { margin-top:48px; text-align:center; }
+  .btn-submit {
+    background:var(--gold); color:#07070d;
+    border:none; border-radius:40px;
+    padding:18px 52px; font-family:'Arial',sans-serif;
+    font-size:14px; letter-spacing:0.2em; text-transform:uppercase;
+    cursor:pointer; transition:opacity 0.2s, transform 0.1s;
+    font-weight:700;
+  }
+  .btn-submit:hover { opacity:0.9; transform:translateY(-1px); }
+  .btn-submit:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+  .submit-note { font-family:'Arial',sans-serif; font-size:12px; color:rgba(240,236,228,0.3); margin-top:14px; }
+
+  /* ── SUCCESS SCREEN ── */
+  #success-screen {
+    display:none; text-align:center;
+    max-width:480px; margin:80px auto; padding:0 24px;
+  }
+  #success-screen .big { font-size:52px; margin-bottom:24px; }
+  #success-screen h2 { font-size:32px; font-weight:400; color:var(--text); margin-bottom:16px; }
+  #success-screen p { font-family:'Arial',sans-serif; font-size:15px; color:var(--dim); line-height:1.7; }
+
+  /* ── PROGRESS OVERLAY ── */
+  #progress-overlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(7,7,13,0.85); backdrop-filter:blur(6px);
+    z-index:100; align-items:center; justify-content:center;
+    flex-direction:column; text-align:center; gap:20px;
+  }
+  #progress-overlay.visible { display:flex; }
+  .progress-spinner {
+    width:48px; height:48px; border-radius:50%;
+    border:3px solid rgba(201,169,110,0.2);
+    border-top-color:var(--gold);
+    animation:spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .progress-text { font-family:'Arial',sans-serif; font-size:14px; letter-spacing:0.14em; color:var(--dim); }
+</style>
+</head>
+<body>
+
+<div id="main-form">
+
+  <div class="header">
+    <div class="header-eyebrow">✧ MemoryWrapped</div>
+    <div class="header-title">Order your keepsake</div>
+    <div class="header-sub">Upload your WhatsApp chat and we'll turn it into a beautiful set of cards, a cinematic website, or a printed keepsake — just for the two of you.</div>
+  </div>
+
+  <div class="form-wrap">
+    <form id="order-form" novalidate>
+
+      <!-- STEP 1: YOUR DETAILS -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          <div class="step-title">Your details</div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Your name <span class="req">*</span></label>
+            <input type="text" name="name1" placeholder="Akshay" required/>
+          </div>
+          <div class="field">
+            <label>Their name <span class="req">*</span></label>
+            <input type="text" name="name2" placeholder="Divyanka" required/>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" name="email" placeholder="you@example.com" required/>
+          </div>
+          <div class="field">
+            <label>WhatsApp / Phone <span class="req">*</span></label>
+            <input type="tel" name="phone" placeholder="+91 98765 43210" required/>
+          </div>
+        </div>
+        <div class="field">
+          <label>Relationship type <span class="req">*</span></label>
+          <input type="text" name="relationship" placeholder="e.g. Girlfriend → Wife · Boyfriend → Husband · Best friends · Siblings" required/>
+        </div>
+      </div>
+
+      <!-- STEP 2: PACKAGE -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div class="step-title">Choose your package</div>
+        </div>
+        <div class="package-grid" id="pkg-grid">
+          <label class="pkg-card" data-value="mini">
+            <input type="radio" name="package" value="mini"/>
+            <div class="pkg-name">Mini</div>
+            <div class="pkg-price">₹499</div>
+            <div class="pkg-desc">6 digital story cards · WhatsApp-ready</div>
+          </label>
+          <label class="pkg-card selected" data-value="wrapped">
+            <input type="radio" name="package" value="wrapped" checked/>
+            <div class="pkg-name">Anniversary Wrapped</div>
+            <div class="pkg-price">₹999</div>
+            <div class="pkg-desc">9 cards + stats poster · Instagram carousel</div>
+          </label>
+          <label class="pkg-card" data-value="premium">
+            <input type="radio" name="package" value="premium"/>
+            <div class="pkg-name">Premium Website</div>
+            <div class="pkg-price">₹2,999</div>
+            <div class="pkg-desc">Cards + cinematic website + poster · Private link</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- STEP 3: UPLOAD CHAT -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">3</div>
+          <div class="step-title">Upload your WhatsApp chat</div>
+        </div>
+
+        <label class="upload-zone" id="chat-zone" for="chat-file">
+          <input type="file" id="chat-file" accept=".txt,.zip" required/>
+          <div class="upload-icon">💬</div>
+          <div class="upload-title">WhatsApp chat export (.txt or .zip)</div>
+          <div class="upload-hint">WhatsApp → Chat → ⋯ → Export Chat → Without Media</div>
+          <div class="upload-filename" id="chat-filename"></div>
+        </label>
+
+        <div class="analyzer-status" id="analyzer-status">
+          <span id="analyzer-msg">Analysing your chat…</span>
+          <div class="analyzer-bar"><div class="analyzer-fill" id="analyzer-fill"></div></div>
+        </div>
+
+        <div class="privacy-note">
+          <span class="lock">🔒</span>
+          <span>Your chat is analysed entirely in your browser and never uploaded as raw text. Only a secure summary (message counts, top moments, stats) is sent to us — your private conversations stay on your device.</span>
+        </div>
+      </div>
+
+      <!-- STEP 4: UPLOAD PHOTO -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">4</div>
+          <div class="step-title">Add a photo <span style="font-size:16px;color:rgba(240,236,228,0.35);font-style:italic;">(optional but beautiful)</span></div>
+        </div>
+
+        <label class="upload-zone" id="photo-zone" for="photo-file">
+          <input type="file" id="photo-file" accept="image/*"/>
+          <div class="upload-icon">📸</div>
+          <div class="upload-title">A photo of the two of you</div>
+          <div class="upload-hint">Portrait orientation works best — it becomes the full-bleed card</div>
+          <div class="upload-filename" id="photo-filename"></div>
+        </label>
+      </div>
+
+      <!-- STEP 5: A FEW MORE DETAILS -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">5</div>
+          <div class="step-title">A few more details</div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Photo location <span style="font-size:10px;opacity:0.6">(optional)</span></label>
+            <input type="text" name="photoLocation" placeholder="e.g. Petronas Towers, KL"/>
+          </div>
+          <div class="field">
+            <label>Photo month &amp; year <span style="font-size:10px;opacity:0.6">(optional)</span></label>
+            <input type="text" name="photoDate" placeholder="e.g. April 2026"/>
+          </div>
+        </div>
+        <div class="field">
+          <label>Nickname / pet name <span style="font-size:10px;opacity:0.6">(optional)</span></label>
+          <input type="text" name="nickname" placeholder="e.g. bayko, jaan, bubs — we'll feature it on a card"/>
+        </div>
+        <div class="field">
+          <label>Anything special you want us to highlight <span style="font-size:10px;opacity:0.6">(optional)</span></label>
+          <textarea name="specialNote" placeholder="e.g. our first trip together was to Goa in July 2023, the proposal happened at Café XYZ…"></textarea>
+        </div>
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="submit-wrap">
+        <button type="submit" class="btn-submit" id="btn-submit" disabled>Submit order →</button>
+        <div class="submit-note">We'll WhatsApp you within 24 hours with your cards.</div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<!-- SUCCESS SCREEN -->
+<div id="success-screen">
+  <div class="big">💕</div>
+  <h2>Order received!</h2>
+  <p>We'll WhatsApp you within <strong>24 hours</strong> with your cards.<br><br>If you have any questions in the meantime, DM us on Instagram at <strong>@getmemorywrapped</strong>.</p>
+</div>
+
+<!-- PROGRESS OVERLAY -->
+<div id="progress-overlay">
+  <div class="progress-spinner"></div>
+  <div class="progress-text" id="progress-text">Sending your order…</div>
+</div>
+
+<!-- ── SCRIPTS ── -->
+<script>
+// ── CONFIG — replace with your deployed GAS URL ──────────────────────────────
+const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbw9D2jRZEm4p2z15OUquRrGdUppop-K1N1VrP85AcCCNw3_8F61agjJFI8H5hueX-Eq/exec";
+
+// ── PACKAGE SELECTION ─────────────────────────────────────────────────────────
+document.querySelectorAll('.pkg-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    card.querySelector('input[type=radio]').checked = true;
+  });
+});
+
+// ── FILE UPLOAD ZONES ─────────────────────────────────────────────────────────
+let manifestData = null;
+let photoData    = null;
+let chatText     = null;
+
+document.getElementById('chat-file').addEventListener('change', async function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  document.getElementById('chat-filename').textContent = file.name;
+  document.getElementById('chat-zone').classList.add('has-file');
+  await analyzeChat(file);
+});
+
+document.getElementById('photo-file').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  document.getElementById('photo-filename').textContent = file.name;
+  document.getElementById('photo-zone').classList.add('has-file');
+  readFileAsBase64(file).then(b64 => { photoData = b64; });
+});
+
+// ── ANALYZER ─────────────────────────────────────────────────────────────────
+async function analyzeChat(file) {
+  const status = document.getElementById('analyzer-status');
+  const msg    = document.getElementById('analyzer-msg');
+  const fill   = document.getElementById('analyzer-fill');
+  status.classList.add('visible');
+  msg.innerHTML = 'Reading chat…';
+  fill.style.width = '15%';
+
+  try {
+    let text = '';
+    if (file.name.endsWith('.zip')) {
+      // Basic zip handling — try to read as text (some exports are plain zip of a .txt)
+      // For now, show helpful message
+      msg.innerHTML = '<span class="err">Zip detected — please export chat as .txt (Without Media) and re-upload.</span>';
+      fill.style.width = '0%';
+      return;
+    } else {
+      text = await readFileAsText(file);
+    }
+
+    chatText = text;
+    fill.style.width = '35%';
+    msg.innerHTML = 'Analysing messages…';
+
+    // Run the analyzer (embedded lightweight version)
+    const result = await runAnalyzer(text);
+    fill.style.width = '90%';
+
+    if (result) {
+      manifestData = result;
+      fill.style.width = '100%';
+      const total = result.stats.totalMessages.toLocaleString();
+      const words = (result.stats.totalWords / 1000).toFixed(0);
+      msg.innerHTML = `<span class="ok">✓ Found ${total} messages · ${words}K words · Ready to submit</span>`;
+      checkSubmitReady();
+    } else {
+      msg.innerHTML = '<span class="err">Could not parse chat. Make sure it\'s a WhatsApp .txt export.</span>';
+    }
+  } catch(err) {
+    msg.innerHTML = `<span class="err">Error: ${err.message}</span>`;
+    console.error(err);
+  }
+}
+
+// ── LIGHTWEIGHT ANALYZER ──────────────────────────────────────────────────────
+async function runAnalyzer(text) {
+  // Parse WhatsApp export format:
+  // [DD/MM/YYYY, HH:MM:SS] Name: Message
+  // or M/D/YY, H:MM PM - Name: Message
+  const lines = text.split('\n');
+  const msgRe = /^[\[‎]?(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})[,\s]+(\d{1,2}):(\d{2})(?::(\d{2}))?(?:\s*(AM|PM))?\]?[\s\-–]+([^:]+):\s(.+)/i;
+
+  const messages  = [];
+  const senders   = {};
+  const emojiRe   = /\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu;
+  const emojiCounts = {};
+  let curMsg = null;
+
+  for (const line of lines) {
+    const m = msgRe.exec(line.trim());
+    if (m) {
+      const sender = m[8].trim();
+      const text   = m[9].trim();
+      curMsg = { sender, text, date: parseDate(m) };
+      messages.push(curMsg);
+      senders[sender] = (senders[sender] || 0) + 1;
+      // Count emojis
+      const emojis = text.match(emojiRe) || [];
+      emojis.forEach(e => { emojiCounts[e] = (emojiCounts[e] || 0) + 1; });
+    } else if (curMsg && line.trim() && !line.includes('<Media omitted>')) {
+      curMsg.text += ' ' + line.trim();
+    }
+  }
+
+  if (messages.length < 10) return null;
+
+  const participants = Object.keys(senders).filter(s => !s.includes('changed') && s.length < 40).slice(0, 2);
+  const dates = messages.map(m => m.date).filter(Boolean).sort();
+  const from  = dates[0] || '';
+  const to    = dates[dates.length - 1] || '';
+
+  // Word count per sender
+  const wordsBySender = {};
+  const mediaBySender = {};
+  messages.forEach(m => {
+    const words = m.text.split(/\s+/).filter(w => w.length > 0).length;
+    wordsBySender[m.sender] = (wordsBySender[m.sender] || 0) + words;
+    if (m.text.includes('<Media omitted>') || m.text.includes('image omitted')) {
+      mediaBySender[m.sender] = (mediaBySender[m.sender] || 0) + 1;
+    }
+  });
+
+  const totalWords = Object.values(wordsBySender).reduce((a,b)=>a+b,0);
+  const mediaCount = Object.values(mediaBySender).reduce((a,b)=>a+b,0);
+
+  // Peak hour
+  const hourCounts = {};
+  messages.forEach(m => {
+    if (m.hour !== undefined) hourCounts[m.hour] = (hourCounts[m.hour] || 0) + 1;
+  });
+  const peakHour = Object.entries(hourCounts).sort((a,b) => b[1]-a[1])[0]?.[0] || '22';
+
+  // Streak
+  const daySet = new Set(messages.map(m => m.date).filter(Boolean));
+  let streak = 0, maxStreak = 0, prevDay = null;
+  [...daySet].sort().forEach(d => {
+    if (prevDay) {
+      const diff = (new Date(d) - new Date(prevDay)) / 86400000;
+      streak = diff === 1 ? streak + 1 : 1;
+    } else { streak = 1; }
+    maxStreak = Math.max(maxStreak, streak);
+    prevDay = d;
+  });
+
+  // Top emojis
+  const topEmojis = Object.entries(emojiCounts)
+    .sort((a,b) => b[1]-a[1]).slice(0,10)
+    .map(([emoji, count]) => ({ emoji, count, approved: true }));
+
+  // Motifs
+  const loveRe   = /i love you|love you|i miss you/i;
+  const morningRe = /good morning/i;
+  const nightRe   = /good night/i;
+  let loveCount = 0, morningCount = 0, nightCount = 0;
+  messages.forEach(m => {
+    if (loveRe.test(m.text))    loveCount++;
+    if (morningRe.test(m.text)) morningCount++;
+    if (nightRe.test(m.text))   nightCount++;
+  });
+
+  // First message & first month moments
+  const firstMsg = messages[0];
+  const firstDate = new Date(from);
+  const earlyMoments = messages.filter(m => {
+    const d = new Date(m.date);
+    return !isNaN(d) && (d - firstDate) / 86400000 <= 45 &&
+           m.text.length > 20 && !m.text.includes('<Media');
+  }).slice(0, 30);
+
+  const milestones = firstMsg ? [{
+    id: 'ms1', approved: true,
+    title: 'First message',
+    date: firstMsg.date,
+    sender: firstMsg.sender,
+    sample: firstMsg.text.slice(0, 100),
+    redacted: false,
+  }] : [];
+
+  const romanticRe = /would you|date|chance|please|love you|girlfriend|boyfriend|together|will you/i;
+  const moments = earlyMoments
+    .filter(m => m.text.length > 30)
+    .map((m, i) => ({
+      id: `m${i+1}`, kind: 'quote', approved: true, redacted: false,
+      text: m.text.slice(0, 300),
+      sender: m.sender, date: m.date,
+    }))
+    .slice(0, 40);
+
+  const perSender = {};
+  participants.forEach(p => {
+    perSender[p] = {
+      messages: senders[p] || 0,
+      words: wordsBySender[p] || 0,
+      media: mediaBySender[p] || 0,
+    };
+  });
+
+  return {
+    schema: 'memorywrapped-manifest@1',
+    generatedAt: new Date().toISOString(),
+    client: { analyzerVersion: '2.0.0-web' },
+    title: `${participants[0] || '?'} & ${participants[1] || '?'}`,
+    occasion: 'anniversary',
+    tone: 'balanced',
+    theme: 'rose_gold',
+    tier: 'wrapped',
+    participants,
+    dateRange: { from, to },
+    stats: {
+      totalMessages: messages.length,
+      totalWords,
+      totalDaysActive: daySet.size,
+      daysSpan: Math.round((new Date(to) - new Date(from)) / 86400000),
+      longestStreakDays: maxStreak,
+      peakHour: `${peakHour.padStart(2,'0')}:00`,
+      mediaCount,
+      perSender,
+    },
+    moments,
+    milestones,
+    motifs: [
+      { id:'mo1', approved:true, label:'Good mornings', count:morningCount, firstDate:from, sample:'Good morning' },
+      { id:'mo2', approved:true, label:'Good nights',   count:nightCount,   firstDate:from, sample:'Good night' },
+      { id:'mo3', approved:true, label:'Love notes',    count:loveCount,    firstDate:from, sample:'I love you' },
+    ],
+    topEmojis,
+  };
+}
+
+function parseDate(m) {
+  // m[1]=day/month, m[2]=month/day, m[3]=year, m[4]=hour, m[5]=min, m[7]=AM/PM
+  try {
+    let day = parseInt(m[1]), month = parseInt(m[2]), year = parseInt(m[3]);
+    let hour = parseInt(m[4]);
+    if (year < 100) year += 2000;
+    // Detect MM/DD vs DD/MM: if day > 12 it must be DD/MM
+    if (day > 12) { /* DD/MM already */ } else if (month > 12) { [day, month] = [month, day]; }
+    const ampm = m[7];
+    if (ampm) {
+      if (ampm.toUpperCase() === 'PM' && hour < 12) hour += 12;
+      if (ampm.toUpperCase() === 'AM' && hour === 12) hour = 0;
+    }
+    const iso = `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    return iso;
+  } catch(e) { return ''; }
+}
+
+// ── FORM VALIDATION ───────────────────────────────────────────────────────────
+function checkSubmitReady() {
+  const f = document.getElementById('order-form');
+  const name1 = f.name1.value.trim();
+  const name2 = f.name2.value.trim();
+  const email = f.email.value.trim();
+  const phone = f.phone.value.trim();
+  const rel   = f.relationship.value.trim();
+  const ok    = name1 && name2 && email && phone && rel && manifestData;
+  document.getElementById('btn-submit').disabled = !ok;
+}
+
+document.getElementById('order-form').addEventListener('input', checkSubmitReady);
+
+// ── SUBMIT ────────────────────────────────────────────────────────────────────
+document.getElementById('order-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  if (!manifestData) { alert('Please upload your WhatsApp chat first.'); return; }
+
+  const f = e.target;
+  const overlay = document.getElementById('progress-overlay');
+  overlay.classList.add('visible');
+  document.getElementById('progress-text').textContent = 'Preparing your order…';
+
+  const payload = {
+    customer: {
+      name1:   f.name1.value.trim(),
+      name2:   f.name2.value.trim(),
+      email:   f.email.value.trim(),
+      phone:   f.phone.value.trim(),
+      package: f.package.value,
+    },
+    custom: {
+      relationship:  f.relationship.value.trim(),
+      photoLocation: f.photoLocation.value.trim(),
+      photoDate:     f.photoDate.value.trim(),
+      nickname:      f.nickname.value.trim(),
+      specialNote:   f.specialNote.value.trim(),
+    },
+    manifest:  manifestData,
+    chatText:  null,          // chat is NOT sent — privacy by design
+    photo:     photoData || null,
+  };
+
+  try {
+    document.getElementById('progress-text').textContent = 'Sending to MemoryWrapped…';
+    const res = await fetch(ENDPOINT_URL, {
+      method: 'POST',
+      body:   JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (data.success) {
+      overlay.classList.remove('visible');
+      document.getElementById('main-form').style.display = 'none';
+      document.getElementById('success-screen').style.display = 'block';
+    } else {
+      throw new Error(data.error || 'Unknown error');
+    }
+  } catch(err) {
+    overlay.classList.remove('visible');
+    alert('Something went wrong. Please DM us on @getmemorywrapped.\n\n' + err.message);
+    console.error(err);
+  }
+});
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function readFileAsText(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result);
+    r.onerror = rej;
+    r.readAsText(file, 'utf-8');
+  });
+}
+
+function readFileAsBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+</script>
+</body>
+</html>
