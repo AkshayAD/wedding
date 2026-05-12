@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MemoryWrapped — Your WhatsApp Story in 9 Beautiful Cards</title>
+<meta name="description" content="Turn your WhatsApp chat into 9 personalized story cards. Generates instantly in your browser. Your chat never leaves your device.">
+<meta property="og:title" content="MemoryWrapped — Your story in 9 cards">
+<meta property="og:description" content="Upload your WhatsApp chat. Get 9 beautiful personalized cards. Instant download.">
+<meta property="og:image" content="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_01_cover.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+
+<style>
+/* ── VARIABLES ─────────────────────────────────────────────────────────────── */
+:root {
+  --bg:          #07070d;
+  --bg2:         #0c0c18;
+  --gold:        #c9a96e;
+  --gold-dark:   #a8824e;
+  --rose:        #e8b4b8;
+  --cream:       #f0ece4;
+  --muted:       rgba(240,236,228,.52);
+  --faint:       rgba(240,236,228,.22);
+  --card-bg:     rgba(255,255,255,.03);
+  --card-border: rgba(201,169,110,.18);
+  --f-display:   'Cormorant Garamond', Georgia, serif;
+  --f-ui:        'Inter', system-ui, sans-serif;
+  --nav-h:       64px;
+  --r:           14px;
+}
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--cream); font-family:var(--f-ui); font-size:16px; line-height:1.6; overflow-x:hidden; }
+img { max-width:100%; display:block; }
+a { color:inherit; text-decoration:none; }
+button { font-family:var(--f-ui); }
+
+.container { max-width:1160px; margin:0 auto; padding:0 40px; }
+.eyebrow { font-family:var(--f-ui); font-size:11px; letter-spacing:.34em; text-transform:uppercase; color:rgba(201,169,110,.6); }
+.gold { color:var(--gold); } .rose { color:var(--rose); }
+
+.btn-primary { background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:var(--bg); font-size:15px; font-weight:600; padding:15px 36px; border-radius:8px; border:none; cursor:pointer; transition:opacity .2s,transform .15s; letter-spacing:.03em; }
+.btn-primary:hover { opacity:.88; transform:translateY(-2px); }
+.btn-ghost { background:transparent; color:var(--muted); font-size:15px; padding:15px 28px; border-radius:8px; border:1px solid rgba(201,169,110,.25); cursor:pointer; transition:all .2s; letter-spacing:.03em; }
+.btn-ghost:hover { border-color:var(--gold); color:var(--gold); }
+
+.section-hd { text-align:center; margin-bottom:64px; }
+.section-hd .eyebrow { margin-bottom:16px; }
+.section-h2 { font-family:var(--f-display); font-size:clamp(36px,5vw,56px); font-weight:300; color:var(--cream); line-height:1.08; margin-bottom:14px; }
+.section-sub { font-size:16px; color:var(--muted); max-width:460px; margin:0 auto; }
+
+.fade-up { opacity:0; transform:translateY(28px); transition:opacity .7s ease,transform .7s ease; }
+.fade-up.visible { opacity:1; transform:none; }
+
+/* ── NAV ──────────────────────────────────────────────────────────────────── */
+.nav { position:fixed; top:0; left:0; right:0; height:var(--nav-h); z-index:100; backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); background:rgba(7,7,13,.88); border-bottom:1px solid rgba(201,169,110,.1); }
+.nav-inner { display:flex; align-items:center; justify-content:space-between; height:100%; }
+.nav-logo { font-family:var(--f-display); font-size:22px; font-weight:400; color:var(--gold); letter-spacing:.02em; }
+.nav-links { display:flex; gap:36px; align-items:center; list-style:none; }
+.nav-links a { font-size:13px; letter-spacing:.06em; color:var(--muted); transition:color .2s; }
+.nav-links a:hover { color:var(--cream); }
+.btn-nav { background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:var(--bg); font-size:13px; font-weight:600; letter-spacing:.04em; padding:10px 22px; border-radius:6px; border:none; cursor:pointer; transition:opacity .2s,transform .1s; }
+.btn-nav:hover { opacity:.88; transform:translateY(-1px); }
+.nav-mob { display:none; }
+@media(max-width:768px){ .nav-links{display:none;} .nav-mob{display:block;} }
+
+/* ── HERO ─────────────────────────────────────────────────────────────────── */
+.hero { min-height:100vh; display:flex; align-items:center; padding-top:var(--nav-h); position:relative; overflow:hidden; }
+.hero-bg { position:absolute; inset:0; pointer-events:none; background: radial-gradient(ellipse 900px 700px at 80% 30%,rgba(201,169,110,.055) 0%,transparent 60%), radial-gradient(ellipse 600px 500px at 10% 80%,rgba(232,180,184,.04) 0%,transparent 60%); }
+.hero-inner { display:flex; align-items:center; gap:80px; width:100%; padding:80px 0; position:relative; z-index:1; }
+.hero-copy { flex:1; }
+.hero .eyebrow { margin-bottom:28px; }
+.hero-h1 { font-family:var(--f-display); font-size:clamp(56px,8vw,92px); font-weight:300; line-height:.94; letter-spacing:-.01em; color:var(--cream); margin-bottom:28px; }
+.hero-h1 em { font-style:italic; color:var(--rose); }
+.hero-sub { font-size:18px; color:var(--muted); line-height:1.65; max-width:460px; margin-bottom:48px; }
+.hero-ctas { display:flex; gap:16px; flex-wrap:wrap; align-items:center; margin-bottom:56px; }
+.hero-proof { display:flex; gap:24px; align-items:center; flex-wrap:wrap; }
+.proof-item { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--faint); }
+.proof-dot { width:4px; height:4px; border-radius:50%; background:rgba(201,169,110,.3); }
+.hero-visual { flex-shrink:0; width:340px; }
+.hero-stack { position:relative; }
+.hero-main { width:100%; border-radius:16px; border:1px solid var(--card-border); box-shadow:0 40px 80px rgba(0,0,0,.65),0 0 60px rgba(201,169,110,.08); position:relative; z-index:3; }
+.hero-behind { position:absolute; width:88%; border-radius:16px; border:1px solid rgba(201,169,110,.1); }
+.hero-behind-l { top:-16px; left:-22px; transform:rotate(-6deg); opacity:.45; z-index:1; }
+.hero-behind-r { top:-10px; right:-22px; transform:rotate(5deg); opacity:.35; z-index:2; }
+@media(max-width:900px){ .hero-visual{display:none;} }
+@media(max-width:600px){ .hero-h1{font-size:clamp(44px,12vw,72px);} .hero-sub{font-size:16px;} }
+
+/* ── TRUST BAR ────────────────────────────────────────────────────────────── */
+.trust-bar { border-top:1px solid rgba(201,169,110,.08); border-bottom:1px solid rgba(201,169,110,.08); padding:20px 0; }
+.trust-inner { display:flex; justify-content:center; gap:44px; flex-wrap:wrap; }
+.trust-item { display:flex; align-items:center; gap:7px; font-size:13px; letter-spacing:.04em; color:var(--faint); }
+.trust-item .chk { color:var(--gold); }
+
+/* ── GALLERY ──────────────────────────────────────────────────────────────── */
+.gallery-section { padding:120px 0; }
+.gallery-track { display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding:20px 40px 32px; }
+.gallery-track::-webkit-scrollbar { display:none; }
+.g-card { flex-shrink:0; scroll-snap-align:start; width:230px; position:relative; transition:transform .3s; }
+.g-card:hover { transform:translateY(-8px); }
+.g-card img { width:100%; aspect-ratio:1080/1350; object-fit:cover; border-radius:12px; border:1px solid var(--card-border); box-shadow:0 16px 48px rgba(0,0,0,.5); }
+.g-badge { position:absolute; top:10px; left:10px; background:rgba(7,7,13,.82); backdrop-filter:blur(8px); border:1px solid var(--card-border); border-radius:20px; padding:3px 11px; font-size:10px; letter-spacing:.12em; color:var(--gold); text-transform:uppercase; }
+.gallery-dots { display:flex; justify-content:center; gap:7px; margin-top:24px; }
+.g-dot { width:6px; height:6px; border-radius:50%; background:rgba(201,169,110,.25); cursor:pointer; transition:all .25s; border:none; }
+.g-dot.active { background:var(--gold); width:20px; border-radius:3px; }
+.gallery-caption { text-align:center; margin-top:10px; font-size:14px; font-family:var(--f-display); font-style:italic; color:var(--faint); }
+
+/* ── HOW IT WORKS ─────────────────────────────────────────────────────────── */
+.how-section { padding:120px 0; }
+.steps-grid { display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:0; align-items:start; }
+.step-card { background:var(--card-bg); border:1px solid var(--card-border); border-radius:var(--r); padding:48px 36px; text-align:center; transition:border-color .3s,transform .3s; }
+.step-card:hover { border-color:rgba(201,169,110,.38); transform:translateY(-4px); }
+.step-num { font-family:var(--f-display); font-size:72px; font-weight:300; color:rgba(201,169,110,.12); line-height:1; margin-bottom:20px; }
+.step-title { font-family:var(--f-display); font-size:26px; font-weight:400; color:var(--cream); margin-bottom:12px; }
+.step-desc { font-size:14px; color:var(--muted); line-height:1.75; }
+.step-arrow { display:flex; align-items:center; justify-content:center; padding:0 20px; color:rgba(201,169,110,.2); font-size:28px; }
+@media(max-width:768px){ .steps-grid{grid-template-columns:1fr; gap:20px;} .step-arrow{display:none;} }
+
+/* ── PRICING ──────────────────────────────────────────────────────────────── */
+.pricing-section { padding:120px 0; }
+.pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; align-items:start; }
+.price-card { background:var(--card-bg); border:1px solid var(--card-border); border-radius:var(--r); padding:40px 32px; position:relative; transition:transform .3s,border-color .3s; }
+.price-card:hover { transform:translateY(-4px); }
+.price-card.featured { border-color:rgba(201,169,110,.42); background:rgba(201,169,110,.04); transform:translateY(-8px); }
+.price-card.featured:hover { transform:translateY(-12px); }
+.price-badge-tag { position:absolute; top:-13px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:var(--bg); font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; padding:4px 18px; border-radius:20px; white-space:nowrap; }
+.price-name { font-family:var(--f-display); font-size:28px; font-weight:400; color:var(--cream); margin-bottom:6px; }
+.price-amt { font-family:var(--f-display); font-size:52px; font-weight:300; color:var(--gold); line-height:1; margin-bottom:4px; }
+.price-note { font-size:13px; color:var(--faint); margin-bottom:28px; }
+.price-div { height:1px; background:rgba(201,169,110,.1); margin-bottom:24px; }
+.price-feats { list-style:none; margin-bottom:36px; }
+.price-feats li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:var(--muted); margin-bottom:12px; line-height:1.45; }
+.price-feats li::before { content:'✦'; color:var(--gold); font-size:10px; flex-shrink:0; margin-top:4px; }
+.btn-price { width:100%; padding:14px; border-radius:8px; font-size:14px; font-weight:600; letter-spacing:.04em; cursor:pointer; transition:all .2s; border:none; }
+.btn-price.primary { background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:var(--bg); }
+.btn-price.ghost { background:transparent; color:var(--gold); border:1px solid rgba(201,169,110,.3); }
+.btn-price:hover { opacity:.88; transform:translateY(-1px); }
+@media(max-width:900px){ .pricing-grid{grid-template-columns:1fr; gap:20px;} .price-card.featured{transform:none;} }
+
+/* ── PRIVACY BAND ─────────────────────────────────────────────────────────── */
+.privacy-band { border-top:1px solid rgba(201,169,110,.07); border-bottom:1px solid rgba(201,169,110,.07); padding:24px 0; }
+.privacy-inner { display:flex; align-items:center; justify-content:center; gap:10px; font-size:14px; color:var(--faint); }
+
+/* ── FAQ ──────────────────────────────────────────────────────────────────── */
+.faq-section { padding:120px 0; }
+.faq-list { max-width:700px; margin:0 auto; }
+.faq-item { border-bottom:1px solid rgba(201,169,110,.1); }
+.faq-q { display:flex; justify-content:space-between; align-items:center; padding:24px 0; font-family:var(--f-display); font-size:20px; font-weight:400; color:var(--cream); cursor:pointer; gap:20px; user-select:none; }
+.faq-q .ico { color:var(--gold); font-size:22px; flex-shrink:0; transition:transform .3s; line-height:1; }
+.faq-item.open .faq-q .ico { transform:rotate(45deg); }
+.faq-a { font-size:15px; color:var(--muted); line-height:1.8; max-height:0; overflow:hidden; transition:max-height .4s ease,padding-bottom .3s; }
+.faq-item.open .faq-a { max-height:300px; padding-bottom:24px; }
+
+/* ── SHOWCASE ─────────────────────────────────────────────────────────────── */
+.showcase-section { padding:100px 0 80px; }
+.showcase-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:56px; }
+.sc-item { background:var(--card-bg); border:1px solid var(--card-border); border-radius:var(--r); overflow:hidden; transition:transform .3s,border-color .3s; text-decoration:none; color:inherit; display:flex; flex-direction:column; cursor:pointer; }
+.sc-item:hover { transform:translateY(-6px); border-color:rgba(201,169,110,.38); }
+.sc-thumb { width:100%; aspect-ratio:16/10; object-fit:cover; object-position:center top; display:block; }
+.sc-body { padding:28px 26px; flex:1; display:flex; flex-direction:column; }
+.sc-tag { font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.sc-name { font-family:var(--f-display); font-size:26px; font-weight:400; color:var(--cream); margin-bottom:10px; }
+.sc-desc { font-size:14px; color:var(--muted); line-height:1.75; flex:1; margin-bottom:20px; }
+.sc-cta { font-size:13px; color:var(--gold); letter-spacing:.04em; }
+.sc-cta::after { content:' →'; }
+@media(max-width:900px){ .showcase-grid{grid-template-columns:1fr;gap:20px;} }
+.demo-row { border-top:1px solid rgba(201,169,110,.1); padding-top:44px; }
+.demo-row-hd { font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:rgba(201,169,110,.45); margin-bottom:20px; text-align:center; }
+.demo-chips { display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
+.demo-chip { background:rgba(201,169,110,.04); border:1px solid rgba(201,169,110,.15); border-radius:100px; padding:12px 26px; text-decoration:none; transition:all .2s; display:flex; flex-direction:column; align-items:center; gap:3px; }
+.demo-chip:hover { border-color:var(--gold); background:rgba(201,169,110,.09); }
+.dc-name { font-family:var(--f-display); font-size:17px; color:var(--cream); }
+.dc-type { font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); }
+
+/* ── FOOTER ───────────────────────────────────────────────────────────────── */
+.footer { border-top:1px solid rgba(201,169,110,.1); padding:64px 0 40px; }
+.footer-inner { display:flex; flex-direction:column; align-items:center; gap:20px; text-align:center; }
+.footer-logo { font-family:var(--f-display); font-size:30px; font-weight:300; color:var(--gold); }
+.footer-tag { font-size:14px; color:var(--faint); font-style:italic; font-family:var(--f-display); }
+.footer-links { display:flex; gap:28px; list-style:none; flex-wrap:wrap; justify-content:center; }
+.footer-links a { font-size:13px; color:var(--faint); letter-spacing:.06em; transition:color .2s; }
+.footer-links a:hover { color:var(--gold); }
+.footer-copy { font-size:12px; color:rgba(240,236,228,.12); }
+
+/* ── MODAL ────────────────────────────────────────────────────────────────── */
+.modal { position:fixed; inset:0; z-index:200; background:#07070d; display:flex; flex-direction:column; overflow:hidden; opacity:0; pointer-events:none; transition:opacity .32s; }
+.modal.open { opacity:1; pointer-events:all; }
+.modal-hd { display:flex; align-items:center; justify-content:space-between; padding:18px 40px; border-bottom:1px solid rgba(201,169,110,.1); flex-shrink:0; }
+.modal-logo { font-family:var(--f-display); font-size:20px; color:var(--gold); }
+.modal-close { background:none; border:none; color:var(--muted); font-size:26px; cursor:pointer; transition:color .2s; padding:4px; line-height:1; }
+.modal-close:hover { color:var(--cream); }
+.modal-stepper { display:flex; justify-content:center; gap:10px; padding:20px; flex-shrink:0; }
+.ms-dot { width:8px; height:8px; border-radius:4px; background:rgba(201,169,110,.2); transition:all .3s; border:none; }
+.ms-dot.active { background:var(--gold); width:28px; }
+.ms-dot.done { background:rgba(201,169,110,.45); }
+.modal-scroll { flex:1; overflow-y:auto; }
+.modal-body { max-width:780px; width:100%; margin:0 auto; padding:0 40px 120px; }
+.modal-step { display:none; }
+.modal-step.active { display:block; animation:stepIn .3s ease; }
+@keyframes stepIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+.step-hd { padding:40px 0 32px; }
+.step-hd .eyebrow { margin-bottom:12px; }
+.step-hd h2 { font-family:var(--f-display); font-size:clamp(32px,5vw,44px); font-weight:300; color:var(--cream); line-height:1.08; margin-bottom:10px; }
+.step-hd p { font-size:15px; color:var(--muted); }
+@media(max-width:600px){ .modal-hd{padding:14px 20px;} .modal-body{padding:0 20px 100px;} }
+
+/* Package cards */
+.pkg-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:28px; }
+.pkg-card { border:1px solid var(--card-border); border-radius:12px; padding:22px 18px; cursor:pointer; transition:all .2s; position:relative; }
+.pkg-card:hover { border-color:rgba(201,169,110,.4); background:rgba(201,169,110,.03); }
+.pkg-card.sel { border-color:var(--gold); background:rgba(201,169,110,.07); }
+.pkg-chk { display:none; position:absolute; top:10px; right:10px; width:20px; height:20px; border-radius:50%; background:var(--gold); color:var(--bg); font-size:10px; font-weight:700; align-items:center; justify-content:center; }
+.pkg-card.sel .pkg-chk { display:flex; }
+.pkg-name { font-family:var(--f-display); font-size:19px; font-weight:400; color:var(--cream); margin-bottom:4px; }
+.pkg-price { font-family:var(--f-display); font-size:32px; font-weight:300; color:var(--gold); margin-bottom:10px; }
+.pkg-feats { list-style:none; }
+.pkg-feats li { font-size:12px; color:var(--muted); margin-bottom:5px; padding-left:12px; position:relative; line-height:1.4; }
+.pkg-feats li::before { content:'·'; position:absolute; left:0; color:var(--gold); }
+@media(max-width:600px){ .pkg-grid{grid-template-columns:1fr;} }
+
+/* Payment */
+.pay-box { background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px; padding:32px; display:none; margin-bottom:28px; }
+.pay-box.show { display:block; }
+.pay-inner { display:flex; gap:40px; align-items:flex-start; flex-wrap:wrap; }
+.pay-qr-wrap canvas, .pay-qr-wrap img { border-radius:8px; background:#fff; padding:6px; }
+.pay-details { flex:1; min-width:200px; }
+.pay-amt { font-family:var(--f-display); font-size:48px; font-weight:300; color:var(--gold); line-height:1; margin-bottom:4px; }
+.pay-upi-id { font-size:14px; color:var(--muted); font-family:monospace; margin-bottom:18px; }
+.pay-apps { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+.pay-app { padding:6px 13px; border-radius:6px; font-size:12px; font-weight:600; letter-spacing:.04em; border:1px solid rgba(201,169,110,.18); color:var(--gold); background:transparent; }
+.utr-lbl { display:block; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.utr-input { width:100%; background:rgba(255,255,255,.04); border:1px solid rgba(201,169,110,.2); border-radius:8px; padding:13px 16px; color:var(--cream); font-family:monospace; font-size:15px; outline:none; transition:border-color .2s; }
+.utr-input::placeholder { color:rgba(240,236,228,.18); }
+.utr-input:focus { border-color:var(--gold); }
+
+/* Upload */
+.drop-zone { border:2px dashed rgba(201,169,110,.22); border-radius:16px; padding:52px 40px; text-align:center; cursor:pointer; transition:all .2s; margin-bottom:20px; position:relative; }
+.drop-zone:hover,.drop-zone.over { border-color:var(--gold); background:rgba(201,169,110,.03); }
+.drop-zone input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; }
+.drop-icon { font-size:40px; margin-bottom:14px; }
+.drop-title { font-family:var(--f-display); font-size:24px; color:var(--cream); margin-bottom:8px; }
+.drop-hint { font-size:14px; color:var(--muted); }
+.upload-instr { background:rgba(201,169,110,.04); border:1px solid rgba(201,169,110,.12); border-radius:12px; padding:20px 24px; margin-bottom:18px; }
+.upload-instr h4 { font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+.upload-instr p { font-size:14px; color:var(--muted); line-height:1.75; }
+.upload-status { font-size:15px; min-height:22px; margin-bottom:18px; }
+.upload-status .ok  { color:#8ed49b; }
+.upload-status .err { color:#e89a9a; }
+.upload-status .ing { color:var(--gold); }
+.chat-stats { display:none; background:var(--card-bg); border:1px solid var(--card-border); border-radius:12px; padding:22px 24px; margin-bottom:18px; }
+.chat-stats.show { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.cstat { text-align:center; }
+.cstat-n { font-family:var(--f-display); font-size:32px; font-weight:300; color:var(--gold); }
+.cstat-l { font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin-top:4px; }
+
+/* Form */
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+.form-g { margin-bottom:18px; }
+.form-g label { display:block; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:7px; }
+.opt { font-size:9px; letter-spacing:.08em; color:rgba(201,169,110,.38); margin-left:5px; }
+.f-input,.f-select,.f-ta { width:100%; background:rgba(255,255,255,.04); border:1px solid rgba(201,169,110,.18); border-radius:8px; padding:13px 16px; color:var(--cream); font-family:var(--f-ui); font-size:15px; outline:none; transition:border-color .2s; }
+.f-input::placeholder,.f-ta::placeholder { color:rgba(240,236,228,.18); }
+.f-input:focus,.f-select:focus,.f-ta:focus { border-color:var(--gold); }
+.f-select { cursor:pointer; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a96e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 16px center; padding-right:40px; }
+.f-select option { background:#0d0d17; }
+.f-ta { resize:vertical; min-height:78px; }
+@media(max-width:600px){ .form-row{grid-template-columns:1fr;} }
+.photo-drop { border:2px dashed rgba(201,169,110,.2); border-radius:12px; padding:28px; text-align:center; cursor:pointer; transition:all .2s; position:relative; margin-bottom:18px; }
+.photo-drop:hover { border-color:var(--gold); }
+.photo-drop input { position:absolute; inset:0; opacity:0; cursor:pointer; }
+.photo-preview { display:none; flex-direction:column; align-items:center; gap:8px; }
+.photo-preview img { border-radius:8px; max-height:160px; object-fit:cover; }
+.photo-chg { font-size:12px; color:var(--gold); cursor:pointer; text-decoration:underline; }
+
+/* Generate */
+.gen-summary { background:var(--card-bg); border:1px solid var(--card-border); border-radius:12px; padding:22px 24px; margin-bottom:28px; }
+.gen-summary h3 { font-family:var(--f-display); font-size:22px; font-weight:400; color:var(--cream); margin-bottom:10px; }
+.gen-summary p { font-size:14px; color:var(--muted); margin-bottom:4px; }
+.gen-summary span { color:var(--gold); }
+.gen-zone { text-align:center; padding:32px 0 24px; }
+.btn-generate { background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:var(--bg); font-size:17px; font-weight:700; padding:18px 52px; border-radius:8px; border:none; cursor:pointer; letter-spacing:.04em; transition:all .2s; }
+.btn-generate:hover { opacity:.9; transform:translateY(-2px); }
+.btn-generate:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+.progress-area { display:none; margin:28px 0; }
+.progress-lbl { font-size:14px; color:var(--muted); margin-bottom:12px; text-align:center; }
+.progress-bar { background:rgba(201,169,110,.1); border-radius:4px; height:4px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,var(--gold),var(--rose)); border-radius:4px; transition:width .5s; width:0%; }
+.preview-grid { display:none; grid-template-columns:repeat(3,1fr); gap:12px; margin:28px 0 0; }
+.preview-grid.show { display:grid; }
+.prev-card img { width:100%; aspect-ratio:1080/1350; object-fit:cover; border-radius:8px; border:1px solid var(--card-border); }
+.prev-card-lbl { font-size:11px; color:var(--faint); text-align:center; margin-top:5px; }
+.dl-wrap { display:none; text-align:center; padding:28px 0; }
+.dl-wrap.show { display:block; }
+.btn-dl { background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:var(--bg); font-size:17px; font-weight:700; padding:18px 52px; border-radius:8px; border:none; cursor:pointer; letter-spacing:.04em; transition:all .2s; display:inline-flex; align-items:center; gap:10px; }
+.btn-dl:hover { opacity:.9; transform:translateY(-2px); }
+.dl-note { margin-top:14px; font-size:13px; color:var(--faint); font-family:var(--f-display); font-style:italic; }
+
+/* Modal footer */
+.modal-ft { position:sticky; bottom:0; flex-shrink:0; background:rgba(7,7,13,.96); backdrop-filter:blur(12px); border-top:1px solid rgba(201,169,110,.1); padding:18px 40px; display:flex; justify-content:space-between; align-items:center; }
+.btn-back { background:none; border:1px solid rgba(201,169,110,.18); color:var(--muted); padding:11px 24px; border-radius:8px; font-size:14px; cursor:pointer; transition:all .2s; }
+.btn-back:hover { border-color:var(--gold); color:var(--gold); }
+.btn-next { background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:var(--bg); font-size:15px; font-weight:600; padding:12px 36px; border-radius:8px; border:none; cursor:pointer; transition:all .2s; letter-spacing:.03em; }
+.btn-next:hover { opacity:.9; transform:translateY(-1px); }
+.btn-next:disabled { opacity:.36; cursor:not-allowed; transform:none; }
+@media(max-width:600px){ .modal-ft{padding:14px 20px;} }
+
+/* ── CARD STAGE ───────────────────────────────────────────────────────────── */
+#card-stage { position:fixed; left:-1200px; top:0; width:1080px; z-index:9999; pointer-events:none; }
+.cs { width:1080px; height:1350px; overflow:hidden; position:relative; background:#07070d; font-family:Georgia,serif; }
+/* Card internal styles */
+.cs .eyb { font-family:Arial,sans-serif; font-size:12px; letter-spacing:.34em; text-transform:uppercase; color:rgba(201,169,110,.55); }
+.cs .gld { color:#c9a96e; } .cs .rse { color:#e8b4b8; }
+.cs .bft { position:absolute; bottom:32px; left:0; right:0; text-align:center; font-family:Arial,sans-serif; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:rgba(201,169,110,.28); }
+.cs .lnh { width:60px; height:1px; background:rgba(201,169,110,.35); }
+.cs .glw { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse 700px 500px at 50% 60%,rgba(232,180,184,.05) 0%,transparent 65%),radial-gradient(ellipse 500px 400px at 20% 85%,rgba(201,169,110,.04) 0%,transparent 60%); }
+.cs .cor { position:absolute; width:48px; height:48px; border-color:rgba(201,169,110,.22); border-style:solid; }
+.cs .ctl{top:36px;left:36px;border-width:1px 0 0 1px;} .cs .ctr{top:36px;right:36px;border-width:1px 1px 0 0;}
+.cs .cbl{bottom:70px;left:36px;border-width:0 0 1px 1px;} .cs .cbr{bottom:70px;right:36px;border-width:0 1px 1px 0;}
+#cs1{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.s1-eb{font-family:Arial,sans-serif;font-size:13px;letter-spacing:.38em;text-transform:uppercase;color:rgba(201,169,110,.55);margin-bottom:40px;}
+.s1-nm{font-size:108px;font-weight:400;color:#f0ece4;letter-spacing:.04em;line-height:.9;}
+.s1-am{font-size:80px;color:#e8b4b8;font-style:italic;display:block;margin:12px 0;}
+.s1-rl{display:flex;align-items:center;gap:20px;margin:44px 0 36px;width:480px;}
+.s1-rl .ln{flex:1;height:1px;background:rgba(201,169,110,.3);}
+.s1-dt{font-family:Arial,sans-serif;font-size:15px;letter-spacing:.22em;color:rgba(240,236,228,.42);text-transform:uppercase;margin-bottom:14px;}
+.s1-tg{font-size:24px;color:rgba(240,236,228,.6);font-style:italic;letter-spacing:.02em;}
+.s1-ct{margin-top:56px;font-family:Arial,sans-serif;font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,169,110,.4);}
+.s1-ct strong{display:block;font-family:Georgia,serif;font-size:52px;letter-spacing:-.01em;color:#c9a96e;font-weight:400;margin-bottom:4px;}
+#cs2{display:flex;flex-direction:column;justify-content:center;padding:0 110px;}
+.s2-dt{font-family:Arial,sans-serif;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,169,110,.45);margin-bottom:52px;margin-top:18px;}
+.s2-ml{font-family:Arial,sans-serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:rgba(201,169,110,.4);margin-bottom:16px;}
+.s2-bb{background:rgba(201,169,110,.08);border:1px solid rgba(201,169,110,.18);border-radius:4px 20px 20px 20px;padding:28px 32px;margin-bottom:52px;}
+.s2-bt{font-size:34px;color:#f0ece4;line-height:1.4;font-style:italic;}
+.s2-sb{font-size:21px;color:rgba(240,236,228,.5);line-height:1.6;margin-bottom:60px;}
+.s2-ar{font-size:48px;color:rgba(201,169,110,.2);}
+#cs3{display:flex;flex-direction:column;justify-content:center;padding:0 100px;}
+.s3-dt{font-family:Arial,sans-serif;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,169,110,.45);margin-bottom:58px;margin-top:18px;}
+.s3-q{font-size:60px;color:rgba(201,169,110,.15);line-height:.6;margin-bottom:-10px;}
+.s3-qt{font-size:29px;color:#f0ece4;line-height:1.55;margin-bottom:52px;}
+.s3-cx{font-family:Arial,sans-serif;font-size:14px;letter-spacing:.18em;color:rgba(201,169,110,.45);text-transform:uppercase;}
+#cs4{display:flex;flex-direction:column;justify-content:center;padding:0 100px;}
+.s4-hd{font-size:56px;font-weight:400;color:#f0ece4;letter-spacing:.02em;margin-bottom:12px;line-height:1.05;}
+.s4-sb{font-family:Arial,sans-serif;font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,236,228,.35);margin-bottom:64px;}
+.s4-gd{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.s4-st{padding:38px 36px;border:1px solid rgba(201,169,110,.1);background:rgba(201,169,110,.03);}
+.s4-sn{font-size:56px;color:#c9a96e;letter-spacing:-.02em;line-height:1;margin-bottom:8px;}
+.s4-sl{font-family:Arial,sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,236,228,.38);}
+#cs5{display:flex;flex-direction:column;justify-content:center;padding:0 100px;}
+.s5-hd{font-size:56px;font-weight:400;color:#f0ece4;letter-spacing:.02em;margin-bottom:12px;line-height:1.05;}
+.s5-sb{font-family:Arial,sans-serif;font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,236,228,.35);margin-bottom:64px;}
+.s5-rl{display:flex;flex-direction:column;}
+.s5-rw{display:flex;align-items:baseline;justify-content:space-between;padding:32px 0;border-bottom:1px solid rgba(201,169,110,.1);}
+.s5-rw:last-child{border-bottom:none;}
+.r-lb{font-size:22px;color:rgba(240,236,228,.55);font-style:italic;}
+.r-vl{font-size:48px;color:#c9a96e;letter-spacing:-.02em;}
+#cs6{padding:0;}
+.s6-img{width:100%;height:100%;object-fit:cover;object-position:center 70%;display:block;}
+.s6-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(7,7,13,.1) 0%,rgba(7,7,13,.05) 30%,rgba(7,7,13,.75) 70%,rgba(7,7,13,.96) 100%);}
+.s6-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1a0a20,#07070d 40%,#0a1a15);}
+.s6-tx{position:absolute;bottom:90px;left:0;right:0;text-align:center;padding:0 80px;}
+.s6-ey{font-family:Arial,sans-serif;font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:rgba(201,169,110,.6);margin-bottom:18px;}
+.s6-nm{font-size:72px;font-weight:400;color:#f0ece4;letter-spacing:.04em;line-height:1;margin-bottom:16px;}
+.s6-am{color:#e8b4b8;font-style:italic;}
+.s6-sb{font-family:Arial,sans-serif;font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,236,228,.45);}
+#cs7{display:flex;flex-direction:column;justify-content:center;padding:0 100px;}
+.s7-hd{font-size:56px;font-weight:400;color:#f0ece4;line-height:1.08;margin-bottom:72px;}
+.s7-tl{display:flex;flex-direction:column;}
+.tl-it{display:flex;gap:36px;align-items:flex-start;padding-bottom:48px;}
+.tl-it:last-child{padding-bottom:0;}
+.tl-dc{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:20px;}
+.tl-d{width:14px;height:14px;border-radius:50%;border:2px solid #c9a96e;background:#07070d;flex-shrink:0;margin-top:6px;}
+.tl-d.f{background:#c9a96e;} .tl-d.r{border-color:#e8b4b8;background:#e8b4b8;}
+.tl-ln{flex:1;width:1px;background:rgba(201,169,110,.2);margin-top:4px;}
+.tl-da{font-family:Arial,sans-serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,169,110,.45);margin-bottom:6px;}
+.tl-ev{font-size:28px;color:#f0ece4;margin-bottom:4px;}
+.tl-dt{font-size:18px;color:rgba(240,236,228,.42);font-style:italic;}
+#cs8{display:flex;flex-direction:column;justify-content:center;padding:0 100px;}
+.s8-dt{font-family:Arial,sans-serif;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,169,110,.45);margin-bottom:56px;}
+.s8-ml{font-family:Arial,sans-serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:rgba(201,169,110,.4);margin-bottom:16px;}
+.s8-bb{background:rgba(201,169,110,.07);border:1px solid rgba(201,169,110,.16);border-radius:4px 20px 20px 20px;padding:32px 36px;margin-bottom:64px;}
+.s8-bt{font-size:32px;color:#f0ece4;line-height:1.5;}
+.s8-nt{font-size:21px;color:rgba(240,236,228,.45);font-style:italic;line-height:1.5;}
+#cs9{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 100px;}
+.s9-pr{font-size:26px;color:rgba(240,236,228,.45);font-style:italic;margin-bottom:48px;}
+.s9-hd{font-size:60px;font-weight:400;color:#f0ece4;letter-spacing:.03em;line-height:1.1;margin-bottom:48px;}
+.s9-hd .r{color:#e8b4b8;}
+.s9-rl{display:flex;align-items:center;gap:20px;margin-bottom:52px;width:100%;}
+.s9-rl .ln{flex:1;height:1px;background:rgba(201,169,110,.22);}
+.s9-ct{font-family:Arial,sans-serif;font-size:18px;letter-spacing:.18em;text-transform:uppercase;color:rgba(201,169,110,.55);margin-bottom:24px;}
+.s9-h2{font-size:44px;color:#c9a96e;margin-bottom:20px;}
+.s9-tg{font-family:Arial,sans-serif;font-size:14px;letter-spacing:.24em;text-transform:uppercase;color:rgba(240,236,228,.28);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <span class="nav-logo">MemoryWrapped</span>
+    <ul class="nav-links">
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#examples">Examples</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><button class="btn-nav" onclick="openModal()">Order Now</button></li>
+    </ul>
+    <button class="btn-nav nav-mob" onclick="openModal()">Order</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <div class="eyebrow">✧ WhatsApp · Instagram · Keepsake</div>
+      <h1 class="hero-h1">Your story,<br>told in<br><em>9 cards.</em></h1>
+      <p class="hero-sub">Upload your WhatsApp chat. Get 9 personalized story cards — your first message, your numbers, your moments — generated instantly in your browser.</p>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="openModal()">Order Now — from ₹499</button>
+        <button class="btn-ghost" onclick="document.getElementById('examples').scrollIntoView({behavior:'smooth'})">See an example →</button>
+      </div>
+      <div class="hero-proof">
+        <span class="proof-item">✦ Instant download</span>
+        <span class="proof-dot"></span>
+        <span class="proof-item">Chat stays private</span>
+        <span class="proof-dot"></span>
+        <span class="proof-item">No account needed</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-stack">
+        <img class="hero-behind hero-behind-l" src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_04_numbers.jpg" alt="">
+        <img class="hero-behind hero-behind-r" src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_07_journey.jpg" alt="">
+        <img class="hero-main" src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_01_cover.jpg" alt="Sample MemoryWrapped card">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="container trust-inner">
+    <span class="trust-item"><span class="chk">✓</span> 9 personalized cards</span>
+    <span class="trust-item"><span class="chk">✓</span> Generates in your browser</span>
+    <span class="trust-item"><span class="chk">✓</span> Instagram carousel-ready</span>
+    <span class="trust-item"><span class="chk">✓</span> Chat never leaves your device</span>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section class="gallery-section fade-up" id="examples">
+  <div class="container">
+    <div class="section-hd">
+      <div class="eyebrow">Real cards · Real story</div>
+      <h2 class="section-h2">What Akshay &amp; Diu got</h2>
+      <p class="section-sub">3 years · 206,714 messages · Girlfriend → Wife</p>
+    </div>
+  </div>
+  <div class="gallery-track" id="gallery-track">
+    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_01_cover.jpg" alt="Cover card"><div class="g-badge">01 · Cover</div></div>
+    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_02_started.jpg" alt="How it started"><div class="g-badge">02 · Started</div></div>
+    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_03_ask.jpg" alt="The ask"><div class="g-badge">03 · The Ask</div></div>
+    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_04_numbers.jpg" alt="The numbers"><div class="g-badge">04 · Numbers</div></div>
+    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_05_rituals.jpg" alt="Daily rituals"><div class="g-badge">05 · Rituals</div></div>
+    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_06_photo.jpg" alt="Photo card"><div class="g-badge">06 · Photo</div></div>
+    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_07_journey.jpg" alt="The journey"><div class="g-badge">07 · Journey</div></div>
+    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_08_bayko.jpg" alt="Morning message"><div class="g-badge">08 · Morning</div></div>
+    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_09_cta.jpg" alt="Close"><div class="g-badge">09 · Close</div></div>
+  </div>
+  <div class="container">
+    <div class="gallery-dots" id="gallery-dots"></div>
+    <p class="gallery-caption">Your names. Your moments. Your data.</p>
+  </div>
+</section>
+
+<!-- SHOWCASE -->
+<section class="showcase-section" id="showcase">
+  <div class="container">
+    <div class="section-hd fade-up">
+      <div class="eyebrow">Client work · Live examples</div>
+      <h2 class="section-h2">Every format. Every story.</h2>
+      <p class="section-sub">From instant Instagram carousels to full cinematic keepsakes — see what's been built.</p>
+    </div>
+    <div class="showcase-grid">
+      <a href="javascript:void(0)" onclick="openModal()" class="sc-item fade-up" style="transition-delay:.05s">
+        <img class="sc-thumb" src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_01_cover.jpg" alt="9 story cards">
+        <div class="sc-body">
+          <div class="sc-tag">Instant download · from ₹499</div>
+          <div class="sc-name">9 Story Cards</div>
+          <p class="sc-desc">Your first message, your numbers, your rituals — each chapter a beautiful 1080×1350 card. Ready for Instagram in under a minute.</p>
+          <span class="sc-cta">Order yours</span>
+        </div>
+      </a>
+      <a href="https://akshayad.github.io/memorywrapped-demo/card_gallery.html" target="_blank" class="sc-item fade-up" style="transition-delay:.1s">
+        <img class="sc-thumb" src="https://akshayad.github.io/memorywrapped-demo/assets/preview_card_gallery.jpg" alt="Card gallery">
+        <div class="sc-body">
+          <div class="sc-tag">20+ styles · all personas</div>
+          <div class="sc-name">The Card Gallery</div>
+          <p class="sc-desc">20 card designs across anniversary, wedding, and friendship stories. Browse the full collection and see exactly what yours could look like.</p>
+          <span class="sc-cta">Browse the full gallery</span>
+        </div>
+      </a>
+      <a href="https://akshayad.github.io/memorywrapped-demo/samples/generated_outputs/aarav_meera_anniversary/site/" target="_blank" class="sc-item fade-up" style="transition-delay:.15s">
+        <img class="sc-thumb" src="https://akshayad.github.io/memorywrapped-demo/assets/preview_aarav_meera_site.jpg" alt="Cinematic website demo">
+        <div class="sc-body">
+          <div class="sc-tag">Live demo · cinematic keepsake</div>
+          <div class="sc-name">Cinematic Website</div>
+          <p class="sc-desc">An interactive private site — your stats, chapters, moments, and rituals as a luxury digital experience. Built from a real WhatsApp export.</p>
+          <span class="sc-cta">Experience the demo</span>
+        </div>
+      </a>
+    </div>
+    <div class="demo-row fade-up">
+      <div class="demo-row-hd">More live demos</div>
+      <div class="demo-chips">
+        <a href="https://akshayad.github.io/memorywrapped-demo/samples/generated_outputs/akshay_diu/site/" target="_blank" class="demo-chip">
+          <span class="dc-name">Akshay &amp; Diu</span>
+          <span class="dc-type">The original · real data</span>
+        </a>
+        <a href="https://akshayad.github.io/memorywrapped-demo/samples/generated_outputs/kabir_anaya_wedding/site/" target="_blank" class="demo-chip">
+          <span class="dc-name">Kabir &amp; Anaya</span>
+          <span class="dc-type">Wedding memory</span>
+        </a>
+        <a href="https://akshayad.github.io/memorywrapped-demo/samples/generated_outputs/riya_naina_friendship_birthday/site/" target="_blank" class="demo-chip">
+          <span class="dc-name">Riya &amp; Naina</span>
+          <span class="dc-type">Friendship birthday</span>
+        </a>
+        <a href="https://akshayad.github.io/memorywrapped-demo/card_gallery.html" target="_blank" class="demo-chip">
+          <span class="dc-name">Full Gallery</span>
+          <span class="dc-type">All 60+ card styles</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="container">
+    <div class="section-hd fade-up">
+      <div class="eyebrow">Simple · Private · Instant</div>
+      <h2 class="section-h2">How it works</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card fade-up" style="transition-delay:.05s">
+        <div class="step-num">01</div>
+        <div class="step-title">Upload your chat</div>
+        <p class="step-desc">Export your WhatsApp conversation as a .txt file (Without Media). The browser analyses it instantly — nothing is sent anywhere.</p>
+      </div>
+      <div class="step-arrow fade-up" style="transition-delay:.1s">→</div>
+      <div class="step-card fade-up" style="transition-delay:.15s">
+        <div class="step-num">02</div>
+        <div class="step-title">Add your details</div>
+        <p class="step-desc">Enter your names, relationship type, upload a photo, and add any special moments or locations you want on the cards.</p>
+      </div>
+      <div class="step-arrow fade-up" style="transition-delay:.2s">→</div>
+      <div class="step-card fade-up" style="transition-delay:.25s">
+        <div class="step-num">03</div>
+        <div class="step-title">Download instantly</div>
+        <p class="step-desc">9 personalized cards render in your browser. Download as a ZIP — Instagram-ready 1080×1350 JPEGs, yours forever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="container">
+    <div class="section-hd fade-up">
+      <div class="eyebrow">Choose your package</div>
+      <h2 class="section-h2">Simple, honest pricing</h2>
+      <p class="section-sub">Every package generates and downloads automatically. No waiting, no back-and-forth.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card fade-up" style="transition-delay:.05s">
+        <div class="price-name">Mini</div>
+        <div class="price-amt">₹499</div>
+        <p class="price-note">6 story cards · instant download</p>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li>Cover card — your names &amp; stats</li>
+          <li>First message card</li>
+          <li>The Ask — your proposal moment</li>
+          <li>The Numbers — your chat stats</li>
+          <li>Photo card (your picture)</li>
+          <li>Closing card</li>
+          <li>6 JPGs · WhatsApp-ready · Instant ZIP</li>
+        </ul>
+        <button class="btn-price ghost" onclick="openModal('mini')">Get Mini</button>
+      </div>
+      <div class="price-card featured fade-up" style="transition-delay:.15s">
+        <div class="price-badge-tag">Most Popular</div>
+        <div class="price-name">Anniversary Wrapped</div>
+        <div class="price-amt">₹999</div>
+        <p class="price-note">All 9 cards · Instagram carousel</p>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li>All 6 Mini cards</li>
+          <li>Daily Rituals — streaks &amp; peak hour</li>
+          <li>Journey Timeline — your milestones</li>
+          <li>Morning Messages card</li>
+          <li>9 JPGs · 1080×1350 · Instagram-ready</li>
+          <li>Instant ZIP download</li>
+          <li>Post as carousel · share on stories</li>
+        </ul>
+        <button class="btn-price primary" onclick="openModal('wrapped')">Get Wrapped</button>
+      </div>
+      <div class="price-card fade-up" style="transition-delay:.25s">
+        <div class="price-name">Keepsake</div>
+        <div class="price-amt">₹1,999</div>
+        <p class="price-note">9 cards + high-res + poster</p>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li>All 9 Anniversary Wrapped cards</li>
+          <li>2× high-resolution output</li>
+          <li>Bonus stats poster card</li>
+          <li>10 JPGs total · print-ready quality</li>
+          <li>Instant ZIP download</li>
+          <li>Best for framing &amp; gifting</li>
+        </ul>
+        <button class="btn-price ghost" onclick="openModal('keepsake')">Get Keepsake</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY BAND -->
+<div class="privacy-band">
+  <div class="container privacy-inner">
+    <span>🔒</span>
+    <span>Your raw chat text <strong>never leaves your device.</strong> Only names and stats are used — everything else stays private.</span>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="section-hd fade-up">
+      <div class="eyebrow">Questions</div>
+      <h2 class="section-h2">You might be wondering</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is my chat private?<span class="ico">+</span></div>
+        <div class="faq-a">Yes, completely. Your .txt file is analysed entirely in your browser — it is never uploaded to any server. Only your names, message count, and date range are used to make the cards.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How do I export my WhatsApp chat?<span class="ico">+</span></div>
+        <div class="faq-a"><strong>Android:</strong> Open chat → ⋮ → More → Export chat → Without Media → save the .txt file.<br><br><strong>iPhone:</strong> Open chat → Tap the contact name → Export Chat → Without Media. The file will be named "WhatsApp Chat with [Name].txt".</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How long does generation take?<span class="ico">+</span></div>
+        <div class="faq-a">About 20–40 seconds for all 9 cards. Everything runs in your browser — you'll see a live progress bar and each card appear as it renders.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What format are the cards?<span class="ico">+</span></div>
+        <div class="faq-a">Each card is a 1080×1350 JPEG — the perfect size for Instagram carousels. They're bundled in a ZIP for easy download. The Keepsake package generates 2× size (2160×2700), ideal for printing and framing.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I make this for a friend?<span class="ico">+</span></div>
+        <div class="faq-a">Absolutely — it makes a beautiful gift. Ask your friend to export the chat and share the .txt file with you, then fill in their names and upload a photo of them.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-logo">MemoryWrapped</div>
+    <p class="footer-tag">Your chats, as a keepsake.</p>
+    <ul class="footer-links">
+      <li><a href="https://akshayad.github.io/memorywrapped-demo/privacy.html">Privacy</a></li>
+      <li><a href="https://akshayad.github.io/memorywrapped-demo/card_gallery.html">Card Gallery</a></li>
+      <li><a href="https://akshayad.github.io/memorywrapped-demo/partner_pitch.html">Partner with Us</a></li>
+      <li><a href="https://instagram.com/getmemorywrapped" target="_blank">@getmemorywrapped</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 MemoryWrapped. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ════════════════════ ORDER MODAL ════════════════════ -->
+<div class="modal" id="order-modal" role="dialog" aria-modal="true">
+  <div class="modal-hd">
+    <span class="modal-logo">MemoryWrapped</span>
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">×</button>
+  </div>
+  <div class="modal-stepper" id="stepper">
+    <div class="ms-dot active"></div>
+    <div class="ms-dot"></div>
+    <div class="ms-dot"></div>
+    <div class="ms-dot"></div>
+  </div>
+  <div class="modal-scroll">
+    <div class="modal-body">
+
+      <!-- Step 1: Package + Pay -->
+      <div class="modal-step active" id="step-1">
+        <div class="step-hd">
+          <div class="eyebrow">Step 1 of 4</div>
+          <h2>Choose &amp; pay</h2>
+          <p>Select a package, pay via UPI, then enter your transaction reference to continue.</p>
+        </div>
+        <div class="pkg-grid" id="pkg-grid">
+          <div class="pkg-card" onclick="selectPkg('mini',this)">
+            <div class="pkg-chk">✓</div>
+            <div class="pkg-name">Mini</div>
+            <div class="pkg-price">₹499</div>
+            <ul class="pkg-feats"><li>6 story cards</li><li>WhatsApp-ready JPGs</li><li>Instant ZIP download</li></ul>
+          </div>
+          <div class="pkg-card sel" onclick="selectPkg('wrapped',this)">
+            <div class="pkg-chk">✓</div>
+            <div class="pkg-name">Anniversary Wrapped</div>
+            <div class="pkg-price">₹999</div>
+            <ul class="pkg-feats"><li>All 9 cards</li><li>Instagram carousel-ready</li><li>Instant ZIP download</li></ul>
+          </div>
+          <div class="pkg-card" onclick="selectPkg('keepsake',this)">
+            <div class="pkg-chk">✓</div>
+            <div class="pkg-name">Keepsake</div>
+            <div class="pkg-price">₹1,999</div>
+            <ul class="pkg-feats"><li>9 cards + bonus poster</li><li>High-res 2× quality</li><li>Instant ZIP download</li></ul>
+          </div>
+        </div>
+        <div class="pay-box show" id="pay-box">
+          <div class="pay-inner">
+            <div class="pay-qr-wrap"><div id="qr-canvas"></div></div>
+            <div class="pay-details">
+              <div class="pay-amt" id="pay-amt-disp">₹999</div>
+              <div class="pay-upi-id">UPI: 9962740490@upi</div>
+              <div class="pay-apps">
+                <span class="pay-app">GPay</span><span class="pay-app">PhonePe</span><span class="pay-app">Paytm</span><span class="pay-app">BHIM</span>
+              </div>
+              <label class="utr-lbl">Transaction reference / UTR number</label>
+              <input type="text" class="utr-input" id="utr-input" placeholder="e.g. 426819200374" oninput="onUtrInput()">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Upload Chat -->
+      <div class="modal-step" id="step-2">
+        <div class="step-hd">
+          <div class="eyebrow">Step 2 of 4</div>
+          <h2>Upload your chat</h2>
+          <p>Export your WhatsApp chat as a .txt file and drop it below. It never leaves your browser.</p>
+        </div>
+        <div class="upload-instr">
+          <h4>How to export your chat</h4>
+          <p><strong>Android:</strong> Open chat → ⋮ → More → Export chat → Without Media<br>
+          <strong>iPhone:</strong> Open chat → Tap contact name → Export Chat → Without Media</p>
+        </div>
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" accept=".txt" id="chat-file" onchange="handleChatFile(this.files[0])">
+          <div class="drop-icon">💬</div>
+          <div class="drop-title">Drop your chat file here</div>
+          <p class="drop-hint">or click to browse · .txt format</p>
+        </div>
+        <div class="upload-status" id="upload-status"></div>
+        <div class="chat-stats" id="chat-stats">
+          <div class="cstat"><div class="cstat-n" id="cs-msgs">—</div><div class="cstat-l">Messages</div></div>
+          <div class="cstat"><div class="cstat-n" id="cs-words">—</div><div class="cstat-l">Words</div></div>
+          <div class="cstat"><div class="cstat-n" id="cs-days">—</div><div class="cstat-l">Days active</div></div>
+        </div>
+      </div>
+
+      <!-- Step 3: Personalize -->
+      <div class="modal-step" id="step-3">
+        <div class="step-hd">
+          <div class="eyebrow">Step 3 of 4</div>
+          <h2>Your story details</h2>
+          <p>The more you share, the more personal the cards.</p>
+        </div>
+        <div class="form-row">
+          <div class="form-g"><label>Your name</label><input class="f-input" id="f-name1" placeholder="Akshay" oninput="validateCurrentStep()"></div>
+          <div class="form-g"><label>Their name</label><input class="f-input" id="f-name2" placeholder="Diu" oninput="validateCurrentStep()"></div>
+        </div>
+        <div class="form-g"><label>Relationship <span class="opt">optional</span></label><input class="f-input" id="f-rel" placeholder="Girlfriend → Wife"></div>
+        <div class="form-g">
+          <label>Add a photo together <span class="opt">recommended · used on card 6</span></label>
+          <div class="photo-drop" id="photo-drop">
+            <input type="file" accept="image/*" id="photo-file" onchange="handlePhotoFile(this.files[0])">
+            <div id="photo-placeholder"><div style="font-size:32px;margin-bottom:8px">📷</div><div style="font-size:15px;color:var(--muted)">Upload a photo together</div><div style="font-size:13px;color:var(--faint);margin-top:4px">JPG or PNG</div></div>
+            <div class="photo-preview" id="photo-preview"><img id="photo-thumb" src="" alt=""><span class="photo-chg" onclick="resetPhoto(event)">Change photo</span></div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-g"><label>Photo location <span class="opt">optional</span></label><input class="f-input" id="f-loc" placeholder="Petronas Towers, KL"></div>
+          <div class="form-g"><label>Photo month &amp; year <span class="opt">optional</span></label><input class="f-input" id="f-date" placeholder="May 2026"></div>
+        </div>
+        <div class="form-g"><label>Nickname / pet name <span class="opt">optional</span></label><input class="f-input" id="f-nick" placeholder="bayko, jaan, bubs…"></div>
+        <div class="form-g"><label>A special note <span class="opt">optional · shown on journey card</span></label><textarea class="f-ta" id="f-note" placeholder="Your anniversary trip, proposal story, a favourite memory…" rows="3" maxlength="220"></textarea></div>
+      </div>
+
+      <!-- Step 4: Generate -->
+      <div class="modal-step" id="step-4">
+        <div class="step-hd">
+          <div class="eyebrow">Step 4 of 4</div>
+          <h2>Generate your cards</h2>
+          <p>Everything renders in your browser. Takes about 30 seconds.</p>
+        </div>
+        <div class="gen-summary" id="gen-summary">
+          <h3 id="gen-names">Your cards</h3>
+          <p>Package: <span id="gen-pkg">—</span></p>
+          <p>Chat: <span id="gen-chat-info">—</span></p>
+        </div>
+        <div class="gen-zone">
+          <button class="btn-generate" id="btn-generate" onclick="startGeneration()">✦ Generate My Cards</button>
+        </div>
+        <div class="progress-area" id="progress-area">
+          <div class="progress-lbl" id="progress-lbl">Preparing…</div>
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        </div>
+        <div class="preview-grid" id="preview-grid"></div>
+        <div class="dl-wrap" id="dl-wrap">
+          <button class="btn-dl" id="btn-dl">↓ Download ZIP</button>
+          <p class="dl-note">All cards packed as JPEGs.</p>
+          <p style="margin-top:12px;font-size:13px;color:var(--faint)">@getmemorywrapped · Tag us when you post ✦</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-ft">
+    <button class="btn-back" id="btn-back" onclick="prevStep()" style="visibility:hidden">← Back</button>
+    <button class="btn-next" id="btn-next" onclick="nextStep()" disabled>Continue →</button>
+  </div>
+</div>
+
+<!-- HIDDEN CARD STAGE -->
+<div id="card-stage">
+  <div class="cs" id="cs1"></div>
+  <div class="cs" id="cs2"></div>
+  <div class="cs" id="cs3"></div>
+  <div class="cs" id="cs4"></div>
+  <div class="cs" id="cs5"></div>
+  <div class="cs" id="cs6"></div>
+  <div class="cs" id="cs7"></div>
+  <div class="cs" id="cs8"></div>
+  <div class="cs" id="cs9"></div>
+</div>
+
+<script>
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let currentStep=1, selectedPkg='wrapped', utrVal='', manifest=null, photoURL=null, generatedBlobs=[];
+const PKG_PRICES={mini:499,wrapped:999,keepsake:1999};
+const PKG_LABELS={mini:'Mini — ₹499',wrapped:'Anniversary Wrapped — ₹999',keepsake:'Keepsake — ₹1,999'};
+const PKG_CARDS ={mini:6,wrapped:9,keepsake:9};
+const CARD_NAMES=['Cover','How_It_Started','The_Ask','The_Numbers','Daily_Rituals','Photo','The_Journey','Still_Going','Share_Yours'];
+const GAS='https://script.google.com/macros/s/AKfycbw9D2jRZEm4p2z15OUquRrGdUppop-K1N1VrP85AcCCNw3_8F61agjJFI8H5hueX-Eq/exec';
+
+// ── MODAL ─────────────────────────────────────────────────────────────────────
+function openModal(pkg){
+  if(pkg) selectPkg(pkg, document.querySelector(`.pkg-card:nth-child(${pkg==='mini'?1:pkg==='wrapped'?2:3})`));
+  document.getElementById('order-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+  goToStep(1); renderQR();
+}
+function closeModal(){ document.getElementById('order-modal').classList.remove('open'); document.body.style.overflow=''; }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+// ── STEPPER ───────────────────────────────────────────────────────────────────
+function goToStep(n){
+  currentStep=n;
+  document.querySelectorAll('.modal-step').forEach((s,i)=>s.classList.toggle('active',i+1===n));
+  document.querySelectorAll('.ms-dot').forEach((d,i)=>{
+    d.classList.toggle('active',i+1===n); d.classList.toggle('done',i+1<n);
+  });
+  document.getElementById('btn-back').style.visibility=n===1?'hidden':'visible';
+  const next=document.getElementById('btn-next');
+  next.style.display=n===4?'none':'';
+  validateCurrentStep();
+  document.querySelector('.modal-scroll').scrollTop=0;
+  if(n===4) fillGenSummary();
+}
+function nextStep(){ if(currentStep<4) goToStep(currentStep+1); }
+function prevStep(){ if(currentStep>1) goToStep(currentStep-1); }
+
+function validateCurrentStep(){
+  const btn=document.getElementById('btn-next');
+  if(currentStep===1) btn.disabled=!utrVal.trim();
+  else if(currentStep===2) btn.disabled=!manifest;
+  else if(currentStep===3) btn.disabled=!(v('f-name1')&&v('f-name2'));
+  else btn.disabled=true;
+}
+const v=id=>document.getElementById(id).value.trim();
+
+// ── PACKAGE ───────────────────────────────────────────────────────────────────
+function selectPkg(pkg,el){
+  selectedPkg=pkg;
+  document.querySelectorAll('.pkg-card').forEach(c=>c.classList.remove('sel'));
+  if(el) el.classList.add('sel');
+  document.getElementById('pay-amt-disp').textContent='₹'+PKG_PRICES[pkg].toLocaleString('en-IN');
+  renderQR();
+}
+function renderQR(){
+  const el=document.getElementById('qr-canvas'); el.innerHTML='';
+  if(typeof QRCode==='undefined'){setTimeout(renderQR,600);return;}
+  const amt=PKG_PRICES[selectedPkg];
+  new QRCode(el,{text:`upi://pay?pa=9962740490@upi&pn=MemoryWrapped&am=${amt}&cu=INR&tn=MemoryWrapped`,width:160,height:160,colorDark:'#1a1a2e',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+}
+function onUtrInput(){ utrVal=v('utr-input'); validateCurrentStep(); }
+
+// ── CHAT FILE ─────────────────────────────────────────────────────────────────
+const dz=document.getElementById('drop-zone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');const f=e.dataTransfer.files[0];if(f)handleChatFile(f);});
+
+async function handleChatFile(file){
+  if(!file)return;
+  const st=document.getElementById('upload-status');
+  st.innerHTML='<span class="ing">Analysing messages…</span>';
+  try{
+    const text=await readText(file);
+    const res=await runAnalyzer(text);
+    if(res&&res.stats.totalMessages>20){
+      manifest=res;
+      const msgs=res.stats.totalMessages.toLocaleString('en-IN');
+      st.innerHTML=`<span class="ok">✓ ${msgs} messages found — ready to continue</span>`;
+      document.getElementById('cs-msgs').textContent=msgs;
+      document.getElementById('cs-words').textContent=(res.stats.totalWords/1000).toFixed(0)+'K';
+      document.getElementById('cs-days').textContent=res.stats.totalDaysActive.toLocaleString('en-IN');
+      document.getElementById('chat-stats').classList.add('show');
+      validateCurrentStep();
+    } else {
+      st.innerHTML='<span class="err">Could not parse this file. Make sure it\'s a WhatsApp .txt export (Without Media).</span>';
+    }
+  } catch(err){ st.innerHTML=`<span class="err">Error: ${err.message}</span>`; }
+}
+
+// ── PHOTO FILE ────────────────────────────────────────────────────────────────
+function handlePhotoFile(file){
+  if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    photoURL=e.target.result;
+    document.getElementById('photo-placeholder').style.display='none';
+    const p=document.getElementById('photo-preview'); p.style.display='flex';
+    document.getElementById('photo-thumb').src=photoURL;
+  };
+  r.readAsDataURL(file);
+}
+function resetPhoto(e){
+  e.stopPropagation(); photoURL=null;
+  document.getElementById('photo-placeholder').style.display='';
+  document.getElementById('photo-preview').style.display='none';
+  document.getElementById('photo-file').value='';
+}
+
+// ── GEN SUMMARY ───────────────────────────────────────────────────────────────
+function fillGenSummary(){
+  const n1=v('f-name1')||'Person 1', n2=v('f-name2')||'Person 2';
+  document.getElementById('gen-names').textContent=n1+' & '+n2;
+  document.getElementById('gen-pkg').textContent=PKG_LABELS[selectedPkg];
+  if(manifest){
+    const msgs=manifest.stats.totalMessages.toLocaleString('en-IN');
+    const fr=manifest.dateRange.from?manifest.dateRange.from.slice(0,7):'';
+    const to=manifest.dateRange.to?manifest.dateRange.to.slice(0,7):'';
+    document.getElementById('gen-chat-info').textContent=`${msgs} messages · ${fr} → ${to}`;
+  }
+}
+
+// ── CARD GENERATION ───────────────────────────────────────────────────────────
+async function startGeneration(){
+  if(!manifest)return;
+  document.getElementById('btn-generate').disabled=true;
+  const vars=buildVars();
+  const n=PKG_CARDS[selectedPkg];
+  const scale=selectedPkg==='keepsake'?2:1;
+  fillCardStage(vars);
+
+  const stage=document.getElementById('card-stage');
+  stage.style.cssText='position:fixed;left:0;top:-9999px;width:1080px;z-index:9999;pointer-events:none;';
+
+  const pa=document.getElementById('progress-area');
+  const pf=document.getElementById('progress-fill');
+  const pl=document.getElementById('progress-lbl');
+  const pg=document.getElementById('preview-grid');
+  pa.style.display='block'; pg.innerHTML=''; generatedBlobs=[];
+
+  for(let i=1;i<=n;i++){
+    pl.textContent=`Rendering card ${i} of ${n}…`;
+    pf.style.width=((i-1)/n*85)+'%';
+    const el=document.getElementById('cs'+i);
+    try{
+      const canvas=await html2canvas(el,{width:1080,height:1350,scale,backgroundColor:'#07070d',useCORS:true,allowTaint:true,logging:false});
+      const blob=await canvasBlob(canvas,'image/jpeg',0.93);
+      generatedBlobs.push({name:String(i).padStart(2,'0')+'_'+CARD_NAMES[i-1]+'.jpg',blob});
+      const url=URL.createObjectURL(blob);
+      const item=document.createElement('div'); item.className='prev-card';
+      item.innerHTML=`<img src="${url}" loading="lazy"><div class="prev-card-lbl">${i}. ${CARD_NAMES[i-1].replace(/_/g,' ')}</div>`;
+      pg.appendChild(item); pg.classList.add('show');
+    } catch(err){ console.warn('Card '+i+' error:',err); }
+  }
+  stage.style.cssText='position:fixed;left:-1200px;top:0;width:1080px;z-index:9999;pointer-events:none;';
+  pf.style.width='100%'; pl.textContent='✓ All cards generated!';
+  const dl=document.getElementById('dl-wrap');
+  document.getElementById('btn-dl').onclick=downloadZip;
+  dl.classList.add('show');
+  logOrder();
+}
+
+async function downloadZip(){
+  if(!generatedBlobs.length)return;
+  const btn=document.getElementById('btn-dl');
+  btn.textContent='Packing ZIP…'; btn.disabled=true;
+  try{
+    const zip=new JSZip();
+    const n1=v('f-name1')||'MemoryWrapped';
+    const n2=v('f-name2')||'Cards';
+    const folder=zip.folder(`MemoryWrapped_${n1}_${n2}`);
+    generatedBlobs.forEach(({name,blob})=>folder.file(name,blob));
+    const content=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});
+    const url=URL.createObjectURL(content);
+    const a=document.createElement('a'); a.href=url; a.download=`MemoryWrapped_${n1}_${n2}.zip`; a.click();
+    URL.revokeObjectURL(url);
+    btn.textContent='✓ Downloaded!';
+  } catch(err){ btn.textContent='↓ Download ZIP'; btn.disabled=false; alert('Download failed: '+err.message); }
+}
+
+// ── VARIABLE BUILDER ──────────────────────────────────────────────────────────
+function buildVars(){
+  const n1=v('f-name1')||'Person 1', n2=v('f-name2')||'Person 2';
+  const rel=v('f-rel')||'Together', loc=v('f-loc'), dat=v('f-date'), nick=v('f-nick')||n2;
+  const m=manifest, dr=m.dateRange, st=m.stats;
+
+  const fmtDate=iso=>{try{const d=new Date(iso);return d.toLocaleDateString('en-IN',{month:'long',day:'numeric',year:'numeric'});}catch(e){return iso||'—';}};
+  const fmtMon =iso=>{try{const d=new Date(iso);return d.toLocaleDateString('en-IN',{month:'long',year:'numeric'});}catch(e){return iso||'—';}};
+  const fmtNum =n=>n?n.toLocaleString('en-IN'):'—';
+  const fmtK   =n=>{if(!n)return'—';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1000)return Math.round(n/1000)+'K';return String(n);};
+  const fmtHr  =hh=>{if(!hh)return'—';const h=parseInt(hh);if(h===0)return'12 am';if(h<12)return h+' am';if(h===12)return'12 pm';return(h-12)+' pm';};
+  const diffYM =(a,b)=>{try{const d1=new Date(a),d2=new Date(b);const y=d2.getFullYear()-d1.getFullYear()-((d2.getMonth()<d1.getMonth()||(d2.getMonth()===d1.getMonth()&&d2.getDate()<d1.getDate()))?1:0);if(y>=1)return y+' Year'+(y>1?'s':'');const mo=(d2.getFullYear()-d1.getFullYear())*12+d2.getMonth()-d1.getMonth();return mo+' Month'+(mo!==1?'s':'');}catch(e){return'';}};
+
+  const occ=diffYM(dr.from,dr.to);
+  const firstMs=m.milestones[0]||{};
+  const firstDate=firstMs.date||dr.from;
+
+  // Find the ask
+  const romRe=/would you|date|chance|love you|girlfriend|boyfriend|together|will you|please/i;
+  const early=(m.moments||[]).filter(mo=>{try{return(new Date(mo.date)-new Date(firstDate))/86400000<=45;}catch(e){return false;}}).sort((a,b)=>a.date<b.date?-1:1);
+  let ask=null; for(const c of early){if(romRe.test(c.text)){ask=c;break;}} if(!ask&&early.length)ask=early[0]; if(!ask&&m.moments&&m.moments.length)ask=m.moments[0];
+  const askDate=ask?fmtDate(ask.date):fmtMon(dr.from);
+  const askText=ask?(ask.text||'').slice(0,300):'';
+  const askDays=ask?(()=>{try{const d=Math.round((new Date(ask.date)-new Date(firstDate))/86400000);return d===0?'The very first day':d===1?'1 day after the first message':d+' days after the first message';}catch(e){return'';}})():'';
+
+  // Motifs & emoji
+  const mc=lbl=>{const mo=(m.motifs||[]).find(x=>(x.label||'').toLowerCase().includes(lbl));return mo?fmtNum(mo.count):'—';};
+  const te=(m.topEmojis||[])[0]||{emoji:'❤️',count:0};
+
+  // Last message
+  let last=null; for(const mo of [...(m.moments||[])].sort((a,b)=>b.date>a.date?1:-1)){if(/morning/i.test(mo.text)){last=mo;break;}} if(!last&&m.moments&&m.moments.length)last=[...m.moments].sort((a,b)=>b.date>a.date?1:-1)[0];
+
+  const photoCap=(loc&&dat)?loc+' · '+dat:(loc||dat||fmtMon(dr.to));
+  const relStart=rel.includes('→')?rel.split('→')[0].trim():rel;
+  const relEnd  =rel.includes('→')?rel.split('→').pop().trim():rel;
+
+  const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  return {
+    P1:n1, P2:n2, NAMES:n1+' & '+n2,
+    DR:fmtMon(dr.from)+' → '+fmtMon(dr.to),
+    REL:rel, RS:relStart, RE:relEnd,
+    MC:fmtNum(st.totalMessages), WC:fmtK(st.totalWords),
+    MED:fmtNum(st.mediaCount), TE:te.emoji, TEC:fmtNum(te.count),
+    LC:mc('love'), GMC:mc('morning'),
+    STR:fmtNum(st.longestStreakDays), PH:fmtHr(st.peakHour||'22:00'),
+    OCC:occ,
+    FD:fmtDate(firstDate), FT:esc(firstMs.sample||''),
+    AD:askDate, AT:esc(askText), ADA:askDays,
+    LD:last?fmtDate(last.date):fmtDate(dr.to), LT:esc(last?(last.text||'').slice(0,200):''),
+    PHOTO:photoURL||'', PCAP:photoCap,
+    NICK:nick, LOC:loc, PDATE:dat||fmtMon(dr.to),
+  };
+}
+
+// ── CARD STAGE FILLER ─────────────────────────────────────────────────────────
+function fillCardStage(V){
+  const G='<div class="glw"></div>';
+  const F='<div class="bft">✧ MemoryWrapped · Your chats, as a keepsake</div>';
+  const C='<div class="cor ctl"></div><div class="cor ctr"></div><div class="cor cbl"></div><div class="cor cbr"></div>';
+
+  $('cs1').innerHTML=G+C+`
+    <div class="s1-eb">✧ A WhatsApp love story</div>
+    <div class="s1-nm">${V.P1}<span class="s1-am">&amp;</span>${V.P2}</div>
+    <div class="s1-rl"><div class="ln"></div><span style="color:#c9a96e;font-size:18px">✦</span><div class="ln"></div></div>
+    <div class="s1-dt">${V.DR}</div>
+    <div class="s1-tg">${V.REL}</div>
+    <div class="s1-ct"><strong>${V.MC}</strong>messages and counting</div>
+  `+F;
+
+  $('cs2').innerHTML=G+`
+    <div class="eyb">How it started</div>
+    <div class="s2-dt">${V.FD} &nbsp;·&nbsp; Message #1</div>
+    <div class="s2-ml">First message ever sent</div>
+    <div class="s2-bb"><div class="s2-bt">"${V.FT}"</div></div>
+    <div class="s2-sb">That was all it took.</div>
+    <div class="s2-ar">→</div>
+  `+F;
+
+  $('cs3').innerHTML=G+`
+    <div class="eyb">The ask</div>
+    <div class="s3-dt">${V.AD}</div>
+    <div class="s3-q">"</div>
+    <div class="s3-qt">${V.AT}</div>
+    <div class="lnh" style="margin-bottom:36px"></div>
+    <div class="s3-cx">${V.ADA}</div>
+  `+F;
+
+  $('cs4').innerHTML=G+`
+    <div class="eyb">${V.OCC} in numbers</div>
+    <div class="s4-hd">${V.MC}<br>messages.</div>
+    <div class="s4-sb">Every word. Every emoji. Every "okay fine."</div>
+    <div class="s4-gd">
+      <div class="s4-st"><div class="s4-sn">${V.WC}</div><div class="s4-sl">Words written</div></div>
+      <div class="s4-st"><div class="s4-sn">${V.TEC}</div><div class="s4-sl">${V.TE} sent</div></div>
+      <div class="s4-st"><div class="s4-sn">${V.MED}</div><div class="s4-sl">Photos &amp; videos</div></div>
+      <div class="s4-st"><div class="s4-sn">${V.LC}</div><div class="s4-sl">Love notes</div></div>
+    </div>
+  `+F;
+
+  $('cs5').innerHTML=G+`
+    <div class="eyb">Daily rituals</div>
+    <div class="s5-hd">Some things<br>never missed.</div>
+    <div class="s5-sb">Every. Single. Day.</div>
+    <div class="s5-rl">
+      <div class="s5-rw"><div class="r-lb">Good mornings sent</div><div class="r-vl">${V.GMC}</div></div>
+      <div class="s5-rw"><div class="r-lb">Days without a break</div><div class="r-vl">${V.STR}</div></div>
+      <div class="s5-rw"><div class="r-lb">Peak hour</div><div class="r-vl gld">${V.PH}</div></div>
+    </div>
+  `+F;
+
+  $('cs6').innerHTML=(V.PHOTO?
+    `<img class="s6-img" src="${V.PHOTO}" crossorigin="anonymous"><div class="s6-ov"></div>`
+    :`<div class="s6-bg"></div>`)+`
+    <div class="s6-tx">
+      <div class="s6-ey">${V.REL}</div>
+      <div class="s6-nm">${V.P1} <span class="s6-am">&amp;</span> ${V.P2}</div>
+      <div class="s6-sb">${V.PCAP}</div>
+    </div>
+  `+F;
+
+  $('cs7').innerHTML=G+`
+    <div class="eyb">The journey</div>
+    <div class="s7-hd">${V.OCC}.<br>One decision.</div>
+    <div class="s7-tl">
+      <div class="tl-it"><div class="tl-dc"><div class="tl-d f"></div><div class="tl-ln"></div></div><div><div class="tl-da">${V.FD}</div><div class="tl-ev">First message</div><div class="tl-dt">Message #1</div></div></div>
+      <div class="tl-it"><div class="tl-dc"><div class="tl-d f"></div><div class="tl-ln"></div></div><div><div class="tl-da">${V.AD}</div><div class="tl-ev">They said yes</div><div class="tl-dt">${V.RS}</div></div></div>
+      <div class="tl-it"><div class="tl-dc"><div class="tl-d f"></div><div class="tl-ln"></div></div><div><div class="tl-da">${V.OCC} later</div><div class="tl-ev">${V.MC} messages</div><div class="tl-dt">Still going at ${V.PH}</div></div></div>
+      <div class="tl-it"><div class="tl-dc"><div class="tl-d r"></div></div><div><div class="tl-da">${V.PDATE}</div><div class="tl-ev" style="color:#e8b4b8">${V.RE} ✦</div><div class="tl-dt">${V.LOC}</div></div></div>
+    </div>
+  `+F;
+
+  $('cs8').innerHTML=G+`
+    <div class="eyb">Still going · ${V.LD}</div>
+    <div class="s8-dt">${V.OCC} in. Nothing changed.</div>
+    <div class="s8-ml">A morning message</div>
+    <div class="s8-bb"><div class="s8-bt">"${V.LT||'Good morning '+V.NICK+' 🌅'}"</div></div>
+    <div class="s8-nt">${V.GMC} good mornings sent.<br>Every single one meant.</div>
+  `+F;
+
+  $('cs9').innerHTML=G+C+`
+    <div class="s9-pr">Your love story is in your chat.</div>
+    <div class="s9-hd">Turn it into a<br><span class="r">keepsake</span><br>they'll keep forever.</div>
+    <div class="s9-rl"><div class="ln"></div><span style="color:#c9a96e;font-size:16px">✦</span><div class="ln"></div></div>
+    <div class="s9-ct">DM to order yours</div>
+    <div class="s9-h2">@getmemorywrapped</div>
+    <div class="s9-tg">MemoryWrapped · Your chats, as a keepsake</div>
+  `+F;
+}
+
+// ── GAS LOGGING ───────────────────────────────────────────────────────────────
+function logOrder(){
+  try{
+    fetch(GAS,{method:'POST',body:JSON.stringify({customer:{name1:v('f-name1'),name2:v('f-name2'),email:'',phone:'',package:selectedPkg,utr:utrVal},custom:{relationship:v('f-rel'),photoLocation:v('f-loc'),photoDate:v('f-date'),nickname:v('f-nick'),specialNote:v('f-note')},manifest,photo:null})}).catch(()=>{});
+  }catch(e){}
+}
+
+// ── WHATSAPP PARSER ───────────────────────────────────────────────────────────
+async function runAnalyzer(text){
+  const lines=text.split('\n');
+  const msgRe=/^[\[‎]?(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})[,\s]+(\d{1,2}):(\d{2})(?::(\d{2}))?(?:\s*(AM|PM))?\]?[\s\-–]+([^:]+):\s(.+)/i;
+  const emojiRe=/\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu;
+  const msgs=[],senders={},emojiCounts={};
+  let cur=null;
+  for(const line of lines){
+    const m=msgRe.exec(line.trim());
+    if(m){const s=m[8].trim(),b=m[9].trim();cur={sender:s,text:b,date:parseWADate(m),hour:parseInt(m[4])};msgs.push(cur);senders[s]=(senders[s]||0)+1;(b.match(emojiRe)||[]).forEach(e=>{emojiCounts[e]=(emojiCounts[e]||0)+1;});}
+    else if(cur&&line.trim()&&!/omitted/i.test(line))cur.text+=' '+line.trim();
+  }
+  if(msgs.length<10)return null;
+  const parts=Object.keys(senders).filter(s=>!s.includes('changed')&&s.length<40).slice(0,2);
+  const dates=msgs.map(m=>m.date).filter(Boolean).sort();
+  const from=dates[0]||'',to=dates[dates.length-1]||'';
+  const wb={},mb={};
+  msgs.forEach(m=>{wb[m.sender]=(wb[m.sender]||0)+m.text.split(/\s+/).filter(x=>x).length;if(/omitted/i.test(m.text))mb[m.sender]=(mb[m.sender]||0)+1;});
+  const totalWords=Object.values(wb).reduce((a,b)=>a+b,0);
+  const mediaCount=Object.values(mb).reduce((a,b)=>a+b,0);
+  const hc={};msgs.forEach(m=>{if(m.hour!==undefined)hc[m.hour]=(hc[m.hour]||0)+1;});
+  const ph=Object.entries(hc).sort((a,b)=>b[1]-a[1])[0]?.[0]||'22';
+  const ds=new Set(msgs.map(m=>m.date).filter(Boolean));
+  let streak=0,max=0,prev=null;
+  [...ds].sort().forEach(d=>{if(prev){const diff=(new Date(d)-new Date(prev))/86400000;streak=diff===1?streak+1:1;}else streak=1;max=Math.max(max,streak);prev=d;});
+  const topEmojis=Object.entries(emojiCounts).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([emoji,count])=>({emoji,count}));
+  let love=0,gm=0;msgs.forEach(m=>{if(/i love you|love you/i.test(m.text))love++;if(/good morning/i.test(m.text))gm++;});
+  const fm=msgs[0],fd=new Date(from);
+  const early=msgs.filter(m=>{try{return(new Date(m.date)-fd)/86400000<=45&&m.text.length>20&&!/omitted/i.test(m.text);}catch(e){return false;}}).slice(0,30);
+  const moments=early.filter(m=>m.text.length>30).map((m,i)=>({id:'m'+(i+1),text:m.text.slice(0,300),sender:m.sender,date:m.date})).slice(0,40);
+  return{schema:'memorywrapped-manifest@1',participants:parts,dateRange:{from,to},stats:{totalMessages:msgs.length,totalWords,totalDaysActive:ds.size,longestStreakDays:max,peakHour:`${String(ph).padStart(2,'0')}:00`,mediaCount},moments,milestones:fm?[{title:'First message',date:fm.date,sample:fm.text.slice(0,100)}]:[],motifs:[{label:'Good mornings',count:gm},{label:'Love notes',count:love}],topEmojis};
+}
+function parseWADate(m){try{let d=parseInt(m[1]),mo=parseInt(m[2]),y=parseInt(m[3]),h=parseInt(m[4]);if(y<100)y+=2000;if(d>12){}else if(mo>12){[d,mo]=[mo,d];}const ap=m[7];if(ap){if(ap.toUpperCase()==='PM'&&h<12)h+=12;if(ap.toUpperCase()==='AM'&&h===12)h=0;}return`${y}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}catch(e){return'';}}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+const $=id=>document.getElementById(id);
+function readText(f){return new Promise((r,j)=>{const rd=new FileReader();rd.onload=e=>r(e.target.result);rd.onerror=j;rd.readAsText(f,'utf-8');});}
+function canvasBlob(c,t,q){return new Promise(r=>c.toBlob(r,t,q));}
+
+// ── FAQ ───────────────────────────────────────────────────────────────────────
+function toggleFaq(el){const item=el.closest('.faq-item');const o=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!o)item.classList.add('open');}
+
+// ── GALLERY DOTS ─────────────────────────────────────────────────────────────
+(function(){
+  const track=$('gallery-track'), dotsEl=$('gallery-dots');
+  const cards=track.querySelectorAll('.g-card');
+  cards.forEach((_,i)=>{const d=document.createElement('button');d.className='g-dot'+(i===0?' active':'');d.onclick=()=>cards[i].scrollIntoView({behavior:'smooth',inline:'start',block:'nearest'});dotsEl.appendChild(d);});
+  track.addEventListener('scroll',()=>{const idx=Math.round(track.scrollLeft/(track.scrollWidth/cards.length));dotsEl.querySelectorAll('.g-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));},{passive:true});
+})();
+
+// ── SCROLL ANIMATIONS ─────────────────────────────────────────────────────────
+(function(){
+  const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:0.1});
+  document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
+})();
+</script>
+</body>
+</html>
