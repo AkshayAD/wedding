@@ -38,7 +38,7 @@ jobs:
         uses: actions/configure-pages@v4
         
       - name: Override root with MemoryWrapped landing
-        run: cp ./invitation-v2/public/memorywrapped/index.html ./invitation-v2/dist/index.html
+        run: cp ./invitation-v2/public/index.html ./invitation-v2/dist/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
