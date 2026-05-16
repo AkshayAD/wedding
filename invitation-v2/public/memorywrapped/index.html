@@ -7,13 +7,15 @@
 <meta name="description" content="Turn your WhatsApp chat into 9 personalized story cards. Generates instantly in your browser. Your chat never leaves your device.">
 <meta property="og:title" content="MemoryWrapped — Your story in 9 cards">
 <meta property="og:description" content="Upload your WhatsApp chat. Get 9 beautiful personalized cards. Instant download.">
-<meta property="og:image" content="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_01_cover.jpg">
+<meta property="og:image" content="assets/cards/slide_01_cover.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
 <style>
 /* ── VARIABLES ─────────────────────────────────────────────────────────────── */
@@ -24,8 +26,8 @@
   --gold-dark:   #a8824e;
   --rose:        #e8b4b8;
   --cream:       #f0ece4;
-  --muted:       rgba(240,236,228,.52);
-  --faint:       rgba(240,236,228,.22);
+  --muted:       rgba(240,236,228,.78);
+  --faint:       rgba(240,236,228,.52);
   --card-bg:     rgba(255,255,255,.03);
   --card-border: rgba(201,169,110,.18);
   --f-display:   'Cormorant Garamond', Georgia, serif;
@@ -214,12 +216,24 @@ button { font-family:var(--f-ui); }
 .pkg-card { border:1px solid var(--card-border); border-radius:12px; padding:22px 18px; cursor:pointer; transition:all .2s; position:relative; }
 .pkg-card:hover { border-color:rgba(201,169,110,.4); background:rgba(201,169,110,.03); }
 .pkg-card.sel { border-color:var(--gold); background:rgba(201,169,110,.07); }
+.pkg-badge { font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
+.tw-cloud { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; padding:20px; }
+.tw-chip { background:rgba(201,169,110,.12); border:1px solid rgba(201,169,110,.25); border-radius:20px; padding:8px 18px; font-size:18px; color:var(--cream); font-family:var(--f-display); }
 .pkg-chk { display:none; position:absolute; top:10px; right:10px; width:20px; height:20px; border-radius:50%; background:var(--gold); color:var(--bg); font-size:10px; font-weight:700; align-items:center; justify-content:center; }
 .pkg-card.sel .pkg-chk { display:flex; }
 .pkg-name { font-family:var(--f-display); font-size:19px; font-weight:400; color:var(--cream); margin-bottom:4px; }
 .pkg-price { font-family:var(--f-display); font-size:32px; font-weight:300; color:var(--gold); margin-bottom:10px; }
 .pkg-feats { list-style:none; }
 .pkg-feats li { font-size:12px; color:var(--muted); margin-bottom:5px; padding-left:12px; position:relative; line-height:1.4; }
+.theme-selector { margin: 28px 0 8px; }
+.theme-selector-label { font-family:'Arial',sans-serif; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(201,169,110,0.5); margin-bottom:14px; }
+.theme-options { display:flex; gap:12px; }
+.theme-opt { flex:1; background:rgba(201,169,110,0.04); border:1px solid rgba(201,169,110,0.15); border-radius:8px; padding:16px 14px; cursor:pointer; text-align:left; transition:border-color 0.2s,background 0.2s; display:flex; flex-direction:column; gap:4px; }
+.theme-opt:hover { border-color:rgba(201,169,110,0.35); }
+.theme-opt.active { border-color:#c9a96e; background:rgba(201,169,110,0.09); }
+.theme-opt-icon { font-size:16px; color:#c9a96e; margin-bottom:4px; }
+.theme-opt-name { font-family:'Georgia',serif; font-size:15px; color:#f0ece4; }
+.theme-opt-desc { font-family:'Arial',sans-serif; font-size:11px; color:rgba(240,236,228,0.4); letter-spacing:0.04em; }
 .pkg-feats li::before { content:'·'; position:absolute; left:0; color:var(--gold); }
 @media(max-width:600px){ .pkg-grid{grid-template-columns:1fr;} }
 
@@ -307,6 +321,8 @@ button { font-family:var(--f-ui); }
 .btn-next { background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:var(--bg); font-size:15px; font-weight:600; padding:12px 36px; border-radius:8px; border:none; cursor:pointer; transition:all .2s; letter-spacing:.03em; }
 .btn-next:hover { opacity:.9; transform:translateY(-1px); }
 .btn-next:disabled { opacity:.36; cursor:not-allowed; transform:none; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-8px)} 40%,80%{transform:translateX(8px)} }
+.drop-zone.shake { animation:shake 0.5s ease-in-out; }
 @media(max-width:600px){ .modal-ft{padding:14px 20px;} }
 
 /* ── CARD STAGE ───────────────────────────────────────────────────────────── */
@@ -394,6 +410,15 @@ button { font-family:var(--f-ui); }
 .s9-ct{font-family:Arial,sans-serif;font-size:18px;letter-spacing:.18em;text-transform:uppercase;color:rgba(201,169,110,.55);margin-bottom:24px;}
 .s9-h2{font-size:44px;color:#c9a96e;margin-bottom:20px;}
 .s9-tg{font-family:Arial,sans-serif;font-size:14px;letter-spacing:.24em;text-transform:uppercase;color:rgba(240,236,228,.28);}
+.hero-ghost {
+  position: absolute;
+  width: 220px;
+  height: 275px;
+  border-radius: 14px;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+}
 </style>
 </head>
 <body>
@@ -421,7 +446,7 @@ button { font-family:var(--f-ui); }
       <h1 class="hero-h1">Your story,<br>told in<br><em>9 cards.</em></h1>
       <p class="hero-sub">Upload your WhatsApp chat. Get 9 personalized story cards — your first message, your numbers, your moments — generated instantly in your browser.</p>
       <div class="hero-ctas">
-        <button class="btn-primary" onclick="openModal()">Order Now — from ₹499</button>
+        <button class="btn-primary" onclick="openModal('free')">Try Free · 3 Watermarked Cards</button>
         <button class="btn-ghost" onclick="document.getElementById('examples').scrollIntoView({behavior:'smooth'})">See an example →</button>
       </div>
       <div class="hero-proof">
@@ -434,9 +459,9 @@ button { font-family:var(--f-ui); }
     </div>
     <div class="hero-visual">
       <div class="hero-stack">
-        <img class="hero-behind hero-behind-l" src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_04_numbers.jpg" alt="">
-        <img class="hero-behind hero-behind-r" src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_07_journey.jpg" alt="">
-        <img class="hero-main" src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_01_cover.jpg" alt="Sample MemoryWrapped card">
+        <img class="hero-behind hero-behind-l" src="assets/cards/slide_04_numbers.jpg" alt="">
+        <img class="hero-behind hero-behind-r" src="assets/cards/slide_07_journey.jpg" alt="">
+        <img class="hero-main" src="assets/cards/slide_01_cover.jpg" alt="Sample MemoryWrapped card">
       </div>
     </div>
   </div>
@@ -462,15 +487,15 @@ button { font-family:var(--f-ui); }
     </div>
   </div>
   <div class="gallery-track" id="gallery-track">
-    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_01_cover.jpg" alt="Cover card"><div class="g-badge">01 · Cover</div></div>
-    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_02_started.jpg" alt="How it started"><div class="g-badge">02 · Started</div></div>
-    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_03_ask.jpg" alt="The ask"><div class="g-badge">03 · The Ask</div></div>
-    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_04_numbers.jpg" alt="The numbers"><div class="g-badge">04 · Numbers</div></div>
-    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_05_rituals.jpg" alt="Daily rituals"><div class="g-badge">05 · Rituals</div></div>
-    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_06_photo.jpg" alt="Photo card"><div class="g-badge">06 · Photo</div></div>
-    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_07_journey.jpg" alt="The journey"><div class="g-badge">07 · Journey</div></div>
-    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_08_bayko.jpg" alt="Morning message"><div class="g-badge">08 · Morning</div></div>
-    <div class="g-card"><img src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_09_cta.jpg" alt="Close"><div class="g-badge">09 · Close</div></div>
+    <div class="g-card"><img src="assets/cards/slide_01_cover.jpg" alt="Cover card"><div class="g-badge">01 · Cover</div></div>
+    <div class="g-card"><img src="assets/cards/slide_02_started.jpg" alt="How it started"><div class="g-badge">02 · Started</div></div>
+    <div class="g-card"><img src="assets/cards/slide_03_ask.jpg" alt="The ask"><div class="g-badge">03 · The Ask</div></div>
+    <div class="g-card"><img src="assets/cards/slide_04_numbers.jpg" alt="The numbers"><div class="g-badge">04 · Numbers</div></div>
+    <div class="g-card"><img src="assets/cards/slide_05_rituals.jpg" alt="Daily rituals"><div class="g-badge">05 · Rituals</div></div>
+    <div class="g-card"><img src="assets/cards/slide_06_photo.jpg" alt="Photo card"><div class="g-badge">06 · Photo</div></div>
+    <div class="g-card"><img src="assets/cards/slide_07_journey.jpg" alt="The journey"><div class="g-badge">07 · Journey</div></div>
+    <div class="g-card"><img src="assets/cards/slide_08_bayko.jpg" alt="Morning message"><div class="g-badge">08 · Morning</div></div>
+    <div class="g-card"><img src="assets/cards/slide_09_cta.jpg" alt="Close"><div class="g-badge">09 · Close</div></div>
   </div>
   <div class="container">
     <div class="gallery-dots" id="gallery-dots"></div>
@@ -482,57 +507,57 @@ button { font-family:var(--f-ui); }
 <section class="showcase-section" id="showcase">
   <div class="container">
     <div class="section-hd fade-up">
-      <div class="eyebrow">Client work · Live examples</div>
-      <h2 class="section-h2">Every format. Every story.</h2>
-      <p class="section-sub">From instant Instagram carousels to full cinematic keepsakes — see what's been built.</p>
+      <div class="eyebrow">What you get · Real deliverables</div>
+      <h2 class="section-h2">See exactly what we make.</h2>
+      <p class="section-sub">Every sample below is a real MemoryWrapped deliverable — this is what you receive.</p>
     </div>
     <div class="showcase-grid">
-      <a href="javascript:void(0)" onclick="openModal()" class="sc-item fade-up" style="transition-delay:.05s">
-        <img class="sc-thumb" src="https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_01_cover.jpg" alt="9 story cards">
+      <a href="javascript:void(0)" onclick="openModal('free')" class="sc-item fade-up" style="transition-delay:.05s">
+        <img class="sc-thumb" src="assets/cards/slide_01_cover.jpg" alt="9 story cards">
         <div class="sc-body">
-          <div class="sc-tag">Instant download · from ₹499</div>
-          <div class="sc-name">9 Story Cards</div>
-          <p class="sc-desc">Your first message, your numbers, your rituals — each chapter a beautiful 1080×1350 card. Ready for Instagram in under a minute.</p>
-          <span class="sc-cta">Order yours</span>
+          <div class="sc-tag">Wrapped — ₹399 · 9 cards delivered to your email</div>
+          <div class="sc-name">The 9 Story Cards</div>
+          <p class="sc-desc">Your first message, your numbers, your rituals — each chapter a 1080×1350 JPEG. These exact cards, personalised with your names and data, are what we send you.</p>
+          <span class="sc-cta">Try free preview →</span>
         </div>
       </a>
-      <a href="https://akshayad.github.io/memorywrapped-demo/card_gallery.html" target="_blank" class="sc-item fade-up" style="transition-delay:.1s">
-        <img class="sc-thumb" src="https://akshayad.github.io/memorywrapped-demo/assets/preview_card_gallery.jpg" alt="Card gallery">
+      <a href="card_gallery.html" target="_blank" class="sc-item fade-up" style="transition-delay:.1s">
+        <img class="sc-thumb" src="assets/cards/slide_04_numbers.jpg" alt="Card styles">
         <div class="sc-body">
-          <div class="sc-tag">20+ styles · all personas</div>
-          <div class="sc-name">The Card Gallery</div>
-          <p class="sc-desc">20 card designs across anniversary, wedding, and friendship stories. Browse the full collection and see exactly what yours could look like.</p>
-          <span class="sc-cta">Browse the full gallery</span>
+          <div class="sc-tag">Browse all card styles</div>
+          <div class="sc-name">Full Card Gallery</div>
+          <p class="sc-desc">See every card design we can generate — cover, stats, rituals, language, photo, journey and more. All styles, all layouts, exactly as delivered.</p>
+          <span class="sc-cta">Browse gallery →</span>
         </div>
       </a>
-      <a href="https://akshayad.github.io/memorywrapped-demo/samples/generated_outputs/aarav_meera_anniversary/site/" target="_blank" class="sc-item fade-up" style="transition-delay:.15s">
-        <img class="sc-thumb" src="https://akshayad.github.io/memorywrapped-demo/assets/preview_aarav_meera_site.jpg" alt="Cinematic website demo">
+      <a href="samples/generated_outputs/aarav_meera_anniversary/site/" target="_blank" class="sc-item fade-up" style="transition-delay:.15s">
+        <img class="sc-thumb" src="assets/cards/slide_07_journey.jpg" alt="Cinematic website demo">
         <div class="sc-body">
-          <div class="sc-tag">Live demo · cinematic keepsake</div>
+          <div class="sc-tag">Wrapped + Site — ₹1,999 · private URL hosted permanently</div>
           <div class="sc-name">Cinematic Website</div>
-          <p class="sc-desc">An interactive private site — your stats, chapters, moments, and rituals as a luxury digital experience. Built from a real WhatsApp export.</p>
-          <span class="sc-cta">Experience the demo</span>
+          <p class="sc-desc">A private, interactive site with your full story — stats, chapters, moments, rituals. This live demo is built from real WhatsApp data. Click to experience it.</p>
+          <span class="sc-cta">Open live demo →</span>
         </div>
       </a>
     </div>
     <div class="demo-row fade-up">
-      <div class="demo-row-hd">More live demos</div>
+      <div class="demo-row-hd">More Wrapped + Site demos</div>
       <div class="demo-chips">
-        <a href="https://akshayad.github.io/memorywrapped-demo/samples/generated_outputs/akshay_diu/site/" target="_blank" class="demo-chip">
+        <a href="samples/generated_outputs/akshay_diu/site/" target="_blank" class="demo-chip">
           <span class="dc-name">Akshay &amp; Diu</span>
-          <span class="dc-type">The original · real data</span>
+          <span class="dc-type">Anniversary · real data</span>
         </a>
-        <a href="https://akshayad.github.io/memorywrapped-demo/samples/generated_outputs/kabir_anaya_wedding/site/" target="_blank" class="demo-chip">
+        <a href="samples/generated_outputs/kabir_anaya_wedding/site/" target="_blank" class="demo-chip">
           <span class="dc-name">Kabir &amp; Anaya</span>
-          <span class="dc-type">Wedding memory</span>
+          <span class="dc-type">Wedding</span>
         </a>
-        <a href="https://akshayad.github.io/memorywrapped-demo/samples/generated_outputs/riya_naina_friendship_birthday/site/" target="_blank" class="demo-chip">
+        <a href="samples/generated_outputs/riya_naina_friendship_birthday/site/" target="_blank" class="demo-chip">
           <span class="dc-name">Riya &amp; Naina</span>
           <span class="dc-type">Friendship birthday</span>
         </a>
-        <a href="https://akshayad.github.io/memorywrapped-demo/card_gallery.html" target="_blank" class="demo-chip">
-          <span class="dc-name">Full Gallery</span>
-          <span class="dc-type">All 60+ card styles</span>
+        <a href="samples/generated_outputs/aarav_meera_anniversary/site/" target="_blank" class="demo-chip">
+          <span class="dc-name">Aarav &amp; Meera</span>
+          <span class="dc-type">Anniversary</span>
         </a>
       </div>
     </div>
@@ -578,52 +603,52 @@ button { font-family:var(--f-ui); }
     </div>
     <div class="pricing-grid">
       <div class="price-card fade-up" style="transition-delay:.05s">
-        <div class="price-name">Mini</div>
-        <div class="price-amt">₹499</div>
-        <p class="price-note">6 story cards · instant download</p>
+        <div class="price-name">Free Preview</div>
+        <div class="price-amt">₹0</div>
+        <p class="price-note">3 watermarked cards · no payment</p>
         <div class="price-div"></div>
         <ul class="price-feats">
-          <li>Cover card — your names &amp; stats</li>
-          <li>First message card</li>
-          <li>The Ask — your proposal moment</li>
-          <li>The Numbers — your chat stats</li>
-          <li>Photo card (your picture)</li>
-          <li>Closing card</li>
-          <li>6 JPGs · WhatsApp-ready · Instant ZIP</li>
+          <li>Cover card with your names</li>
+          <li>Your chat numbers</li>
+          <li>Daily rituals card</li>
+          <li>Watermarked "MemoryWrapped"</li>
+          <li>Instant browser download</li>
+          <li>Share on Instagram Stories</li>
+          <li>Chat stays on your device</li>
         </ul>
-        <button class="btn-price ghost" onclick="openModal('mini')">Get Mini</button>
+        <button class="btn-price ghost" onclick="openModal('free')">Try Free</button>
       </div>
       <div class="price-card featured fade-up" style="transition-delay:.15s">
         <div class="price-badge-tag">Most Popular</div>
-        <div class="price-name">Anniversary Wrapped</div>
-        <div class="price-amt">₹999</div>
-        <p class="price-note">All 9 cards · Instagram carousel</p>
+        <div class="price-name">Wrapped</div>
+        <div class="price-amt">₹399</div>
+        <p class="price-note">All 9 cards · no watermark</p>
         <div class="price-div"></div>
         <ul class="price-feats">
-          <li>All 6 Mini cards</li>
-          <li>Daily Rituals — streaks &amp; peak hour</li>
-          <li>Journey Timeline — your milestones</li>
-          <li>Morning Messages card</li>
+          <li>Cover · First message · The Ask</li>
+          <li>Chat stats · Daily Rituals</li>
+          <li>Photo card (your picture)</li>
+          <li>Journey Timeline · Morning messages</li>
+          <li>Closing card</li>
           <li>9 JPGs · 1080×1350 · Instagram-ready</li>
-          <li>Instant ZIP download</li>
-          <li>Post as carousel · share on stories</li>
+          <li>Instant ZIP · No watermark</li>
         </ul>
         <button class="btn-price primary" onclick="openModal('wrapped')">Get Wrapped</button>
       </div>
       <div class="price-card fade-up" style="transition-delay:.25s">
-        <div class="price-name">Keepsake</div>
+        <div class="price-name">Wrapped + Site</div>
         <div class="price-amt">₹1,999</div>
-        <p class="price-note">9 cards + high-res + poster</p>
+        <p class="price-note">9 cards + cinematic website</p>
         <div class="price-div"></div>
         <ul class="price-feats">
-          <li>All 9 Anniversary Wrapped cards</li>
-          <li>2× high-resolution output</li>
-          <li>Bonus stats poster card</li>
-          <li>10 JPGs total · print-ready quality</li>
-          <li>Instant ZIP download</li>
-          <li>Best for framing &amp; gifting</li>
+          <li>All 9 Wrapped cards</li>
+          <li>Private cinematic website</li>
+          <li>akshaydivyanka.in/memorywrapped/YourNames</li>
+          <li>Hosted permanently, shareable link</li>
+          <li>Delivered within 48 hours</li>
+          <li>Best for anniversaries &amp; weddings</li>
         </ul>
-        <button class="btn-price ghost" onclick="openModal('keepsake')">Get Keepsake</button>
+        <button class="btn-price ghost" onclick="openModal('site')">Get Wrapped+Site</button>
       </div>
     </div>
   </div>
@@ -675,9 +700,9 @@ button { font-family:var(--f-ui); }
     <div class="footer-logo">MemoryWrapped</div>
     <p class="footer-tag">Your chats, as a keepsake.</p>
     <ul class="footer-links">
-      <li><a href="https://akshayad.github.io/memorywrapped-demo/privacy.html">Privacy</a></li>
-      <li><a href="https://akshayad.github.io/memorywrapped-demo/card_gallery.html">Card Gallery</a></li>
-      <li><a href="https://akshayad.github.io/memorywrapped-demo/partner_pitch.html">Partner with Us</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="card_gallery.html">Card Gallery</a></li>
+      <li><a href="partner_pitch.html">Partner with Us</a></li>
       <li><a href="https://instagram.com/getmemorywrapped" target="_blank">@getmemorywrapped</a></li>
     </ul>
     <p class="footer-copy">© 2026 MemoryWrapped. All rights reserved.</p>
@@ -695,57 +720,15 @@ button { font-family:var(--f-ui); }
     <div class="ms-dot"></div>
     <div class="ms-dot"></div>
     <div class="ms-dot"></div>
+    <div class="ms-dot"></div>
   </div>
   <div class="modal-scroll">
     <div class="modal-body">
 
-      <!-- Step 1: Package + Pay -->
+      <!-- Step 1: Upload Chat -->
       <div class="modal-step active" id="step-1">
         <div class="step-hd">
-          <div class="eyebrow">Step 1 of 4</div>
-          <h2>Choose &amp; pay</h2>
-          <p>Select a package, pay via UPI, then enter your transaction reference to continue.</p>
-        </div>
-        <div class="pkg-grid" id="pkg-grid">
-          <div class="pkg-card" onclick="selectPkg('mini',this)">
-            <div class="pkg-chk">✓</div>
-            <div class="pkg-name">Mini</div>
-            <div class="pkg-price">₹499</div>
-            <ul class="pkg-feats"><li>6 story cards</li><li>WhatsApp-ready JPGs</li><li>Instant ZIP download</li></ul>
-          </div>
-          <div class="pkg-card sel" onclick="selectPkg('wrapped',this)">
-            <div class="pkg-chk">✓</div>
-            <div class="pkg-name">Anniversary Wrapped</div>
-            <div class="pkg-price">₹999</div>
-            <ul class="pkg-feats"><li>All 9 cards</li><li>Instagram carousel-ready</li><li>Instant ZIP download</li></ul>
-          </div>
-          <div class="pkg-card" onclick="selectPkg('keepsake',this)">
-            <div class="pkg-chk">✓</div>
-            <div class="pkg-name">Keepsake</div>
-            <div class="pkg-price">₹1,999</div>
-            <ul class="pkg-feats"><li>9 cards + bonus poster</li><li>High-res 2× quality</li><li>Instant ZIP download</li></ul>
-          </div>
-        </div>
-        <div class="pay-box show" id="pay-box">
-          <div class="pay-inner">
-            <div class="pay-qr-wrap"><div id="qr-canvas"></div></div>
-            <div class="pay-details">
-              <div class="pay-amt" id="pay-amt-disp">₹999</div>
-              <div class="pay-upi-id">UPI: 9962740490@upi</div>
-              <div class="pay-apps">
-                <span class="pay-app">GPay</span><span class="pay-app">PhonePe</span><span class="pay-app">Paytm</span><span class="pay-app">BHIM</span>
-              </div>
-              <label class="utr-lbl">Transaction reference / UTR number</label>
-              <input type="text" class="utr-input" id="utr-input" placeholder="e.g. 426819200374" oninput="onUtrInput()">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 2: Upload Chat -->
-      <div class="modal-step" id="step-2">
-        <div class="step-hd">
-          <div class="eyebrow">Step 2 of 4</div>
+          <div class="eyebrow">Step 1 of 5</div>
           <h2>Upload your chat</h2>
           <p>Export your WhatsApp chat as a .txt file and drop it below. It never leaves your browser.</p>
         </div>
@@ -768,10 +751,10 @@ button { font-family:var(--f-ui); }
         </div>
       </div>
 
-      <!-- Step 3: Personalize -->
-      <div class="modal-step" id="step-3">
+      <!-- Step 2: Personalize -->
+      <div class="modal-step" id="step-2">
         <div class="step-hd">
-          <div class="eyebrow">Step 3 of 4</div>
+          <div class="eyebrow">Step 2 of 5</div>
           <h2>Your story details</h2>
           <p>The more you share, the more personal the cards.</p>
         </div>
@@ -796,31 +779,124 @@ button { font-family:var(--f-ui); }
         <div class="form-g"><label>A special note <span class="opt">optional · shown on journey card</span></label><textarea class="f-ta" id="f-note" placeholder="Your anniversary trip, proposal story, a favourite memory…" rows="3" maxlength="220"></textarea></div>
       </div>
 
-      <!-- Step 4: Generate -->
+      <!-- Step 3: Choose Package -->
+      <div class="modal-step" id="step-3">
+        <div class="step-hd">
+          <div class="eyebrow">Step 3 of 5</div>
+          <h2>Choose your package</h2>
+          <p>Free gets you 3 watermarked cards instantly. Upgrade for all 9 without watermark.</p>
+        </div>
+        <div class="pkg-grid" id="pkg-grid">
+          <div class="pkg-card" onclick="selectPkg('free',this)">
+            <div class="pkg-chk">✓</div>
+            <div class="pkg-name">Free Preview</div>
+            <div class="pkg-price">₹0</div>
+            <ul class="pkg-feats"><li>3 watermarked cards</li><li>Instant download</li><li>No payment needed</li></ul>
+          </div>
+          <div class="pkg-card sel" onclick="selectPkg('wrapped',this)">
+            <div class="pkg-chk">✓</div>
+            <div class="pkg-badge">Most Popular</div>
+            <div class="pkg-name">Wrapped</div>
+            <div class="pkg-price">₹399</div>
+            <ul class="pkg-feats"><li>All 9 personalized cards</li><li>No watermark</li><li>Instagram carousel-ready ZIP</li></ul>
+          </div>
+          <div class="pkg-card" onclick="selectPkg('site',this)">
+            <div class="pkg-chk">✓</div>
+            <div class="pkg-name">Wrapped + Site</div>
+            <div class="pkg-price">₹1,999</div>
+            <ul class="pkg-feats"><li>All 9 cards + cinematic website</li><li>Private shareable URL</li><li>Delivered within 48h</li></ul>
+          </div>
+        </div>
+        <div id="pkg-free-note" style="text-align:center;margin-top:16px;font-size:13px;color:var(--faint);display:none">Free cards will have a small "MemoryWrapped" watermark in the corner.</div>
+        <div class="theme-selector" id="theme-selector">
+          <div class="theme-selector-label">Choose your style</div>
+          <div class="theme-options">
+            <button class="theme-opt active" data-theme="cinematic">
+              <span class="theme-opt-icon">◆</span>
+              <span class="theme-opt-name">Dark Cinematic</span>
+              <span class="theme-opt-desc">Deep noir, gold accents</span>
+            </button>
+            <button class="theme-opt" data-theme="book">
+              <span class="theme-opt-icon">❧</span>
+              <span class="theme-opt-name">Book Edition</span>
+              <span class="theme-opt-desc">Dark coffee-table book, spine + chapters</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Pay (paid tiers only) -->
       <div class="modal-step" id="step-4">
         <div class="step-hd">
-          <div class="eyebrow">Step 4 of 4</div>
-          <h2>Generate your cards</h2>
-          <p>Everything renders in your browser. Takes about 30 seconds.</p>
+          <div class="eyebrow">Step 4 of 5</div>
+          <h2>Complete your payment</h2>
+          <p>Pay via UPI and enter your 12-digit transaction reference. We'll send your cards within 24 hours.</p>
         </div>
-        <div class="gen-summary" id="gen-summary">
-          <h3 id="gen-names">Your cards</h3>
-          <p>Package: <span id="gen-pkg">—</span></p>
-          <p>Chat: <span id="gen-chat-info">—</span></p>
+        <div class="pay-box show" id="pay-box">
+          <div class="pay-inner">
+            <div class="pay-qr-wrap"><div id="qr-canvas"></div></div>
+            <div class="pay-details">
+              <div class="pay-amt" id="pay-amt-disp">₹399</div>
+              <div class="pay-upi-id">UPI: 9962740490@upi</div>
+              <div class="pay-apps">
+                <span class="pay-app">GPay</span><span class="pay-app">PhonePe</span><span class="pay-app">Paytm</span><span class="pay-app">BHIM</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="gen-zone">
-          <button class="btn-generate" id="btn-generate" onclick="startGeneration()">✦ Generate My Cards</button>
+        <div class="form-g" style="margin-top:24px">
+          <label>Your email <span style="color:var(--rose)">*</span> <span style="color:var(--faint);font-size:12px">— we'll send your cards here</span></label>
+          <input type="email" class="f-input" id="f-email" placeholder="you@gmail.com" oninput="validateCurrentStep()">
         </div>
-        <div class="progress-area" id="progress-area">
-          <div class="progress-lbl" id="progress-lbl">Preparing…</div>
-          <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="form-g">
+          <label>12-digit UTR / transaction reference <span style="color:var(--rose)">*</span></label>
+          <input type="text" class="utr-input" id="utr-input" placeholder="e.g. 426819200374" maxlength="12" oninput="onUtrInput()" inputmode="numeric">
+          <div id="utr-hint" style="font-size:12px;color:var(--faint);margin-top:6px">Find this in your UPI app under transaction details</div>
         </div>
-        <div class="preview-grid" id="preview-grid"></div>
-        <div class="dl-wrap" id="dl-wrap">
-          <button class="btn-dl" id="btn-dl">↓ Download ZIP</button>
-          <p class="dl-note">All cards packed as JPEGs.</p>
-          <p style="margin-top:12px;font-size:13px;color:var(--faint)">@getmemorywrapped · Tag us when you post ✦</p>
+      </div>
+
+      <!-- Step 5: Free → generate | Paid → order confirmed -->
+      <div class="modal-step" id="step-5">
+
+        <!-- FREE TIER -->
+        <div id="free-gen-panel">
+          <div class="step-hd">
+            <div class="eyebrow">Step 5 of 5</div>
+            <h2>Your 3 preview cards</h2>
+            <p>Generating now in your browser — takes a few seconds.</p>
+          </div>
+          <div class="gen-summary" id="gen-summary">
+            <h3 id="gen-names">Your cards</h3>
+            <p>Package: <span id="gen-pkg">—</span></p>
+            <p>Chat: <span id="gen-chat-info">—</span></p>
+          </div>
+          <div class="gen-zone">
+            <button class="btn-generate" id="btn-generate" onclick="startGeneration()">✦ Generate My Preview Cards</button>
+          </div>
+          <div class="progress-area" id="progress-area">
+            <div class="progress-lbl" id="progress-lbl">Preparing…</div>
+            <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+          </div>
+          <div class="preview-grid" id="preview-grid"></div>
+          <div class="dl-wrap" id="dl-wrap">
+            <button class="btn-dl" id="btn-dl">↓ Download 3 Cards</button>
+            <p class="dl-note" style="margin-top:8px">Cards are watermarked. Upgrade for all 9 without watermark.</p>
+            <button class="btn-primary" style="margin-top:20px;width:100%" onclick="goToStep(3);selectPkg('wrapped',document.querySelectorAll('.pkg-card')[1])">Upgrade to Wrapped — ₹399 →</button>
+          </div>
         </div>
+
+        <!-- PAID TIER: order confirmed -->
+        <div id="paid-confirm-panel" style="display:none;text-align:center;padding:40px 0">
+          <div style="font-size:56px;margin-bottom:24px">✦</div>
+          <h2 style="font-family:var(--f-display);font-size:36px;margin-bottom:16px">Order received!</h2>
+          <p style="color:var(--muted);max-width:420px;margin:0 auto 32px">We've got your order and will hand-craft your <span id="confirm-pkg-name">cards</span> and send them to:</p>
+          <div style="font-size:20px;color:var(--gold);margin-bottom:32px" id="confirm-email">—</div>
+          <p style="color:var(--faint);font-size:14px">Usually within 24 hours · Check spam if you don't see it</p>
+          <div style="margin-top:40px;padding:16px;border:1px solid rgba(201,169,110,.15);border-radius:10px;font-size:14px;color:var(--faint)">
+            Order ref: <span id="confirm-utr" style="color:var(--muted);letter-spacing:.05em"></span>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -846,24 +922,28 @@ button { font-family:var(--f-ui); }
 
 <script>
 // ── STATE ─────────────────────────────────────────────────────────────────────
-let currentStep=1, selectedPkg='wrapped', utrVal='', manifest=null, photoURL=null, generatedBlobs=[];
-const PKG_PRICES={mini:499,wrapped:999,keepsake:1999};
-const PKG_LABELS={mini:'Mini — ₹499',wrapped:'Anniversary Wrapped — ₹999',keepsake:'Keepsake — ₹1,999'};
-const PKG_CARDS ={mini:6,wrapped:9,keepsake:9};
-const CARD_NAMES=['Cover','How_It_Started','The_Ask','The_Numbers','Daily_Rituals','Photo','The_Journey','Still_Going','Share_Yours'];
+let currentStep=1, selectedPkg='wrapped', selectedTheme='cinematic', utrVal='', manifest=null, photoURL=null, generatedBlobs=[];
+const PKG_PRICES={free:0,wrapped:399,site:1999};
+const PKG_LABELS={free:'Free Preview',wrapped:'Wrapped — ₹399',site:'Wrapped + Site — ₹1,999'};
+const PKG_CARDS ={free:3,wrapped:9,site:9};
+const CARD_NAMES=['Cover','How_It_Started','The_Numbers','Daily_Rituals','Photo','The_Journey','Still_Going','Language','Share_Yours'];
 const GAS='https://script.google.com/macros/s/AKfycbzgf441hfSv6XZr45Y25meqvCLrkrOkZBGJ79nLwRksV2dGnivYA0drMvKSvFHvOcV2/exec';
+const UTR_RE=/^\d{12}$/;
 
 // ── MODAL ─────────────────────────────────────────────────────────────────────
 function openModal(pkg){
-  if(pkg) selectPkg(pkg, document.querySelector(`.pkg-card:nth-child(${pkg==='mini'?1:pkg==='wrapped'?2:3})`));
+  const pkgToUse=pkg||'wrapped';
   document.getElementById('order-modal').classList.add('open');
   document.body.style.overflow='hidden';
-  goToStep(1); renderQR();
+  goToStep(1);
+  const idx={free:0,wrapped:1,site:2}[pkgToUse]??1;
+  selectPkg(pkgToUse, document.querySelectorAll('.pkg-card')[idx]);
 }
 function closeModal(){ document.getElementById('order-modal').classList.remove('open'); document.body.style.overflow=''; }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
 
 // ── STEPPER ───────────────────────────────────────────────────────────────────
+const TOTAL_STEPS=5;
 function goToStep(n){
   currentStep=n;
   document.querySelectorAll('.modal-step').forEach((s,i)=>s.classList.toggle('active',i+1===n));
@@ -872,38 +952,69 @@ function goToStep(n){
   });
   document.getElementById('btn-back').style.visibility=n===1?'hidden':'visible';
   const next=document.getElementById('btn-next');
-  next.style.display=n===4?'none':'';
+  next.style.display=n===TOTAL_STEPS?'none':'';
   validateCurrentStep();
   document.querySelector('.modal-scroll').scrollTop=0;
-  if(n===4) fillGenSummary();
+  if(n===4) renderQR();
+  if(n===TOTAL_STEPS){ fillGenSummary(); document.getElementById('btn-back').style.display=selectedPkg==='free'?'':'none'; }
 }
-function nextStep(){ if(currentStep<4) goToStep(currentStep+1); }
-function prevStep(){ if(currentStep>1) goToStep(currentStep-1); }
+function nextStep(){
+  if(currentStep===1 && !manifest){
+    const dz=document.getElementById('drop-zone');
+    dz.classList.add('shake');
+    setTimeout(()=>dz.classList.remove('shake'),600);
+    document.getElementById('upload-status').innerHTML='<span class="err">Please upload your WhatsApp .txt file to continue</span>';
+    return;
+  }
+  if(currentStep===3 && selectedPkg==='free'){ goToStep(5); return; }
+  if(currentStep<TOTAL_STEPS) goToStep(currentStep+1);
+}
+function prevStep(){
+  if(currentStep===5 && selectedPkg==='free'){ goToStep(3); return; }
+  if(currentStep>1) goToStep(currentStep-1);
+}
 
 function validateCurrentStep(){
   const btn=document.getElementById('btn-next');
-  if(currentStep===1) btn.disabled=!utrVal.trim();
-  else if(currentStep===2) btn.disabled=!manifest;
-  else if(currentStep===3) btn.disabled=!(v('f-name1')&&v('f-name2'));
+  if(currentStep===1) btn.disabled=false;
+  else if(currentStep===2) btn.disabled=!(v('f-name1')&&v('f-name2'));
+  else if(currentStep===3) btn.disabled=false;
+  else if(currentStep===4) btn.disabled=!(UTR_RE.test(v('utr-input')) && v('f-email'));
   else btn.disabled=true;
 }
-const v=id=>document.getElementById(id).value.trim();
+const v=id=>document.getElementById(id)?.value?.trim()||'';
+
+// ── THEME ─────────────────────────────────────────────────────────────────────
+document.querySelectorAll('.theme-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.theme-opt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedTheme = btn.dataset.theme;
+  });
+});
 
 // ── PACKAGE ───────────────────────────────────────────────────────────────────
 function selectPkg(pkg,el){
   selectedPkg=pkg;
   document.querySelectorAll('.pkg-card').forEach(c=>c.classList.remove('sel'));
   if(el) el.classList.add('sel');
-  document.getElementById('pay-amt-disp').textContent='₹'+PKG_PRICES[pkg].toLocaleString('en-IN');
-  renderQR();
+  document.getElementById('pkg-free-note').style.display=pkg==='free'?'block':'none';
+  validateCurrentStep();
 }
+
 function renderQR(){
   const el=document.getElementById('qr-canvas'); el.innerHTML='';
   if(typeof QRCode==='undefined'){setTimeout(renderQR,600);return;}
   const amt=PKG_PRICES[selectedPkg];
+  document.getElementById('pay-amt-disp').textContent='₹'+amt.toLocaleString('en-IN');
   new QRCode(el,{text:`upi://pay?pa=9962740490@upi&pn=MemoryWrapped&am=${amt}&cu=INR&tn=MemoryWrapped`,width:160,height:160,colorDark:'#1a1a2e',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
 }
-function onUtrInput(){ utrVal=v('utr-input'); validateCurrentStep(); }
+
+function onUtrInput(){
+  utrVal=v('utr-input');
+  document.getElementById('utr-hint').textContent=utrVal&&!UTR_RE.test(utrVal)?'Must be exactly 12 digits':'Find this in your UPI app under transaction details';
+  validateCurrentStep();
+}
 
 // ── CHAT FILE ─────────────────────────────────────────────────────────────────
 const dz=document.getElementById('drop-zone');
@@ -926,12 +1037,14 @@ async function handleChatFile(file){
       document.getElementById('cs-words').textContent=(res.stats.totalWords/1000).toFixed(0)+'K';
       document.getElementById('cs-days').textContent=res.stats.totalDaysActive.toLocaleString('en-IN');
       document.getElementById('chat-stats').classList.add('show');
+      if(typeof animateCounters==='function') animateCounters();
       validateCurrentStep();
     } else {
       st.innerHTML='<span class="err">Could not parse this file. Make sure it\'s a WhatsApp .txt export (Without Media).</span>';
     }
   } catch(err){ st.innerHTML=`<span class="err">Error: ${err.message}</span>`; }
 }
+
 
 // ── PHOTO FILE ────────────────────────────────────────────────────────────────
 function handlePhotoFile(file){
@@ -955,13 +1068,25 @@ function resetPhoto(e){
 // ── GEN SUMMARY ───────────────────────────────────────────────────────────────
 function fillGenSummary(){
   const n1=v('f-name1')||'Person 1', n2=v('f-name2')||'Person 2';
-  document.getElementById('gen-names').textContent=n1+' & '+n2;
-  document.getElementById('gen-pkg').textContent=PKG_LABELS[selectedPkg];
-  if(manifest){
-    const msgs=manifest.stats.totalMessages.toLocaleString('en-IN');
-    const fr=manifest.dateRange.from?manifest.dateRange.from.slice(0,7):'';
-    const to=manifest.dateRange.to?manifest.dateRange.to.slice(0,7):'';
-    document.getElementById('gen-chat-info').textContent=`${msgs} messages · ${fr} → ${to}`;
+  const isFree=selectedPkg==='free';
+  document.getElementById('free-gen-panel').style.display=isFree?'block':'none';
+  document.getElementById('paid-confirm-panel').style.display=isFree?'none':'flex';
+  document.getElementById('paid-confirm-panel').style.flexDirection='column';
+  document.getElementById('paid-confirm-panel').style.alignItems='center';
+  if(isFree){
+    document.getElementById('gen-names').textContent=n1+' & '+n2;
+    document.getElementById('gen-pkg').textContent=PKG_LABELS[selectedPkg];
+    if(manifest){
+      const msgs=manifest.stats.totalMessages.toLocaleString('en-IN');
+      const fr=manifest.dateRange.from?manifest.dateRange.from.slice(0,7):'';
+      const to=manifest.dateRange.to?manifest.dateRange.to.slice(0,7):'';
+      document.getElementById('gen-chat-info').textContent=`${msgs} messages · ${fr} → ${to}`;
+    }
+  } else {
+    document.getElementById('confirm-email').textContent=v('f-email');
+    document.getElementById('confirm-utr').textContent=v('utr-input');
+    document.getElementById('confirm-pkg-name').textContent=selectedPkg==='site'?'cards + cinematic website':'cards';
+    logOrder();
   }
 }
 
@@ -971,7 +1096,7 @@ async function startGeneration(){
   document.getElementById('btn-generate').disabled=true;
   const vars=buildVars();
   const n=PKG_CARDS[selectedPkg];
-  const scale=selectedPkg==='keepsake'?2:1;
+  const isFree=selectedPkg==='free';
   fillCardStage(vars);
 
   const stage=document.getElementById('card-stage');
@@ -988,7 +1113,8 @@ async function startGeneration(){
     pf.style.width=((i-1)/n*85)+'%';
     const el=document.getElementById('cs'+i);
     try{
-      const canvas=await html2canvas(el,{width:1080,height:1350,scale,backgroundColor:'#07070d',useCORS:true,allowTaint:true,logging:false});
+      const canvas=await html2canvas(el,{width:1080,height:1350,scale:1,backgroundColor:'#07070d',useCORS:true,allowTaint:true,logging:false});
+      if(isFree) applyWatermark(canvas);
       const blob=await canvasBlob(canvas,'image/jpeg',0.93);
       generatedBlobs.push({name:String(i).padStart(2,'0')+'_'+CARD_NAMES[i-1]+'.jpg',blob});
       const url=URL.createObjectURL(blob);
@@ -998,11 +1124,20 @@ async function startGeneration(){
     } catch(err){ console.warn('Card '+i+' error:',err); }
   }
   stage.style.cssText='position:fixed;left:-1200px;top:0;width:1080px;z-index:9999;pointer-events:none;';
-  pf.style.width='100%'; pl.textContent='✓ All cards generated!';
-  const dl=document.getElementById('dl-wrap');
+  pf.style.width='100%'; pl.textContent=isFree?'✓ 3 preview cards ready! Upgrade for all 9.':'✓ All cards generated!';
   document.getElementById('btn-dl').onclick=downloadZip;
-  dl.classList.add('show');
+  document.getElementById('dl-wrap').classList.add('show');
   logOrder();
+}
+
+function applyWatermark(canvas){
+  const ctx=canvas.getContext('2d');
+  ctx.save();
+  ctx.font='bold 28px Inter, sans-serif';
+  ctx.fillStyle='rgba(255,255,255,0.35)';
+  ctx.textAlign='right';
+  ctx.fillText('MemoryWrapped', canvas.width-32, canvas.height-32);
+  ctx.restore();
 }
 
 async function downloadZip(){
@@ -1061,13 +1196,17 @@ function buildVars(){
 
   const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
+  const allMotifs=m.motifs||[];
+  const motifRows=allMotifs.slice(0,5).map(mo=>`<div class="s5-rw"><div class="r-lb">${esc(mo.label)}</div><div class="r-vl">${fmtNum(mo.count)}</div></div>`).join('');
+  const topWords=(m.topWords||[]).slice(0,6).map(w=>`<span class="tw-chip">${esc(w)}</span>`).join('');
+
   return {
     P1:n1, P2:n2, NAMES:n1+' & '+n2,
     DR:fmtMon(dr.from)+' → '+fmtMon(dr.to),
     REL:rel, RS:relStart, RE:relEnd,
     MC:fmtNum(st.totalMessages), WC:fmtK(st.totalWords),
     MED:fmtNum(st.mediaCount), TE:te.emoji, TEC:fmtNum(te.count),
-    LC:mc('love'), GMC:mc('morning'),
+    LC:mc('love'), GMC:mc('morning'), GNC:mc('night'),
     STR:fmtNum(st.longestStreakDays), PH:fmtHr(st.peakHour||'22:00'),
     OCC:occ,
     FD:fmtDate(firstDate), FT:esc(firstMs.sample||''),
@@ -1075,6 +1214,7 @@ function buildVars(){
     LD:last?fmtDate(last.date):fmtDate(dr.to), LT:esc(last?(last.text||'').slice(0,200):''),
     PHOTO:photoURL||'', PCAP:photoCap,
     NICK:nick, LOC:loc, PDATE:dat||fmtMon(dr.to),
+    MOTIF_ROWS:motifRows, TOP_WORDS:topWords,
   };
 }
 
@@ -1128,9 +1268,7 @@ function fillCardStage(V){
     <div class="s5-hd">Some things<br>never missed.</div>
     <div class="s5-sb">Every. Single. Day.</div>
     <div class="s5-rl">
-      <div class="s5-rw"><div class="r-lb">Good mornings sent</div><div class="r-vl">${V.GMC}</div></div>
-      <div class="s5-rw"><div class="r-lb">Days without a break</div><div class="r-vl">${V.STR}</div></div>
-      <div class="s5-rw"><div class="r-lb">Peak hour</div><div class="r-vl gld">${V.PH}</div></div>
+      ${V.MOTIF_ROWS||`<div class="s5-rw"><div class="r-lb">Good mornings sent</div><div class="r-vl">${V.GMC}</div></div><div class="s5-rw"><div class="r-lb">Days without a break</div><div class="r-vl">${V.STR}</div></div><div class="s5-rw"><div class="r-lb">Peak hour</div><div class="r-vl gld">${V.PH}</div></div>`}
     </div>
   `+F;
 
@@ -1156,11 +1294,11 @@ function fillCardStage(V){
   `+F;
 
   $('cs8').innerHTML=G+`
-    <div class="eyb">Still going · ${V.LD}</div>
-    <div class="s8-dt">${V.OCC} in. Nothing changed.</div>
-    <div class="s8-ml">A morning message</div>
-    <div class="s8-bb"><div class="s8-bt">"${V.LT||'Good morning '+V.NICK+' 🌅'}"</div></div>
-    <div class="s8-nt">${V.GMC} good mornings sent.<br>Every single one meant.</div>
+    <div class="eyb">Your language</div>
+    <div class="s8-dt">Words that kept coming back.</div>
+    <div class="s8-ml">Your most-used words</div>
+    <div class="s8-bb tw-cloud">${V.TOP_WORDS||'<span class="tw-chip">love</span><span class="tw-chip">always</span>'}</div>
+    <div class="s8-nt">${V.TEC} times ${V.TE} sent · Good nights: ${V.GNC}</div>
   `+F;
 
   $('cs9').innerHTML=G+C+`
@@ -1176,11 +1314,27 @@ function fillCardStage(V){
 // ── GAS LOGGING ───────────────────────────────────────────────────────────────
 function logOrder(){
   try{
-    fetch(GAS,{method:'POST',body:JSON.stringify({customer:{name1:v('f-name1'),name2:v('f-name2'),email:'',phone:'',package:selectedPkg,utr:utrVal},custom:{relationship:v('f-rel'),photoLocation:v('f-loc'),photoDate:v('f-date'),nickname:v('f-nick'),specialNote:v('f-note')},manifest,photo:null})}).catch(()=>{});
+    fetch(GAS,{method:'POST',body:JSON.stringify({action:'log',customer:{name1:v('f-name1'),name2:v('f-name2'),email:v('f-email'),package:selectedPkg,theme:selectedTheme,utr:v('utr-input')},custom:{relationship:v('f-rel'),photoLocation:v('f-loc'),photoDate:v('f-date'),nickname:v('f-nick'),specialNote:v('f-note')},manifest,photo:null})}).catch(()=>{});
   }catch(e){}
 }
 
 // ── WHATSAPP PARSER ───────────────────────────────────────────────────────────
+const MOTIF_SPECS=[
+  {label:'Good mornings',re:/\bgood morning\b/i},
+  {label:'Good nights',re:/\bgood night\b/i},
+  {label:'Love notes',re:/\bi love (?:you|u)\b|\blove (?:you|u)\b|\biloveyou\b/i},
+  {label:'Missing each other',re:/\bmiss(?:ing)?\b/i},
+  {label:'Sorry & repair',re:/\bsorry\b|\bforgive\b/i},
+  {label:'Food memories',re:/\bfood\b|\bbiryani\b|\bnoodles?\b|\blunch\b|\bdinner\b/i},
+  {label:'Plans together',re:/\bmeet\b|\bcome\b|\bmovie\b|\bgo out\b/i},
+];
+const MILESTONE_PATS=[
+  {title:'First love note',re:/\bi love (?:you|u)\b|\biloveyou\b/i},
+  {title:'First food memory',re:/\bnoodles?\b|\bbiryani\b|\bdinner\b|\blunch\b/i},
+  {title:'First plan together',re:/\bmeet\b|\bplans?\b|\bgo out\b/i},
+  {title:'Wedding language',re:/\bshaadi\b|\bwedding\b|\bmarriage\b|\bmarried\b/i},
+];
+
 async function runAnalyzer(text){
   const lines=text.split('\n');
   const msgRe=/^[\[‎]?(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})[,\s]+(\d{1,2}):(\d{2})(?::(\d{2}))?(?:\s*(AM|PM))?\]?[\s\-–]+([^:]+):\s(.+)/i;
@@ -1206,11 +1360,33 @@ async function runAnalyzer(text){
   let streak=0,max=0,prev=null;
   [...ds].sort().forEach(d=>{if(prev){const diff=(new Date(d)-new Date(prev))/86400000;streak=diff===1?streak+1:1;}else streak=1;max=Math.max(max,streak);prev=d;});
   const topEmojis=Object.entries(emojiCounts).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([emoji,count])=>({emoji,count}));
-  let love=0,gm=0;msgs.forEach(m=>{if(/i love you|love you/i.test(m.text))love++;if(/good morning/i.test(m.text))gm++;});
-  const fm=msgs[0],fd=new Date(from);
+
+  const motifs=MOTIF_SPECS.map(s=>({label:s.label,count:msgs.filter(m=>s.re.test(m.text)).length})).filter(m=>m.count>0);
+
+  const fd=new Date(from);
   const early=msgs.filter(m=>{try{return(new Date(m.date)-fd)/86400000<=45&&m.text.length>20&&!/omitted/i.test(m.text);}catch(e){return false;}}).slice(0,30);
-  const moments=early.filter(m=>m.text.length>30).map((m,i)=>({id:'m'+(i+1),text:m.text.slice(0,300),sender:m.sender,date:m.date})).slice(0,40);
-  return{schema:'memorywrapped-manifest@1',participants:parts,dateRange:{from,to},stats:{totalMessages:msgs.length,totalWords,totalDaysActive:ds.size,longestStreakDays:max,peakHour:`${String(ph).padStart(2,'0')}:00`,mediaCount},moments,milestones:fm?[{title:'First message',date:fm.date,sample:fm.text.slice(0,100)}]:[],motifs:[{label:'Good mornings',count:gm},{label:'Love notes',count:love}],topEmojis};
+  const moments=early.filter(m=>m.text.length>30).map((m,i)=>({id:'m'+(i+1),text:m.text.slice(0,300),sender:m.sender,date:m.date}));
+
+  const fm=msgs[0];
+  const seen=new Set();
+  const milestones=fm?[{title:'First message',date:fm.date,sample:fm.text.slice(0,100)}]:[];
+  for(const pat of MILESTONE_PATS){
+    const hit=msgs.find(m=>pat.re.test(m.text));
+    if(hit&&!seen.has(pat.title)){seen.add(pat.title);milestones.push({title:pat.title,date:hit.date,sample:hit.text.slice(0,120)});}
+  }
+
+  const perSender={};
+  parts.forEach(p=>{
+    const pm=msgs.filter(m=>m.sender===p);
+    perSender[p]={messages:pm.length,words:pm.reduce((a,m)=>a+m.text.split(/\s+/).length,0)};
+  });
+
+  const wordCounts={};
+  const STOP=new Set(['a','an','the','is','it','i','you','me','my','your','and','but','so','to','of','in','on','at','be','was','are','or','we','he','she','do','did','got','get','ok','okay','yes','no','not','up','if','go','can','will','this','that','for','with','have','had','all','just','now','what','when','where','how','who','any','there']);
+  msgs.forEach(m=>{m.text.toLowerCase().match(/[a-z]{3,}/g)?.forEach(w=>{if(!STOP.has(w))wordCounts[w]=(wordCounts[w]||0)+1;});});
+  const topWords=Object.entries(wordCounts).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([w,c])=>w);
+
+  return{schema:'memorywrapped-manifest@1',participants:parts,dateRange:{from,to},stats:{totalMessages:msgs.length,totalWords,totalDaysActive:ds.size,longestStreakDays:max,peakHour:`${String(ph).padStart(2,'0')}:00`,mediaCount,perSender},moments,milestones,motifs,topEmojis,topWords};
 }
 function parseWADate(m){try{let d=parseInt(m[1]),mo=parseInt(m[2]),y=parseInt(m[3]),h=parseInt(m[4]);if(y<100)y+=2000;if(d>12){}else if(mo>12){[d,mo]=[mo,d];}const ap=m[7];if(ap){if(ap.toUpperCase()==='PM'&&h<12)h+=12;if(ap.toUpperCase()==='AM'&&h===12)h=0;}return`${y}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}catch(e){return'';}}
 
@@ -1235,6 +1411,181 @@ function toggleFaq(el){const item=el.closest('.faq-item');const o=item.classList
   const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:0.1});
   document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
 })();
+</script>
+
+<script>
+// ── GSAP ANIMATIONS ───────────────────────────────────────────────────────────
+function animateCounters() {
+  ['cs-msgs','cs-words','cs-days'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const raw = el.textContent.replace(/,/g,'').replace('K','');
+    const target = parseFloat(raw);
+    if (isNaN(target)) return;
+    const isK = el.textContent.includes('K');
+    gsap.from({ val: 0 }, {
+      val: target,
+      duration: 1.2,
+      ease: 'power2.out',
+      onUpdate: function() {
+        el.textContent = isK
+          ? Math.round(this.targets()[0].val) + 'K'
+          : Math.round(this.targets()[0].val).toLocaleString();
+      },
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── 1. Hero H1 Word Split ──────────────────────────────────────────────────
+  const h1 = document.querySelector('.hero-h1');
+  if (h1) {
+    const html = h1.innerHTML;
+    // Split on spaces but preserve inner HTML tags (em etc.)
+    // Work on text nodes only; wrap each word in a span
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = html;
+    const result = [];
+    wrapper.childNodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        node.textContent.split(' ').forEach((word, i, arr) => {
+          if (!word) return;
+          const sp = document.createElement('span');
+          sp.className = 'hw';
+          sp.textContent = word;
+          result.push(sp);
+          if (i < arr.length - 1) result.push(document.createTextNode(' '));
+        });
+      } else {
+        // Wrap element nodes (e.g. <em>) as a single word unit
+        const sp = document.createElement('span');
+        sp.className = 'hw';
+        sp.appendChild(node.cloneNode(true));
+        result.push(sp);
+      }
+    });
+    h1.innerHTML = '';
+    result.forEach(n => h1.appendChild(n));
+    gsap.from('.hw', { opacity: 0, y: 40, stagger: 0.12, duration: 0.8, ease: 'power3.out' });
+  }
+
+  // ── 2. Hero Scroll Sequence ────────────────────────────────────────────────
+  const stack = document.querySelector('.hero-stack');
+  if (stack) {
+    const cardUrls = [
+      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_01_cover.jpg',
+      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_02_started.jpg',
+      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_03_ask.jpg',
+      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_04_numbers.jpg',
+      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_05_rituals.jpg',
+      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_06_photo.jpg',
+      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_07_journey.jpg',
+      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_08_going.jpg',
+      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_09_language.jpg',
+    ];
+    for (let i = 3; i < 9; i++) {
+      const g = document.createElement('img');
+      g.className = 'hero-ghost';
+      g.src = cardUrls[i];
+      g.alt = '';
+      g.setAttribute('aria-hidden', 'true');
+      stack.appendChild(g);
+    }
+
+    const cards = [...document.querySelectorAll('.hero-main, .hero-behind-l, .hero-behind-r, .hero-ghost')];
+    const arcPositions = [
+      { x: -360, y: 60, rot: -25 },
+      { x: -240, y: -20, rot: -15 },
+      { x: -120, y: 20, rot: -6 },
+      { x: 0,    y: -30, rot: 0 },
+      { x: 120,  y: 20, rot: 6 },
+      { x: 240,  y: -20, rot: 15 },
+      { x: 360,  y: 60, rot: 25 },
+      { x: -300, y: 120, rot: -18 },
+      { x: 300,  y: 120, rot: 18 },
+    ];
+
+    const heroTl = gsap.timeline({ paused: true });
+
+    heroTl.to(cards, {
+      x: (i) => arcPositions[i].x,
+      y: (i) => arcPositions[i].y,
+      rotation: (i) => arcPositions[i].rot,
+      opacity: 1,
+      scale: 0.85,
+      duration: 1,
+      ease: 'power2.inOut',
+      stagger: 0.06,
+    });
+
+    heroTl.to(cards, {
+      rotationY: 360,
+      duration: 0.8,
+      ease: 'power1.inOut',
+      stagger: 0.07,
+    });
+
+    heroTl.to(cards.slice(3), { opacity: 0, duration: 0.5, ease: 'power2.in', stagger: 0.04 });
+    heroTl.to(cards.slice(0, 3), {
+      x: (i) => [0, -28, 28][i],
+      y: (i) => [0, 14, 14][i],
+      rotation: (i) => [0, -6, 6][i],
+      rotationY: 0,
+      scale: 1,
+      duration: 0.7,
+      ease: 'back.out(1.4)',
+      stagger: 0.08,
+    }, '<0.1');
+
+    ScrollTrigger.create({
+      trigger: '.hero',
+      start: 'top top',
+      end: '+=2000',
+      pin: true,
+      scrub: 1,
+      animation: heroTl,
+    });
+  }
+
+  // ── 3. Pricing Cards Stagger ───────────────────────────────────────────────
+  gsap.from('.price-card', {
+    scrollTrigger: {
+      trigger: '#pricing',
+      start: 'top 80%',
+    },
+    opacity: 0,
+    scale: 0.92,
+    y: 30,
+    duration: 0.7,
+    stagger: 0.15,
+    ease: 'power3.out',
+  });
+  gsap.to('.price-card:nth-child(2)', {
+    scrollTrigger: { trigger: '#pricing', start: 'top 60%' },
+    boxShadow: '0 0 40px rgba(201,169,110,0.35)',
+    duration: 1.2,
+    repeat: 1,
+    yoyo: true,
+    ease: 'sine.inOut',
+    delay: 0.8,
+  });
+
+  // ── 4. Gallery Cards Stagger ───────────────────────────────────────────────
+  gsap.from('.g-card', {
+    scrollTrigger: {
+      trigger: '#examples',
+      start: 'top 75%',
+    },
+    opacity: 0,
+    x: (i) => (i % 2 === 0 ? -60 : 60),
+    duration: 0.6,
+    stagger: 0.08,
+    ease: 'power3.out',
+  });
+});
 </script>
 </body>
 </html>
