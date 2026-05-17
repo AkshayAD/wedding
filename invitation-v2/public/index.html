@@ -94,7 +94,7 @@ button { font-family:var(--f-ui); }
 .hc { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:18px; box-shadow:0 32px 80px rgba(0,0,0,.65),0 0 60px rgba(201,169,110,.1); will-change:transform,opacity; }
 .hero-progress-wrap { position:absolute; right:-18px; top:0; bottom:0; width:2px; background:rgba(201,169,110,.12); border-radius:2px; }
 .hero-progress-bar { width:100%; background:var(--gold); height:0%; border-radius:2px; }
-.hero-card-label { text-align:center; margin-top:18px; font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:rgba(201,169,110,.4); min-height:14px; }
+.hero-card-label { text-align:center; margin-top:18px; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:rgba(201,169,110,.7); min-height:16px; }
 .scroll-cue { display:flex; flex-direction:column; align-items:flex-start; gap:6px; margin-top:36px; opacity:1; transition:opacity .6s; }
 .scroll-cue span { font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:rgba(201,169,110,.28); }
 .scroll-cue .sc-line { width:1px; height:36px; background:linear-gradient(to bottom,rgba(201,169,110,.35),transparent); animation:sc-pulse 1.6s ease-in-out infinite; }
@@ -115,7 +115,7 @@ button { font-family:var(--f-ui); }
 .g-card { flex-shrink:0; scroll-snap-align:start; width:230px; position:relative; transition:transform .3s; }
 .g-card:hover { transform:translateY(-8px); }
 .g-card img { width:100%; aspect-ratio:1080/1350; object-fit:cover; border-radius:12px; border:1px solid var(--card-border); box-shadow:0 16px 48px rgba(0,0,0,.5); }
-.g-badge { position:absolute; top:10px; left:10px; background:rgba(7,7,13,.82); backdrop-filter:blur(8px); border:1px solid var(--card-border); border-radius:20px; padding:3px 11px; font-size:10px; letter-spacing:.12em; color:var(--gold); text-transform:uppercase; }
+.g-badge { position:absolute; top:10px; left:10px; background:rgba(7,7,13,.88); backdrop-filter:blur(8px); border:1px solid var(--card-border); border-radius:20px; padding:4px 13px; font-size:12px; letter-spacing:.1em; color:var(--gold); text-transform:uppercase; }
 .gallery-dots { display:flex; justify-content:center; gap:7px; margin-top:24px; }
 .g-dot { width:6px; height:6px; border-radius:50%; background:rgba(201,169,110,.25); cursor:pointer; transition:all .25s; border:none; }
 .g-dot.active { background:var(--gold); width:20px; border-radius:3px; }
@@ -1510,24 +1510,25 @@ document.addEventListener('DOMContentLoaded', () => {
     hcards.forEach((card, i) => {
       if (i === 0) return;
       const t = (i - 1) * 2;
-      // previous card exits upward
       heroTl.to(hcards[i - 1], {
         yPercent: -22, opacity: 0, rotation: 5, scale: 0.94, duration: 1, ease: 'power2.in'
       }, t);
-      // current card rises in
       heroTl.fromTo(card,
         { yPercent: 55, opacity: 0, rotation: -4, scale: 0.96 },
         { yPercent: 0, opacity: 1, rotation: (i % 2 === 0 ? -2 : 1.5), scale: 1, duration: 1.2, ease: 'power3.out' },
         t + 0.5
       );
     });
+    // Fade hero out before pin releases — hides the unpin jerk
+    const fadeAt = (hcards.length - 1) * 2 + 1.0;
+    heroTl.to('.hero-inner', { opacity: 0, duration: 2, ease: 'power2.inOut' }, fadeAt);
 
     ScrollTrigger.create({
       trigger: '.hero',
       start: 'top top',
-      end: `+=${hcards.length * 580}`,
+      end: `+=${hcards.length * 580 + 1200}`,
       pin: true,
-      scrub: 2,
+      scrub: 1.5,
       animation: heroTl,
       onUpdate(self) {
         if (progressBar) progressBar.style.height = (self.progress * 100) + '%';
