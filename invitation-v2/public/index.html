@@ -977,7 +977,7 @@ function goToStep(n){
   validateCurrentStep();
   document.querySelector('.modal-scroll').scrollTop=0;
   if(n===4) renderQR();
-  if(n===TOTAL_STEPS){ fillGenSummary(); document.getElementById('btn-back').style.display=selectedPkg==='free'?'':'none'; }
+  if(n===TOTAL_STEPS){ fillGenSummary(); document.getElementById('btn-back').style.display=selectedPkg==='free'?'':'none'; if(selectedPkg==='free') setTimeout(startGeneration,300); }
 }
 function nextStep(){
   if(currentStep===1 && !manifest){
@@ -1114,7 +1114,8 @@ function fillGenSummary(){
 // ── CARD GENERATION ───────────────────────────────────────────────────────────
 async function startGeneration(){
   if(!manifest)return;
-  document.getElementById('btn-generate').disabled=true;
+  const genBtn=document.getElementById('btn-generate');
+  if(genBtn) genBtn.style.display='none';
   const vars=buildVars();
   const n=PKG_CARDS[selectedPkg];
   const isFree=selectedPkg==='free';
