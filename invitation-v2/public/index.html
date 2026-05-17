@@ -90,6 +90,15 @@ button { font-family:var(--f-ui); }
 .hero-behind { position:absolute; width:88%; border-radius:16px; border:1px solid rgba(201,169,110,.1); }
 .hero-behind-l { top:-16px; left:-22px; transform:rotate(-6deg); opacity:.45; z-index:1; }
 .hero-behind-r { top:-10px; right:-22px; transform:rotate(5deg); opacity:.35; z-index:2; }
+.hero-stage { position:relative; width:320px; height:400px; border-radius:18px; flex-shrink:0; }
+.hc { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:18px; box-shadow:0 32px 80px rgba(0,0,0,.65),0 0 60px rgba(201,169,110,.1); will-change:transform,opacity; }
+.hero-progress-wrap { position:absolute; right:-18px; top:0; bottom:0; width:2px; background:rgba(201,169,110,.12); border-radius:2px; }
+.hero-progress-bar { width:100%; background:var(--gold); height:0%; border-radius:2px; }
+.hero-card-label { text-align:center; margin-top:18px; font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:rgba(201,169,110,.4); min-height:14px; }
+.scroll-cue { display:flex; flex-direction:column; align-items:flex-start; gap:6px; margin-top:36px; opacity:1; transition:opacity .6s; }
+.scroll-cue span { font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:rgba(201,169,110,.28); }
+.scroll-cue .sc-line { width:1px; height:36px; background:linear-gradient(to bottom,rgba(201,169,110,.35),transparent); animation:sc-pulse 1.6s ease-in-out infinite; }
+@keyframes sc-pulse { 0%,100%{opacity:.25} 50%{opacity:.9} }
 @media(max-width:900px){ .hero-visual{display:none;} }
 @media(max-width:600px){ .hero-h1{font-size:clamp(44px,12vw,72px);} .hero-sub{font-size:16px;} }
 
@@ -443,8 +452,8 @@ button { font-family:var(--f-ui); }
   <div class="container hero-inner">
     <div class="hero-copy">
       <div class="eyebrow">✧ WhatsApp · Instagram · Keepsake</div>
-      <h1 class="hero-h1">Your story,<br>told in<br><em>9 cards.</em></h1>
-      <p class="hero-sub">Upload your WhatsApp chat. Get 9 personalized story cards — your first message, your numbers, your moments — generated instantly in your browser.</p>
+      <h1 class="hero-h1">Your story,<br><em>in cards.</em></h1>
+      <p class="hero-sub">Upload your WhatsApp chat. Get personalized story cards — your first message, your numbers, your moments — generated instantly in your browser.</p>
       <div class="hero-ctas">
         <button class="btn-primary" onclick="openModal('free')">Try Free · 3 Watermarked Cards</button>
         <button class="btn-ghost" onclick="document.getElementById('examples').scrollIntoView({behavior:'smooth'})">See an example →</button>
@@ -456,13 +465,25 @@ button { font-family:var(--f-ui); }
         <span class="proof-dot"></span>
         <span class="proof-item">No account needed</span>
       </div>
+      <div class="scroll-cue" id="scroll-cue">
+        <div class="sc-line"></div>
+        <span>scroll</span>
+      </div>
     </div>
     <div class="hero-visual">
-      <div class="hero-stack">
-        <img class="hero-behind hero-behind-l" src="assets/cards/slide_04_numbers.jpg" alt="">
-        <img class="hero-behind hero-behind-r" src="assets/cards/slide_07_journey.jpg" alt="">
-        <img class="hero-main" src="assets/cards/slide_01_cover.jpg" alt="Sample MemoryWrapped card">
+      <div class="hero-stage" id="hero-stage">
+        <img class="hc" src="assets/cards/slide_01_cover.jpg" alt="Your cover card">
+        <img class="hc" src="assets/cards/slide_02_started.jpg" alt="How it started">
+        <img class="hc" src="assets/cards/slide_03_ask.jpg" alt="The ask">
+        <img class="hc" src="assets/cards/slide_04_numbers.jpg" alt="Your numbers">
+        <img class="hc" src="assets/cards/slide_05_rituals.jpg" alt="Daily rituals">
+        <img class="hc" src="assets/cards/slide_06_photo.jpg" alt="Your photo">
+        <img class="hc" src="assets/cards/slide_07_journey.jpg" alt="The journey">
+        <img class="hc" src="assets/cards/slide_08_bayko.jpg" alt="Morning messages">
+        <img class="hc" src="assets/cards/slide_09_cta.jpg" alt="Your story">
+        <div class="hero-progress-wrap"><div class="hero-progress-bar" id="hero-progress-bar"></div></div>
       </div>
+      <div class="hero-card-label" id="hero-card-label">Cover</div>
     </div>
   </div>
 </section>
@@ -470,7 +491,7 @@ button { font-family:var(--f-ui); }
 <!-- TRUST BAR -->
 <div class="trust-bar">
   <div class="container trust-inner">
-    <span class="trust-item"><span class="chk">✓</span> 9 personalized cards</span>
+    <span class="trust-item"><span class="chk">✓</span> Personalized story cards</span>
     <span class="trust-item"><span class="chk">✓</span> Generates in your browser</span>
     <span class="trust-item"><span class="chk">✓</span> Instagram carousel-ready</span>
     <span class="trust-item"><span class="chk">✓</span> Chat never leaves your device</span>
@@ -487,15 +508,15 @@ button { font-family:var(--f-ui); }
     </div>
   </div>
   <div class="gallery-track" id="gallery-track">
-    <div class="g-card"><img src="assets/cards/slide_01_cover.jpg" alt="Cover card"><div class="g-badge">01 · Cover</div></div>
-    <div class="g-card"><img src="assets/cards/slide_02_started.jpg" alt="How it started"><div class="g-badge">02 · Started</div></div>
-    <div class="g-card"><img src="assets/cards/slide_03_ask.jpg" alt="The ask"><div class="g-badge">03 · The Ask</div></div>
-    <div class="g-card"><img src="assets/cards/slide_04_numbers.jpg" alt="The numbers"><div class="g-badge">04 · Numbers</div></div>
-    <div class="g-card"><img src="assets/cards/slide_05_rituals.jpg" alt="Daily rituals"><div class="g-badge">05 · Rituals</div></div>
-    <div class="g-card"><img src="assets/cards/slide_06_photo.jpg" alt="Photo card"><div class="g-badge">06 · Photo</div></div>
-    <div class="g-card"><img src="assets/cards/slide_07_journey.jpg" alt="The journey"><div class="g-badge">07 · Journey</div></div>
-    <div class="g-card"><img src="assets/cards/slide_08_bayko.jpg" alt="Morning message"><div class="g-badge">08 · Morning</div></div>
-    <div class="g-card"><img src="assets/cards/slide_09_cta.jpg" alt="Close"><div class="g-badge">09 · Close</div></div>
+    <div class="g-card"><img src="assets/cards/slide_01_cover.jpg" alt="Cover card"><div class="g-badge">Cover</div></div>
+    <div class="g-card"><img src="assets/cards/slide_02_started.jpg" alt="How it started"><div class="g-badge">How It Started</div></div>
+    <div class="g-card"><img src="assets/cards/slide_03_ask.jpg" alt="The ask"><div class="g-badge">The Ask</div></div>
+    <div class="g-card"><img src="assets/cards/slide_04_numbers.jpg" alt="The numbers"><div class="g-badge">The Numbers</div></div>
+    <div class="g-card"><img src="assets/cards/slide_05_rituals.jpg" alt="Daily rituals"><div class="g-badge">Daily Rituals</div></div>
+    <div class="g-card"><img src="assets/cards/slide_06_photo.jpg" alt="Photo card"><div class="g-badge">Your Photo</div></div>
+    <div class="g-card"><img src="assets/cards/slide_07_journey.jpg" alt="The journey"><div class="g-badge">The Journey</div></div>
+    <div class="g-card"><img src="assets/cards/slide_08_bayko.jpg" alt="Morning message"><div class="g-badge">Morning Message</div></div>
+    <div class="g-card"><img src="assets/cards/slide_09_cta.jpg" alt="Close"><div class="g-badge">Your Story</div></div>
   </div>
   <div class="container">
     <div class="gallery-dots" id="gallery-dots"></div>
@@ -1472,86 +1493,54 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.from('.hw', { opacity: 0, y: 40, stagger: 0.12, duration: 0.8, ease: 'power3.out' });
   }
 
-  // ── 2. Hero Scroll Sequence ────────────────────────────────────────────────
-  const stack = document.querySelector('.hero-stack');
-  if (stack) {
-    const cardUrls = [
-      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_01_cover.jpg',
-      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_02_started.jpg',
-      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_03_ask.jpg',
-      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_04_numbers.jpg',
-      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_05_rituals.jpg',
-      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_06_photo.jpg',
-      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_07_journey.jpg',
-      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_08_bayko.jpg',
-      'https://akshayad.github.io/memorywrapped-demo/assets/cards/slide_09_cta.jpg',
-    ];
-    for (let i = 3; i < 9; i++) {
-      const g = document.createElement('img');
-      g.className = 'hero-ghost';
-      g.src = cardUrls[i];
-      g.alt = '';
-      g.setAttribute('aria-hidden', 'true');
-      stack.appendChild(g);
-    }
+  // ── 2. Hero Split-Scroll ──────────────────────────────────────────────────
+  const stage = document.querySelector('#hero-stage');
+  if (stage) {
+    const hcards = [...stage.querySelectorAll('.hc')];
+    const labels = ['Cover','How it started','The ask','The numbers','Daily rituals','Your photo','The journey','Morning messages','Your story'];
+    const labelEl = document.getElementById('hero-card-label');
+    const progressBar = document.getElementById('hero-progress-bar');
+    const scrollCue = document.getElementById('scroll-cue');
 
-    const cards = [...document.querySelectorAll('.hero-main, .hero-behind-l, .hero-behind-r, .hero-ghost')];
-    const arcPositions = [
-      { x: -360, y: 60, rot: -25 },
-      { x: -240, y: -20, rot: -15 },
-      { x: -120, y: 20, rot: -6 },
-      { x: 0,    y: -30, rot: 0 },
-      { x: 120,  y: 20, rot: 6 },
-      { x: 240,  y: -20, rot: 15 },
-      { x: 360,  y: 60, rot: 25 },
-      { x: -300, y: 120, rot: -18 },
-      { x: 300,  y: 120, rot: 18 },
-    ];
+    // Stack all cards: first visible, rest queued below
+    gsap.set(hcards, { opacity: 0, yPercent: 55, rotation: -4, scale: 0.96 });
+    gsap.set(hcards[0], { opacity: 1, yPercent: 0, rotation: -2, scale: 1 });
 
     const heroTl = gsap.timeline({ paused: true });
-
-    heroTl.to(cards, {
-      x: (i) => arcPositions[i].x,
-      y: (i) => arcPositions[i].y,
-      rotation: (i) => arcPositions[i].rot,
-      opacity: 1,
-      scale: 0.85,
-      duration: 1,
-      ease: 'power2.inOut',
-      stagger: 0.06,
+    hcards.forEach((card, i) => {
+      if (i === 0) return;
+      const t = (i - 1) * 2;
+      // previous card exits upward
+      heroTl.to(hcards[i - 1], {
+        yPercent: -22, opacity: 0, rotation: 5, scale: 0.94, duration: 1, ease: 'power2.in'
+      }, t);
+      // current card rises in
+      heroTl.fromTo(card,
+        { yPercent: 55, opacity: 0, rotation: -4, scale: 0.96 },
+        { yPercent: 0, opacity: 1, rotation: (i % 2 === 0 ? -2 : 1.5), scale: 1, duration: 1.2, ease: 'power3.out' },
+        t + 0.5
+      );
     });
-
-    heroTl.to(cards, {
-      rotationY: 360,
-      duration: 0.8,
-      ease: 'power1.inOut',
-      stagger: 0.07,
-    });
-
-    heroTl.to(cards.slice(3), { opacity: 0, duration: 0.5, ease: 'power2.in', stagger: 0.04 });
-    heroTl.to(cards.slice(0, 3), {
-      x: (i) => [0, -28, 28][i],
-      y: (i) => [0, 14, 14][i],
-      rotation: (i) => [0, -6, 6][i],
-      rotationY: 0,
-      scale: 1,
-      duration: 0.7,
-      ease: 'back.out(1.4)',
-      stagger: 0.08,
-    }, '<0.1');
 
     ScrollTrigger.create({
       trigger: '.hero',
       start: 'top top',
-      end: '+=2000',
+      end: `+=${hcards.length * 580}`,
       pin: true,
-      scrub: 1,
+      scrub: 2,
       animation: heroTl,
+      onUpdate(self) {
+        if (progressBar) progressBar.style.height = (self.progress * 100) + '%';
+        const idx = Math.min(Math.floor(self.progress * hcards.length), hcards.length - 1);
+        if (labelEl) labelEl.textContent = labels[idx];
+        if (scrollCue && self.progress > 0.04) { scrollCue.style.opacity = '0'; scrollCue.style.pointerEvents = 'none'; }
+      }
     });
   }
 
   // ── 3. Pricing Cards Stagger ───────────────────────────────────────────────
   gsap.from('.price-card', {
+    immediateRender: false,
     scrollTrigger: {
       trigger: '#pricing',
       start: 'top 80%',
@@ -1575,6 +1564,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── 4. Gallery Cards Stagger ───────────────────────────────────────────────
   gsap.from('.g-card', {
+    immediateRender: false,
     scrollTrigger: {
       trigger: '#examples',
       start: 'top 75%',
