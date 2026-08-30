@@ -1,0 +1,35 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "salem-room-service",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-29",
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ROOMS",
+        "class_name": "SalemRoom"
+      },
+      {
+        "name": "CREATION_LIMITER",
+        "class_name": "RoomCreationLimiter"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["SalemRoom"]
+    },
+    {
+      "tag": "v2",
+      "new_sqlite_classes": ["RoomCreationLimiter"]
+    }
+  ],
+  "vars": {
+    "ALLOWED_ORIGINS": "https://akshaydivyanka.in,https://www.akshaydivyanka.in",
+    "ROOM_TTL_HOURS": "48"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

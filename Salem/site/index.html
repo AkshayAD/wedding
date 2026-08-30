@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#11100f" />
+    <meta name="description" content="A private night companion for Salem 1692." />
+    <title>Salem Night Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css?v=20260830d" />
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true">
+      <span class="ambient__moon"></span>
+      <span class="ambient__grain"></span>
+    </div>
+
+    <header class="topbar">
+      <a class="wordmark" href="./" aria-label="Salem Night Companion home">
+        <span class="wordmark__sigil" aria-hidden="true">S</span>
+        <span><b>Salem</b><small>Night Companion</small></span>
+      </a>
+      <div id="topbar-status" class="topbar__status"></div>
+    </header>
+
+    <main id="app" tabindex="-1"></main>
+    <div id="toast-region" class="toast-region" aria-live="polite"></div>
+
+    <noscript>This companion requires JavaScript.</noscript>
+    <script src="./config.js?v=20260829c"></script>
+    <script type="module" src="./app.js?v=20260830e"></script>
+  </body>
+</html>
