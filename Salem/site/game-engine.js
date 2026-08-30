@@ -38,8 +38,8 @@ function requirePhase(room, ...phases) {
   if (!phases.includes(room.phase)) throw new Error("That action is no longer available in this phase.");
 }
 
-function requireHost(actor) {
-  if (!actor?.isHost) throw new Error("Only the coordinator can do that.");
+function requireHost(room, actor) {
+  if (!actor?.id || actor.id !== room.hostSessionId) throw new Error("Only the coordinator can do that.");
 }
 
 function actorPlayer(room, actor) {
@@ -153,7 +153,7 @@ export function applyCommand(room, command, actor) {
   if (Number(command.phaseVersion) !== Number(room.phaseVersion)) {
     throw new Error("The room changed on another device. Please try again.");
   }
-  if (HOST_COMMANDS.has(command.type)) requireHost(actor);
+  if (HOST_COMMANDS.has(command.type)) requireHost(room, actor);
   const payload = command.payload ?? {};
 
   switch (command.type) {
@@ -181,6 +181,7 @@ export function applyCommand(room, command, actor) {
 export function sanitizeRoom(room, actor = null) {
   const viewerPlayer = actorPlayer(room, actor);
   const viewerPlayerId = viewerPlayer?.id ?? null;
+  const coordinatorPlayer = room.players.find((player) => player.claimedBy === room.hostSessionId) ?? null;
   const targetIsPublic = room.phase === PHASES.DAWN_REVEAL || room.phase === PHASES.NIGHT_RESOLUTION;
   const witchProgressIsPrivate = room.phase === PHASES.OPENING_DAWN || room.phase === PHASES.NIGHT_WITCH;
   const viewerCanSeeWitchProgress = Boolean(viewerPlayer?.alive && viewerPlayer.role.everWitch);
@@ -188,6 +189,8 @@ export function sanitizeRoom(room, actor = null) {
     id: room.id,
     code: room.code,
     name: room.name,
+    coordinatorName: room.coordinatorName || coordinatorPlayer?.displayName || "Coordinator",
+    coordinatorPlayerId: coordinatorPlayer?.id ?? null,
     phase: room.phase,
     phaseVersion: room.phaseVersion,
     night: room.night,
@@ -218,7 +221,7 @@ export function sanitizeRoom(room, actor = null) {
       .filter((action) => action.playerId === viewerPlayerId && action.phaseVersion === room.phaseVersion)
       .map((action) => ({ ...action })),
     events: room.events.map((event) => ({ ...event })),
-    viewer: { isHost: Boolean(actor?.isHost), playerId: viewerPlayerId },
+    viewer: { isHost: Boolean(actor?.id && actor.id === room.hostSessionId), playerId: viewerPlayerId },
     serverNow: Date.now(),
     createdAt: room.createdAt,
     updatedAt: room.updatedAt,

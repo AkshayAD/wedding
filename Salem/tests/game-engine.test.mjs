@@ -146,3 +146,18 @@ test("stale and unauthorized coordinator commands are rejected", () => {
   assert.throws(() => applyCommand(room, { type: "start-game", payload: {}, phaseVersion: 0 }, actors[0]), /changed on another device/i);
   assert.throws(() => run(room, actors[1], "start-game"), /only the coordinator/i);
 });
+
+test("coordinator authority follows the room owner, not a stale credential flag", () => {
+  const { room, actors } = preparedRoom();
+  room.hostSessionId = actors[1].id;
+  room.coordinatorName = room.players[1].displayName;
+  actors[0].isHost = true;
+  actors[1].isHost = false;
+
+  assert.throws(() => run(room, actors[0], "start-game"), /only the coordinator/i);
+  assert.doesNotThrow(() => run(room, actors[1], "start-game"));
+  assert.equal(sanitizeRoom(room, actors[0]).viewer.isHost, false);
+  assert.equal(sanitizeRoom(room, actors[1]).viewer.isHost, true);
+  assert.equal(sanitizeRoom(room, actors[0]).coordinatorName, "Divyanka");
+  assert.equal("hostSessionId" in sanitizeRoom(room, actors[0]), false);
+});

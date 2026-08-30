@@ -50,6 +50,7 @@ class DeviceStore {
     localStorage.setItem(REMEMBERED_KEY, JSON.stringify(next));
   }
   forgetIdentity() {}
+  async forgetRoom(code) { this.forgetIdentity(code); }
 }
 
 export class LocalPreviewStore extends DeviceStore {
@@ -129,6 +130,19 @@ export class LocalPreviewStore extends DeviceStore {
     });
   }
   forgetIdentity() { sessionStorage.removeItem(SESSION_KEY); }
+  async forgetRoom(code) {
+    await this.withRoom(code, (room) => {
+      const actor = this.actorFor(room);
+      if (!actor) throw new Error("This device is no longer connected to that seat.");
+      if (actor.id !== room.hostSessionId) return;
+      const nextPlayer = room.players.find((player) => player.claimedBy && player.claimedBy !== actor.id);
+      if (!nextPlayer) throw new Error("Another player must join before the coordinator can forget this room.");
+      room.hostSessionId = nextPlayer.claimedBy;
+      room.coordinatorName = nextPlayer.displayName;
+      room.events.push({ label: "Coordinator", detail: nextPlayer.displayName });
+    });
+    this.forgetIdentity(code);
+  }
   subscribe(code, listener) {
     const key = String(code).toUpperCase();
     const listeners = this.listeners.get(key) ?? new Set();
@@ -158,6 +172,12 @@ export class CloudflareStore extends DeviceStore {
   getToken(code) { return localStorage.getItem(this.identityKey(code)) ?? ""; }
   setToken(code, token) { localStorage.setItem(this.identityKey(code), token); }
   forgetIdentity(code) { localStorage.removeItem(this.identityKey(code)); }
+  async forgetRoom(code) {
+    const token = this.getToken(code);
+    if (!token) throw new Error("This device is no longer connected to that seat.");
+    await this.request(`/api/rooms/${String(code).toUpperCase()}/forget`, { method: "POST", token });
+    this.forgetIdentity(code);
+  }
   async request(path, { method = "GET", body, token } = {}) {
     const response = await fetch(`${this.apiBaseUrl}${path}`, {
       method,

@@ -130,4 +130,12 @@ assert.equal("role" in refreshedConstable.players[0], false);
 const blockedOrigin = await request(`/api/rooms/${code}/lobby`, { origin: "https://evil.example" });
 assert.equal(blockedOrigin.response.status, 403);
 
+const forgottenHost = await request(`/api/rooms/${code}/forget`, { method: "POST", token: hostToken });
+assert.equal(forgottenHost.response.status, 200, JSON.stringify(forgottenHost.data));
+assert.equal((await request(`/api/rooms/${code}/snapshot`, { token: hostToken })).response.status, 401);
+const successorRoom = (await request(`/api/rooms/${code}/snapshot`, { token: actors[2].token })).data.room;
+assert.equal(successorRoom.viewer.isHost, true);
+assert.equal(successorRoom.coordinatorName, "Mira");
+assert.equal((await request(`/api/rooms/${code}/snapshot`, { token: actors[1].token })).data.room.viewer.isHost, false);
+
 console.log(`Worker integration passed for room ${code}`);

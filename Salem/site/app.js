@@ -198,7 +198,7 @@ function joinTemplate() {
         <div class="join-room-heading">
           <span>Room ${escapeHtml(room.code)}</span>
           <h2>${escapeHtml(room.name)}</h2>
-          <p>Choose your name. A claimed seat can only be released by the coordinator.</p>
+          <p><b>${escapeHtml(room.coordinatorName)}</b> is the coordinator. Choose your name; a claimed seat can only be released by them.</p>
         </div>
         <div class="seat-list">
           ${room.players.map((player) => `
@@ -409,7 +409,7 @@ function gameTemplate() {
         </div>
       </div>
 
-      <div class="mode-banner"><span class="mode-dot"></span><b>${store.mode === "cloudflare" ? "Live room" : "Local preview"}</b><span>${store.mode === "cloudflare" ? "Synced privately across phones. This device reconnects after refresh." : "Stored only in this browser. Production uses the Cloudflare room service."}</span></div>
+      <div class="mode-banner"><span class="mode-dot"></span><b>Coordinator · ${escapeHtml(room.coordinatorName)}</b><span>${store.mode === "cloudflare" ? "Synced privately across phones. Screen lock, refresh, and ordinary exit keep this coordinator; choosing Forget transfers control." : "Stored only in this browser. Production uses the Cloudflare room service."}</span></div>
       ${setupSummary(room)}
 
       <div class="game-layout">
@@ -427,7 +427,7 @@ function gameTemplate() {
               <div class="identity"><span class="avatar avatar--${me.avatarTone}">${escapeHtml(initials(me.displayName))}</span><div><b>${escapeHtml(me.displayName)}</b><small>${escapeHtml(me.character || `Seat ${me.seat}`)}</small></div></div>
               ${me.role?.everWitch || me.role?.isConstable ? `<div class="private-badges">${me.role?.everWitch ? "<span>Witch</span>" : ""}${me.role?.isConstable ? "<span>Constable</span>" : ""}</div>` : `<p class="muted small">Private role indicators appear here after check-in.</p>`}
             ` : `<p class="muted">Neutral coordinator. This device has no player role.</p>`}
-            ${store.mode === "cloudflare" ? `<button class="back-link forget-device" data-action="forget-device">Forget this room on this device</button>` : ""}
+            ${store.mode === "cloudflare" ? `<button class="back-link forget-device" data-action="forget-device">${isHost() ? "Transfer coordinator & forget this room" : "Forget this room on this device"}</button>` : ""}
           </section>
           <section class="panel log-panel">
             <div class="panel-heading"><div><span class="section-kicker">Public record</span><h2>Tonight</h2></div></div>
@@ -517,7 +517,12 @@ app.addEventListener("click", async (event) => {
     return render();
   }
   if (action === "forget-device") {
-    store.forgetIdentity(room.code);
+    const warning = isHost()
+      ? `Transfer coordinator control to the next joined player and forget ${room.name} on this device?`
+      : `Forget ${room.name} on this device? Your seat will remain claimed until the coordinator releases it.`;
+    if (!globalThis.confirm(warning)) return;
+    try { await store.forgetRoom(room.code); }
+    catch (error) { return toast(error.message, "danger"); }
     state.unsubscribe?.();
     store.setActiveRoom(null);
     state.room = null;

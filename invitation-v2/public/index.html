@@ -69,7 +69,7 @@ button { font-family:var(--f-ui); }
 .btn-nav { background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:var(--bg); font-size:13px; font-weight:600; letter-spacing:.04em; padding:10px 22px; border-radius:6px; border:none; cursor:pointer; transition:opacity .2s,transform .1s; }
 .btn-nav:hover { opacity:.88; transform:translateY(-1px); }
 .nav-mob { display:none; }
-@media(max-width:768px){ .nav-links{display:none;} .nav-mob{display:block;} }
+@media(max-width:768px){ .nav-links{display:flex;margin-left:auto;} .nav-links li:not(.nav-salem){display:none;} .nav-mob{display:block;margin-left:12px;} }
 
 /* ── HERO ─────────────────────────────────────────────────────────────────── */
 .hero { min-height:100vh; display:flex; align-items:center; padding-top:var(--nav-h); position:relative; overflow:hidden; }
@@ -437,6 +437,7 @@ button { font-family:var(--f-ui); }
   <div class="container nav-inner">
     <span class="nav-logo">MemoryWrapped</span>
     <ul class="nav-links">
+      <li class="nav-salem"><a href="salem/">Salem</a></li>
       <li><a href="#how">How It Works</a></li>
       <li><a href="#examples">Examples</a></li>
       <li><a href="#pricing">Pricing</a></li>

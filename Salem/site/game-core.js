@@ -69,6 +69,7 @@ export function newRoom({ name, code = createRoomCode(), hostSessionId, hostName
     code,
     name: normalizeName(name) || "A Night in Salem",
     hostSessionId,
+    coordinatorName: normalizeName(hostName) || "Coordinator",
     phase: PHASES.LOBBY,
     phaseVersion: 1,
     night: 0,

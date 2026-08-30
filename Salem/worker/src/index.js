@@ -73,6 +73,39 @@ function actorId() {
   return `actor-${crypto.randomUUID()}`;
 }
 
+export function normalizeCoordinatorRecord(record) {
+  if (!record) return record;
+  const actors = Object.values(record.credentials ?? {});
+  actors.forEach((actor, index) => {
+    if (!Number.isFinite(actor.joinOrder)) actor.joinOrder = index;
+    actor.isHost = actor.id === record.room.hostSessionId;
+  });
+  record.nextJoinOrder = Math.max(Number(record.nextJoinOrder ?? 0), ...actors.map((actor) => actor.joinOrder + 1), 0);
+  const coordinatorPlayer = record.room.players.find((player) => player.claimedBy === record.room.hostSessionId);
+  record.room.coordinatorName ||= coordinatorPlayer?.displayName || "Coordinator";
+  return record;
+}
+
+export function selectCoordinatorActor(record) {
+  return Object.values(record.credentials ?? {})
+    .filter((actor) => actor.id !== record.room.hostSessionId)
+    .filter((actor) => record.room.players.some((player) => player.id === actor.playerId && player.claimedBy === actor.id))
+    .sort((left, right) => left.joinOrder - right.joinOrder)[0] ?? null;
+}
+
+export function transferCoordinator(record, nextActor) {
+  if (!nextActor || nextActor.id === record.room.hostSessionId) return false;
+  const player = record.room.players.find((item) => item.id === nextActor.playerId && item.claimedBy === nextActor.id);
+  if (!player) return false;
+  Object.values(record.credentials).forEach((actor) => { actor.isHost = actor.id === nextActor.id; });
+  record.room.hostSessionId = nextActor.id;
+  record.room.coordinatorName = player.displayName;
+  const previousUpdate = Date.parse(record.room.updatedAt);
+  record.room.updatedAt = new Date(Math.max(Date.now(), Number.isFinite(previousUpdate) ? previousUpdate + 1 : 0)).toISOString();
+  record.room.events.push({ label: "Coordinator", detail: player.displayName });
+  return true;
+}
+
 function roomPath(request) {
   const url = new URL(request.url);
   return url.pathname.split("/").filter(Boolean).at(-1) ?? "";
@@ -113,7 +146,7 @@ export default {
     if (request.method === "OPTIONS") return withCors(new Response(null, { status: 204 }), origin);
 
     const url = new URL(request.url);
-    const match = url.pathname.match(/^\/api\/rooms(?:\/([A-HJ-NP-Z2-9]{6})\/(lobby|claim|snapshot|command|events))?\/?$/i);
+    const match = url.pathname.match(/^\/api\/rooms(?:\/([A-HJ-NP-Z2-9]{6})\/(lobby|claim|snapshot|command|events|forget))?\/?$/i);
     if (!match) return withCors(errorResponse("Not found.", 404), origin);
 
     try {
@@ -153,7 +186,7 @@ export class SalemRoom {
     this.env = env;
     this.record = null;
     ctx.blockConcurrencyWhile(async () => {
-      this.record = await ctx.storage.get("room-state") ?? null;
+      this.record = normalizeCoordinatorRecord(await ctx.storage.get("room-state") ?? null);
     });
   }
 
@@ -208,8 +241,8 @@ export class SalemRoom {
     if (room.players.length !== total) return errorResponse("Player names must be unique.");
     const hostPlayer = room.players.find((player) => player.claimedBy === hostActorId) ?? null;
     const token = randomToken();
-    const actor = { id: hostActorId, isHost: true, playerId: hostPlayer?.id ?? null };
-    this.record = { room, credentials: { [await tokenHash(token)]: actor }, expiresAt: 0 };
+    const actor = { id: hostActorId, isHost: true, playerId: hostPlayer?.id ?? null, joinOrder: 0 };
+    this.record = { room, credentials: { [await tokenHash(token)]: actor }, nextJoinOrder: 1, expiresAt: 0 };
     await this.save();
     return json({ token, room: sanitizeRoom(room, actor) }, 201);
   }
@@ -228,7 +261,7 @@ export class SalemRoom {
     if (player.claimedBy) return errorResponse("That seat has already been claimed.", 409);
     const id = actorId();
     const token = randomToken();
-    const actor = { id, isHost: false, playerId: player.id };
+    const actor = { id, isHost: false, playerId: player.id, joinOrder: this.record.nextJoinOrder++ };
     player.claimedBy = id;
     this.record.room.events.push({ label: "Joined", detail: player.displayName });
     this.record.credentials[await tokenHash(token)] = actor;
@@ -242,6 +275,24 @@ export class SalemRoom {
     const actor = await this.authenticate(bearerToken(request));
     if (!actor) return errorResponse("This device is no longer connected to that seat.", 401);
     return json({ room: sanitizeRoom(this.record.room, actor) });
+  }
+
+  async forget(request) {
+    if (!this.record) return errorResponse("Room not found.", 404);
+    const token = bearerToken(request);
+    const hash = await tokenHash(token);
+    const actor = this.record.credentials[hash] ?? null;
+    if (!actor) return errorResponse("This device is no longer connected to that seat.", 401);
+    if (actor.id === this.record.room.hostSessionId) {
+      const nextActor = selectCoordinatorActor(this.record);
+      if (!transferCoordinator(this.record, nextActor)) {
+        return errorResponse("Another player must join before the coordinator can forget this room.", 409);
+      }
+    }
+    delete this.record.credentials[hash];
+    await this.save();
+    this.broadcast();
+    return json({ ok: true });
   }
 
   async command(request) {
@@ -293,6 +344,7 @@ export class SalemRoom {
       if (action === "lobby" && request.method === "GET") return this.lobby();
       if (action === "claim" && request.method === "POST") return await this.claim(request);
       if (action === "snapshot" && request.method === "GET") return await this.snapshot(request);
+      if (action === "forget" && request.method === "POST") return await this.forget(request);
       if (action === "command" && request.method === "POST") return await this.command(request);
       if (action === "events" && request.method === "GET") return await this.events(request);
       return errorResponse("Not found.", 404);

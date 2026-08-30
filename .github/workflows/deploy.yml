@@ -44,6 +44,8 @@ jobs:
         run: |
           mkdir -p ./invitation-v2/dist/Salem
           cp ./Salem/site/index.html ./Salem/site/styles.css ./Salem/site/app.js ./Salem/site/config.js ./Salem/site/game-core.js ./Salem/site/game-engine.js ./Salem/site/store.js ./invitation-v2/dist/Salem/
+          mkdir -p ./invitation-v2/dist/salem
+          cp -R ./invitation-v2/dist/Salem/. ./invitation-v2/dist/salem/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
