@@ -442,11 +442,25 @@ function gameTemplate() {
 }
 
 function render() {
+  const activeCharacterInput = document.activeElement?.closest?.("[data-character-id]");
+  const focus = activeCharacterInput && app.contains(activeCharacterInput) ? {
+    playerId: activeCharacterInput.dataset.characterId,
+    start: activeCharacterInput.selectionStart,
+    end: activeCharacterInput.selectionEnd,
+    direction: activeCharacterInput.selectionDirection,
+  } : null;
   updateTopbar();
   if (state.view === "create") app.innerHTML = createTemplate();
   else if (state.view === "join") app.innerHTML = joinTemplate();
   else if (state.view === "game" && state.room) app.innerHTML = gameTemplate();
   else app.innerHTML = landingTemplate();
+  if (focus) {
+    const input = app.querySelector(`[data-character-id="${focus.playerId}"]`);
+    if (input) {
+      input.focus({ preventScroll: true });
+      input.setSelectionRange(focus.start, focus.end, focus.direction);
+    }
+  }
 }
 
 async function command(type, payload = {}) {
@@ -557,13 +571,15 @@ app.addEventListener("click", async (event) => {
 function queueCharacterSave(input, delay = 320) {
   const playerId = input.dataset.characterId;
   const value = normalizeName(input.value);
-  characterDrafts.set(playerId, value);
+  characterDrafts.set(playerId, input.value);
   clearTimeout(characterSaveTimers.get(playerId));
   characterSaveTimers.set(playerId, setTimeout(async () => {
     characterSaveTimers.delete(playerId);
     if (!isHost() || state.room?.phase !== PHASES.LOBBY) return;
     const updated = await command("set-character", { playerId, character: value });
-    if (updated && findPlayer(updated, playerId)?.character === value) characterDrafts.delete(playerId);
+    if (updated && findPlayer(updated, playerId)?.character === value && normalizeName(characterDrafts.get(playerId)) === value) {
+      characterDrafts.delete(playerId);
+    }
   }, delay));
 }
 
