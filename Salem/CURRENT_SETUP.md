@@ -11,7 +11,7 @@
 - Salem source: `Salem/site/`
 - Salem shared-room backend: Cloudflare Worker with SQLite-backed Durable Objects
 - Worker origin: `https://salem-room-service.salem-room-service.workers.dev`
-- Deployed Worker version: `adc4d897-004a-4efb-af11-cc4c07d15c68`
+- Deployed Worker version: `37e418f9-8255-4961-8d05-4b55cabc2171`
 
 HTTPS enforcement was enabled for the existing GitHub Pages site on 2026-08-29. The apex HTTP URL redirects to HTTPS, `www` reaches the HTTPS apex, and the MemoryWrapped homepage remains the root page.
 

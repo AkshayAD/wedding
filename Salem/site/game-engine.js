@@ -219,6 +219,7 @@ export function sanitizeRoom(room, actor = null) {
       .map((action) => ({ ...action })),
     events: room.events.map((event) => ({ ...event })),
     viewer: { isHost: Boolean(actor?.isHost), playerId: viewerPlayerId },
+    serverNow: Date.now(),
     createdAt: room.createdAt,
     updatedAt: room.updatedAt,
   };

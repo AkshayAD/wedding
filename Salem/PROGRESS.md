@@ -137,3 +137,13 @@ Cloudflare authorization, Worker deployment, production configuration, and live-
 - Added strict request and name limits plus a free Durable Object creation limiter of eight rooms per network per hour.
 - Deployed hardened Worker version `adc4d897-004a-4efb-af11-cc4c07d15c68` and passed the live integration suite in room `YUVP99`.
 - Expanded the rule/privacy suite to 14 passing tests, covering every 4-12 player setup row, Night-target secrecy, timer enforcement, role-neutral progress, and missing-Constable recovery.
+
+## 2026-08-30 - Production release complete
+
+- Published commit `4c76984` through successful GitHub Pages run `33291644506`.
+- Verified `http://akshaydivyanka.in/` redirects to HTTPS, the existing MemoryWrapped homepage remains intact, and `https://akshaydivyanka.in/Salem/` returns the Salem application.
+- Verified source-only files such as `config.example.js`, project documentation, tests, and Worker configuration are not present in the public artifact.
+- Created production room `6PZVSC` from the real website origin and verified automatic coordinator identity recovery after a full page reload.
+- Verified the live 390x844 mobile layout has no horizontal overflow.
+- Added an embedded Salem favicon and server-clock offset so the synchronized confession countdown does not depend on each phone's local clock accuracy.
+- Deployed final Worker version `37e418f9-8255-4961-8d05-4b55cabc2171` and reran the live integration suite successfully in room `SW3EYF`.

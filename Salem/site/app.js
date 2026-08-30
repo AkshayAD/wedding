@@ -29,6 +29,7 @@ const state = {
   roleDraft: null,
   resolutionDraft: null,
   lobbyPlayerDraft: "",
+  serverClockOffset: 0,
   unsubscribe: null,
 };
 const characterSaveTimers = new Map();
@@ -44,7 +45,11 @@ const initials = (name) => normalizeName(name).split(" ").map((part) => part[0])
 const isHost = () => Boolean(state.room?.viewer?.isHost);
 const currentPlayer = () => state.room?.players.find((player) => player.id === state.room?.viewer?.playerId) ?? null;
 const phaseProgress = (room) => room.publicProgress ?? PHASE_LABELS[room.phase];
-const confessionSeconds = (room) => Math.max(0, Math.ceil((Number(room.confessionEndsAt ?? 0) - Date.now()) / 1000));
+const confessionSeconds = (room) => Math.max(0, Math.ceil((Number(room.confessionEndsAt ?? 0) - (Date.now() + state.serverClockOffset)) / 1000));
+
+function syncServerClock(room) {
+  if (Number.isFinite(Number(room?.serverNow))) state.serverClockOffset = Number(room.serverNow) - Date.now();
+}
 
 function toast(message, tone = "default") {
   const item = document.createElement("div");
@@ -74,6 +79,7 @@ function attachRoom(room, pointer = null) {
     state.lobbyPlayerDraft = "";
     characterDrafts.clear();
   }
+  syncServerClock(room);
   state.room = room;
   state.joinRoom = null;
   state.view = "game";
@@ -88,6 +94,7 @@ function attachRoom(room, pointer = null) {
       toast("This device is no longer connected to that room.", "danger");
       return render();
     }
+    syncServerClock(updatedRoom);
     state.room = updatedRoom;
     render();
   });
@@ -445,6 +452,7 @@ function render() {
 async function command(type, payload = {}) {
   try {
     state.room = await store.command(state.room.code, { type, payload, phaseVersion: state.room.phaseVersion });
+    syncServerClock(state.room);
     render();
     return state.room;
   } catch (error) {

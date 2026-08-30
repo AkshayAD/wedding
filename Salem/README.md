@@ -4,7 +4,7 @@ This folder is the canonical home for the Salem Night Companion project. Product
 
 ## Status
 
-- Phase: production backend deployed and verified; GitHub Pages release in progress
+- Phase: live production release verified end to end
 - Browser application: `site/`
 - Shared-room service: `worker/`
 - Intended production URL: `https://akshaydivyanka.in/Salem/`
@@ -82,6 +82,6 @@ With the local Worker running, execute `node Salem/tests/worker-integration.mjs`
 
 ## Production status
 
-The free Cloudflare Worker and SQLite-backed Durable Objects are deployed at `https://salem-room-service.salem-room-service.workers.dev`. The production client configuration points to that origin, and both the live API security suite and a four-device Edge game flow pass. The GitHub Pages workflow is ready to publish `/Salem/`; the remaining release gate is the `main` push and live-domain verification.
+The Salem companion is live at `https://akshaydivyanka.in/Salem/`. Its free Cloudflare Worker and SQLite-backed Durable Objects are deployed at `https://salem-room-service.salem-room-service.workers.dev`. The production client, live API security suite, four-device game flow, HTTPS redirects, refresh/rejoin, and mobile layout have all been verified.
 
 The SQL under `database/` is preserved as the Supabase fallback. It is not the selected production path and has not been applied to the Qook project or any other Supabase project.
