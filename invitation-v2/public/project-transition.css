@@ -1,0 +1,9 @@
+/* Shared navigation animation; each project's original theme remains in control. */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: project-out .22s ease both; }
+::view-transition-new(root) { animation: project-in .4s ease both; }
+@keyframes project-out { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes project-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
