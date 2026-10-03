@@ -69,3 +69,6 @@ For a podcast companion, link it from the episode's notes. Verify the audio,
 episode date, runtime, source editions, denominators, and chapter labels before
 publishing charts. Distinguish full episodes from trailers and keep the exact
 AI-generation disclosure. No publishing system or paid service is required.
+Keep actual spaces/punctuation between adjacent metadata and chart text nodes;
+CSS flex gaps alone do not separate extracted text. Group episode dates and
+durations with a visible separator, retaining the semantic `time` element.
