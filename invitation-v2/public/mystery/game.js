@@ -9,7 +9,7 @@
   var view = 'briefing';
   var selectedAct = 0;
   var playerCount = 2;
-  var names = ['Akshay', 'Detective 2', 'Detective 3', 'Detective 4', 'Detective 5', 'Detective 6'];
+  var names = ['Detective 1', 'Detective 2', 'Detective 3', 'Detective 4', 'Detective 5', 'Detective 6'];
   var difficulty = 'standard';
   var activePlayer = '';
   var modal = '';
@@ -19,21 +19,70 @@
   var pollBusy = false;
   var online = true;
   var feedbackTimer;
-  var audioContext = null;
-  var rainSource = null;
-  var rainGain = null;
-  var speechEnabled = false;
+  var narrator = window.VARSHA_NARRATOR || null;
+  var voiceSaved = storageGet('varsha-voice-volume');
+  var narrationVolume = voiceSaved === null || !isFinite(Number(voiceSaved)) ? 0.9 : Math.max(0,Math.min(1,Number(voiceSaved)));
+  if(narrator)narrator.setVolume(narrationVolume);
   var params = new URLSearchParams(location.search);
   var companion = params.get('companion') === '1';
+  var sound = window.VARSHA_SOUND || null;
+  var soundKey = companion ? 'varsha-audio-companion' : 'varsha-audio-board';
+  var soundPrefs = {music:!companion,effects:!companion,ambience:false,volume:0.25};
+  var soundScene = '';
+  var soundUnlock = null;
+  var savedSound = storageGet(soundKey);
+  if(savedSound) { try { var audioPrefs=JSON.parse(savedSound); ['music','effects','ambience'].forEach(function(key){if(typeof audioPrefs[key]==='boolean')soundPrefs[key]=audioPrefs[key];}); if(typeof audioPrefs.volume==='number')soundPrefs.volume=Math.max(0,Math.min(1,audioPrefs.volume)); } catch(ignore) {} }
   var roomFromUrl = (params.get('room') || '').toUpperCase();
   var pendingRender = false;
   var ownPlayerKey = '';
   var saved = storageGet('varsha-names');
   if (saved) { try { var parsed = JSON.parse(saved); if (Array.isArray(parsed)) parsed.forEach(function (n, i) { if (i < 6 && typeof n === 'string') names[i] = n; }); } catch (ignore) {} }
   if (storageGet('varsha-cinema') === '1') document.documentElement.classList.add('cinema');
+  configureSound();
 
   function storageGet(key) { try { return localStorage.getItem(key); } catch (ignore) { return null; } }
   function storageSet(key, value) { try { localStorage.setItem(key, value); } catch (ignore) {} }
+  function configureSound() {
+    if(!sound)return;
+    sound.setVolume(soundPrefs.volume); sound.setMusic(soundPrefs.music); sound.setEffects(soundPrefs.effects);
+    if(sound.setAmbience)sound.setAmbience(soundPrefs.ambience);
+    sound.setPaused(document.hidden || !!(state && state.paused));
+  }
+  function unlockSound() {
+    if(!sound)return;
+    soundUnlock=sound.unlock();
+    if(soundUnlock && soundUnlock.catch)soundUnlock.catch(function(){updateSoundStatus();});
+  }
+  function soundCue(name) {
+    if(!sound || document.hidden || (state && state.paused))return;
+    var status=sound.getStatus();
+    if(status.unlocked)sound.cue(name);
+    else if(soundUnlock && soundUnlock.then)soundUnlock.then(function(ok){if(ok && !document.hidden && !(state && state.paused))sound.cue(name);});
+  }
+  function syncSound(previous, data) {
+    if(!sound)return;
+    var scene=data.solved || data.revealed ? 'resolution' : 'act'+(data.actIndex+1);
+    if(scene!==soundScene){soundScene=scene;sound.setScene(scene);}
+    sound.setPaused(document.hidden || !!data.paused);
+    if(!previous || previous.code!==data.code)soundCue('enter');
+    else if(!(previous.solved || previous.revealed) && (data.solved || data.revealed))soundCue('resolution');
+    else if(data.actIndex>previous.actIndex)soundCue('unlock');
+    else if(Object.keys(data.questionStatus || {}).some(function(id){return data.questionStatus[id] && !(previous.questionStatus || {})[id];}))soundCue('deduction');
+  }
+  function soundStatusText() {
+    if(!sound)return 'Sound is unavailable on this browser. The full case remains playable.';
+    var status=sound.getStatus();
+    if(!status.available)return 'This browser does not support the soundtrack. The full case remains playable.';
+    if(status.error)return 'Sound could not load. Try enabling it again, or continue with the written case.';
+    if(!status.unlocked)return 'Sound starts after a click, tap or remote selection.';
+    if(document.hidden || (state && state.paused))return 'Sound is paused while the case is paused or this screen is hidden.';
+    if(status.loading)return 'Preparing the soundtrack…';
+    if(status.playing)return 'Original score playing.';
+    return soundPrefs.music ? 'Sound is enabled. The score will begin when ready.' : 'Music is off. Effects and rain have separate controls.';
+  }
+  function updateSoundStatus() { var el=document.getElementById('sound-status');if(el)el.textContent=soundStatusText(); }
+  function saveSound() { storageSet(soundKey,JSON.stringify(soundPrefs));configureSound();updateSoundStatus(); }
+  window.addEventListener('varsha-sound-status',updateSoundStatus);
   function esc(value) { return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function textValue(value) { return typeof value === 'string' || typeof value === 'number' ? String(value) : ''; }
   function paragraphs(value) {
@@ -47,6 +96,8 @@
   function documentById(id) { return allDocs().filter(function (doc) { return doc.id === id; })[0]; }
   function currentAct() { return state.acts[selectedAct] || state.acts[state.actIndex] || state.acts[0]; }
   function myPlayer() { return state && (state.players.filter(function (p) { return p.id === activePlayer; })[0] || state.players[0]); }
+  function focusDeskReading() {var area=document.getElementById('desk-content');if(area){area.focus({preventScroll:true});area.scrollIntoView({block:'start'});}}
+  function focusDeskControls() {var area=document.getElementById('desk-content');if(!area)return;var control=area.querySelector('[data-action="briefing-read"],.document-main,.answer-options button,#note-player,#killer') || focusable(area)[0];if(control){control.focus();control.scrollIntoView({block:'nearest'});}}
   function roleLabel(role) { return String(role || 'Detective').replace(/[_-]/g, ' '); }
   function modeLabel(mode) { return mode ? mode.charAt(0).toUpperCase() + mode.slice(1) : 'Standard'; }
   function fictionFooter() { return '<footer class="footer"><span>THE VARSHA HOUSE FILES · AN ORIGINAL FICTIONAL MYSTERY</span><span>All people, records and events are fictional. Evidence is created for play.</span></footer>'; }
@@ -76,6 +127,8 @@
     var resumeCode = storageGet('varsha-room');
     var modes = [ ['gentle','Gentle','More guidance. A little room to breathe.'], ['standard','Standard','Trust the evidence. Work it out together.'], ['expert','Expert','Fewer signposts. Every detail matters.'] ];
     app.innerHTML = '<main class="setup-shell"><section class="setup-hero"><div class="brand">AN EVENING IN THREE ENVELOPES</div><div class="hero-copy"><div class="case-tag">CASE NO. VH–017 / CLOSED CIRCLE</div><h1>Varsha<br>House<em>.</em></h1><span class="eyebrow">A MONSOON MURDER</span><p>A secluded hotel. A night of relentless rain. One death, five people with something to hide. The case is yours to close.</p><div class="hero-meta"><span>1–6 DETECTIVES</span><span>45–75 MINUTES</span><span>ONE SHARED CASE</span></div></div></section><section class="setup-form"><span class="eyebrow">YOUR TABLE IS READY</span><h2>Stay in. Solve something.</h2><p class="intro">Put the case on your TV. Share the reading on your phones. Open each envelope together and follow the paper trail.</p><form id="setup-form"><div class="section-label">01 / WHO IS INVESTIGATING?</div><div class="count-picker" aria-label="Number of detectives">' + [1,2,3,4,5,6].map(function (n) { return button(String(n), 'count', 'data-count="' + n + '" aria-pressed="' + (n === playerCount) + '" aria-label="' + n + ' detective' + (n > 1 ? 's' : '') + '"', n === playerCount ? 'selected' : ''); }).join('') + '</div><div class="names-grid">' + names.slice(0, playerCount).map(function (name, i) { return '<div><label for="name-' + i + '">Detective ' + (i+1) + '</label><input id="name-' + i + '" data-detective-name="' + i + '" value="' + esc(name) + '" maxlength="30" autocomplete="off" required></div>'; }).join('') + '</div><div class="section-label">02 / CHOOSE YOUR CHALLENGE</div><div class="mode-picker">' + modes.map(function (mode) { return button('<strong>' + mode[1] + '</strong><span>' + esc(mode[2]) + '</span>', 'difficulty', 'data-mode="' + mode[0] + '" aria-pressed="' + (difficulty === mode[0]) + '"', 'mode ' + (difficulty === mode[0] ? 'selected' : '')); }).join('') + '</div><button class="primary start-button" type="submit">Break the first seal <span aria-hidden="true">→</span></button></form><div class="section-label">ALREADY HAVE A CASE?</div><form id="join-form" class="join-line"><label class="visually-hidden" for="join-code" hidden>Room code</label><input id="join-code" aria-label="Room code" placeholder="ROOM CODE" maxlength="12" autocapitalize="characters" autocomplete="off" required><button type="submit">Join room</button></form>' + (resumeCode ? button('Resume case ' + esc(resumeCode) + ' →', 'resume-room', 'data-room="' + esc(resumeCode) + '"', 'text small') : '') + '<div class="setup-foot">Your room saves automatically.<br>Fictional case · No real crime imagery · Best with the sound of rain.</div></section></main>';
+    var tools=document.createElement('div');tools.className='setup-tools';tools.innerHTML=button('Share this game','share-game','','small')+button('Sound settings','settings','','small');
+    app.querySelector('.setup-form').insertBefore(tools,app.querySelector('.setup-foot'));
   }
   function elapsedLabel() {
     if (!state) return '00:00';
@@ -113,7 +166,7 @@
     var heading = victim.name ? 'The death of ' + victim.name : 'A death at Varsha House';
     var briefing = meta.briefing || 'The roads are closed. The people inside Varsha House are waiting. Read the first envelope, question the story, and establish what happened.';
     var how = meta.howToPlay;
-    return '<section><div class="brief-banner"><div class="brief-image" role="img" aria-label="Atmospheric crime scene at Varsha House"></div><div class="brief-copy"><span class="eyebrow">YOUR INVESTIGATION BEGINS HERE</span><h2>' + esc(heading) + '</h2>' + prose(victim.description || victim.summary || 'Five suspects. Three sealed envelopes. The truth is somewhere in the records.') + '</div></div><div class="brief-text"><span class="eyebrow">THE BRIEFING</span>' + prose(briefing) + '<hr><h3>Make an evening of it.</h3>' + (how ? (Array.isArray(how) ? '<ol class="instruction-list">' + how.map(function (item) { return '<li>' + esc(textValue(item)) + '</li>'; }).join('') + '</ol>' : prose(how)) : '<ol class="instruction-list"><li>Read your assigned documents aloud, or join the room on your phones and divide the reading.</li><li>Pin anything that matters. Keep a shared notebook of contradictions and possible explanations.</li><li>Resolve each envelope’s deductions together. The next envelope opens when the table is ready.</li><li>Build a final charge sheet supported by at least three pieces of evidence.</li></ol>') + button('Examine envelope 0' + (selectedAct + 1) + ' →', 'view', 'data-view="files"', 'primary') + '</div></section>';
+    return '<section><div class="reading-launch">' + button('Read briefing', 'briefing-read', '', 'primary') + button('Listen to opening', 'briefing-listen') + '<p class="caption">Read the complete briefing in pages, or hear the recorded opening. Listening is always your choice; page changes stop playback.</p></div><div class="brief-banner"><div class="brief-image" role="img" aria-label="Atmospheric crime scene at Varsha House"></div><div class="brief-copy"><span class="eyebrow">YOUR INVESTIGATION BEGINS HERE</span><h2>' + esc(heading) + '</h2>' + prose(victim.description || victim.summary || 'Five suspects. Three sealed envelopes. The truth is somewhere in the records.') + '</div></div><div class="brief-text"><span class="eyebrow">THE BRIEFING</span>' + prose(briefing) + '<hr><h3>Make an evening of it.</h3>' + (how ? (Array.isArray(how) ? '<ol class="instruction-list">' + how.map(function (item) { return '<li>' + esc(textValue(item)) + '</li>'; }).join('') + '</ol>' : prose(how)) : '<ol class="instruction-list"><li>Read your assigned documents aloud, or join the room on your phones and divide the reading.</li><li>Pin anything that matters. Keep a shared notebook of contradictions and possible explanations.</li><li>Resolve each envelope’s deductions together. The next envelope opens when the table is ready.</li><li>Build a final charge sheet supported by at least three pieces of evidence.</li></ol>') + button('Examine envelope 0' + (selectedAct + 1) + ' →', 'view', 'data-view="files"', 'primary') + '</div></section>';
   }
   function docCard(doc) {
     var read = state.readIds.indexOf(doc.id) >= 0;
@@ -122,7 +175,7 @@
   }
   function renderFiles() {
     var act = currentAct();
-    return '<section><div class="content-heading"><div><span class="eyebrow">ENVELOPE 0' + (selectedAct+1) + ' / CASE MATERIALS</span><h2>' + esc(act.title) + '</h2><p class="caption">' + esc(act.summary || '') + '</p></div>' + button('Print files', 'print', '', 'small') + '</div><div class="doc-grid">' + (act.documents || []).map(docCard).join('') + '</div><p class="caption" style="margin-top:22px">Open each record to read it. The final page lets you mark it read. Suggested roles help divide the reading; every detective can open every document.</p></section>';
+    return '<section><div class="act-narration-launch">' + button(selectedAct===0?'Listen to opening':'Listen to envelope introduction', 'act-listen', 'data-act="' + selectedAct + '"', 'small') + '</div><div class="content-heading"><div><span class="eyebrow">ENVELOPE 0' + (selectedAct+1) + ' / CASE MATERIALS</span><h2>' + esc(act.title) + '</h2><p class="caption">' + esc(act.summary || '') + '</p></div>' + button('Print files', 'print', '', 'small') + '</div><div class="doc-grid">' + (act.documents || []).map(docCard).join('') + '</div><p class="caption" style="margin-top:22px">Open each record to read it. The final page lets you mark it read. Suggested roles help divide the reading; every detective can open every document.</p></section>';
   }
   function renderDeductions() {
     var act = currentAct();
@@ -180,7 +233,7 @@
     var scrollY = window.scrollY;
     var player = myPlayer();
     var content = {briefing:renderBriefing,files:renderFiles,deductions:renderDeductions,suspects:renderSuspects,board:renderBoard,notes:renderNotes,accuse:renderAccuse};
-    app.innerHTML = renderHeader() + '<main class="desk"><div class="case-top"><div><span class="eyebrow">AN INVESTIGATION IN THREE ENVELOPES</span><h1>' + ((state.solved || state.revealed) ? 'The house has given up its secrets.' : 'The storm has closed the road.') + '</h1><p>' + ((state.solved || state.revealed) ? 'Your records remain open for one last look.' : 'Read closely. Talk it through. Build the case together.') + '</p></div><div class="detective-pill">' + (companion ? 'COMPANION DESK<br>' : 'AT THE TABLE<br>') + esc(player ? player.name : '') + '<br>' + esc(player ? roleLabel(player.role) : '') + '</div></div>' + renderTrack() + renderTabs() + (companion ? '<div class="phone-control-note">You are in room <strong>' + esc(state.code) + '</strong>. Reading, pins, notes and deductions are shared. Your page and scroll stay private.</div>' : '') + '<div class="desk-grid"><div id="desk-content">' + (content[view] || renderBriefing)() + '</div>' + renderSidebar() + '</div></main>' + fictionFooter();
+    app.innerHTML = renderHeader() + '<main class="desk"><div class="case-top"><div><span class="eyebrow">AN INVESTIGATION IN THREE ENVELOPES</span><h1>' + ((state.solved || state.revealed) ? 'The house has given up its secrets.' : 'The storm has closed the road.') + '</h1><p>' + ((state.solved || state.revealed) ? 'Your records remain open for one last look.' : 'Read closely. Talk it through. Build the case together.') + '</p></div><div class="detective-pill">' + (companion ? 'COMPANION DESK<br>' : 'AT THE TABLE<br>') + esc(player ? player.name : '') + '<br>' + esc(player ? roleLabel(player.role) : '') + '</div></div>' + renderTrack() + renderTabs() + (companion ? '<div class="phone-control-note">You are in room <strong>' + esc(state.code) + '</strong>. Reading, pins, notes and deductions are shared. Your page and scroll stay private.</div>' : '') + '<div class="desk-grid"><div id="desk-content" class="desk-reading" tabindex="0" role="region" aria-label="Case reading area. Up and Down scroll. Select opens controls. Left returns to sections."><div class="reading-guide" aria-hidden="true">↑↓ Read this section · Select controls · ← Sections</div>' + (content[view] || renderBriefing)() + '</div>' + renderSidebar() + '</div></main>' + fictionFooter();
     fields.forEach(function (field) {
       var restored = field.id ? document.getElementById(field.id) : null;
       if (!restored && field.name === 'evidence') { var checks=app.querySelectorAll('input[name=evidence]'); for(var c=0;c<checks.length;c++) if(checks[c].value===field.value)restored=checks[c]; }
@@ -197,6 +250,7 @@
     pendingRender = false;
   }
   function applyState(data, force) {
+    var previous = state;
     var changed = !state || data.revision !== state.revision;
     state = data;
     state.acts = state.acts || [];
@@ -206,6 +260,10 @@
     state.notes = state.notes || [];
     state.hints = state.hints || [];
     state.questionStatus = state.questionStatus || {};
+    syncSound(previous,state);
+    if(state.paused && narrator && narrator.getStatus().active)narrator.stop('Narration stopped while the case is paused.');
+    if(reader && reader.kind==='document'){var latest=documentById(reader.doc.id);if(latest && latest.audioUrl!==reader.doc.audioUrl){reader.doc.audioUrl=latest.audioUrl;reader.recordingFailed=false;updateNarrationStatus();}}
+    if(reader)updateNarrationStatus();
     caseData = data.case || caseData;
     if (selectedAct > state.actIndex) selectedAct = state.actIndex;
     var clock = document.getElementById('case-clock');
@@ -233,7 +291,9 @@
     ownPlayerKey = 'varsha-player-' + data.code;
     activePlayer = storageGet(ownPlayerKey) || '';
     history.replaceState(null, '', location.pathname + '?room=' + encodeURIComponent(data.code) + (companion ? '&companion=1' : ''));
+    if (document.activeElement && app.contains(document.activeElement)) document.activeElement.blur();
     applyState(data, true);
+    focusDeskReading();
     if (companion && !data.players.some(function (p) { return p.id === activePlayer; })) showPlayers();
   }
   function joinRoom(code) {
@@ -254,7 +314,7 @@
     if (first) first.focus();
   }
   function closeModal() {
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    stopNarration();
     overlay.hidden = true;
     overlay.innerHTML = '';
     modal = '';
@@ -265,9 +325,26 @@
     else if (state) { var buttonEl = app.querySelector('[data-action="view"][data-view="' + view + '"]'); if (buttonEl) buttonEl.focus({preventScroll:true}); }
   }
   function dialogTop(title) { return '<div class="dialog-header"><div><span class="eyebrow">THE VARSHA HOUSE FILES</span><h2>' + esc(title) + '</h2></div>' + button('Close', 'close', '', 'dialog-close') + '</div>'; }
-  function showShare() {
-    var url = location.origin + location.pathname + '?room=' + encodeURIComponent(state.code) + '&companion=1';
-    showModal('share', dialogTop('Bring your own reading room.') + '<p>On another device, open the companion link below. Choose a detective and share the evidence while the case stays on your TV.</p><div class="share-code">' + esc(state.code) + '</div><p class="caption">Or open this site on your phone and enter the room code.</p><div class="copy-url">' + esc(url) + '</div><div class="dialog-actions">' + button('Choose my detective', 'players') + button('Copy companion link', 'copy', 'data-url="' + esc(url) + '"', 'primary') + '</div>', {title:'Join this room'});
+  function gameLink() { return location.origin + location.pathname; }
+  function qrHtml(url) {
+    if(!window.qrcode)return '<p class="caption">Use the link below to join.</p>';
+    try { var qr=window.qrcode(0,'M');qr.addData(url,'Byte');qr.make();return '<div class="share-qr">'+qr.createSvgTag({cellSize:5,margin:20,scalable:true,title:'Scan to open this link',alt:'QR code for the link shown beside it'})+'</div>'; }
+    catch(ignore){return '<p class="caption">Use the link below to join.</p>';}
+  }
+  function shareButtons(url,room) {
+    return '<div class="share-actions">'+(navigator.share ? button(room?'Share room invitation':'Share game','native-share','data-url="'+esc(url)+'" data-room-share="'+(room?'1':'0')+'"','primary') : '')+button('Copy '+(room?'room invitation':'game link'),'copy','data-url="'+esc(url)+'"',navigator.share?'':'primary')+'</div>';
+  }
+  function showShare(fresh) {
+    var room=state && !fresh;
+    var url=gameLink()+(room?'?room='+encodeURIComponent(state.code)+'&companion=1':'');
+    var title=room?'Invite to this room.':'Give someone a rainy evening.';
+    var details=room?'<span class="eyebrow">THIS ROOM / '+esc(state.code)+'</span><p>Scan with a phone camera, choose a detective, and read alongside the TV.</p><p class="caption">Anyone with this invitation can read this room’s evidence and shared notes. Send it to your fellow detectives.</p>':'<span class="eyebrow">A FRESH CASE FOR THEIR TABLE</span><p>This link opens the game setup. Your friends choose their own detectives and begin a separate case.</p><p class="caption">Your room code and shared notes are not included.</p>';
+    var secondary=room?'<hr><div class="share-secondary"><h3>Share the game instead.</h3><p class="caption">A clean link lets friends start their own case.</p>'+button('Share a fresh case','share-game','','small')+' '+button('Choose my detective','players','','small')+'</div>':(state?'<hr>'+button('Return to this room’s invitation','share','','text small'):'');
+    showModal('share',dialogTop(title)+'<div class="share-layout">'+qrHtml(url)+'<div>'+details+'<div class="copy-url">'+esc(url)+'</div>'+shareButtons(url,room)+'</div></div>'+secondary,{title:room?'Invite detectives to this room':'Share Varsha House'});
+  }
+  function nativeShare(url,room) {
+    if(!navigator.share){copyText(url);return;}
+    navigator.share({title:'Varsha House — A Monsoon Murder',text:room?'Join our Varsha House investigation. This room invitation includes access to our shared notes.':'A monsoon murder mystery for a rainy evening. Start your own case.',url:url}).catch(function(error){if(error.name!=='AbortError')notify('Sharing is unavailable here. You can copy the link instead.','info');});
   }
   function showPlayers() {
     showModal('players', dialogTop('Which detective are you?') + '<p>Pick your place at the table. Roles suggest how to divide the reading; everyone can examine every record.</p><div class="role-options">' + state.players.map(function (p) { return button('<strong>' + esc(p.name) + '</strong><span>' + esc(roleLabel(p.role)) + (activePlayer === p.id ? ' · SELECTED' : '') + '</span>', 'select-player', 'data-player="' + esc(p.id) + '"'); }).join('') + '</div>', {title:'Choose detective'});
@@ -298,24 +375,69 @@
   function openReader(id) {
     var doc = documentById(id);
     if (!doc) return;
-    reader = {doc:doc,pages:splitPages(doc.body),page:0};
+    stopNarration();
+    reader = {doc:doc,pages:splitPages(doc.body),page:0,kind:'document'};
+    soundCue('file');
     drawReader();
   }
-  function speakPage() {
-    if (!speechEnabled || !window.speechSynthesis || !reader) return;
-    window.speechSynthesis.cancel();
-    try { var utterance = new SpeechSynthesisUtterance(reader.pages[reader.page]); utterance.rate = 0.93; window.speechSynthesis.speak(utterance); } catch (ignore) { notify('Narration is not available in this browser.', 'info'); }
+  function openBriefing(listen) {
+    stopNarration();
+    var metadata=caseData.metadata || {};
+    var body=paragraphs(metadata.briefing).concat(paragraphs(metadata.howToPlay)).join('\n\n');
+    var doc={id:'BRIEFING',title:'Your case briefing',type:'Investigator briefing',subtitle:'Read the complete briefing and instructions at your own pace.',body:body,audioUrl:'./narration/opening.mp3'};
+    reader={doc:doc,pages:splitPages(body),page:0,kind:'briefing'};
+    drawReader();
+    if(listen)listenToReader(false);
   }
+  function stopNarration(message) {if(narrator)narrator.stop(message || '');}
+  function voiceAvailable() {return !!(window.speechSynthesis && window.SpeechSynthesisUtterance);}
+  function readerListenLabel() {if(narrator && narrator.getStatus().active)return 'Stop listening';if(reader && reader.doc.audioUrl)return reader.kind==='briefing'?'Listen to opening':'Listen to full file';return 'Browser voice: this page';}
+  function updateNarrationStatus() {
+    var playback=narrator?narrator.getStatus():{active:false,message:'',error:''};
+    if(reader && playback.error==='unavailable' && playback.kind==='recorded')reader.recordingFailed=true;
+    var status=document.getElementById('narration-status');
+    var explanation=reader && reader.doc.audioUrl?(reader.kind==='briefing'?'Recorded opening narration. Written instructions remain in the briefing.':'Recorded narration reads the full file, not just this page.'):'No recording is listed for this file yet. Browser voice reads the visible page when supported.';
+    if(status)status.textContent=!narrator?'Narration is unavailable in this browser. The written text remains available.':(playback.message || explanation)+(reader && reader.recordingFailed?' Browser voice can read the visible page instead.':'');
+    var listen=overlay.querySelector('[data-action="reader-listen"]');
+    if(listen){listen.textContent=readerListenLabel();listen.disabled=!!(state && state.paused) || !narrator || !(reader && reader.doc.audioUrl) && !voiceAvailable();}
+    var fallback=overlay.querySelector('[data-action="reader-browser"]');if(fallback){fallback.hidden=!(reader && reader.doc.audioUrl && reader.recordingFailed && voiceAvailable());fallback.disabled=!!(state && state.paused);}
+    var intro=document.getElementById('intro-narration-status');if(intro)intro.textContent=playback.message || 'Recorded introduction. Playback starts only when you choose Listen.';
+    var stop=overlay.querySelector('[data-action="narration-stop"]');if(stop)stop.disabled=!playback.active;
+  }
+  function listenToReader(browserOnly) {
+    if(!reader || !narrator)return;
+    if(state && state.paused){notify('Resume the case clock before listening.','info');return;}
+    if(narrator.getStatus().active && !browserOnly){stopNarration('Narration stopped.');return;}
+    if(reader.doc.audioUrl && !browserOnly)narrator.playRecorded(reader.doc.audioUrl,reader.kind==='briefing'?'Opening narration':'Full-file narration');
+    else narrator.playSpeech(reader.pages[reader.page],'Browser voice for this page');
+  }
+  function introUrl(index) {return './narration/'+(['opening','act2','act3'][index])+'.mp3';}
+  function playIntroduction(index) {if(!narrator || !state || index<0 || index>state.actIndex)return;if(state.paused){notify('Resume the case clock before listening.','info');return;}narrator.playRecorded(introUrl(index),index===0?'Opening narration':'Envelope '+(index+1)+' introduction');}
+  function showIntroduction(index) {
+    if(!state || index<0 || index>state.actIndex)return;
+    stopNarration();
+    var act=state.acts[index];
+    showModal('introduction',dialogTop(index===0?'The opening narration':'Envelope '+(index+1)+' introduction')+'<span class="eyebrow">'+esc(act.title)+'</span><p>This recorded introduction belongs to the envelope you have opened. You can stop it at any time.</p><p class="sound-status caption" id="intro-narration-status" role="status"></p><div class="dialog-actions">'+button('Listen from the beginning','intro-play','data-act="'+index+'"','primary')+button('Stop','narration-stop')+button('Back to the case','close')+'</div>',{title:'Recorded envelope introduction'});
+    playIntroduction(index);
+  }
+  function changeNarrationVolume(delta) {narrationVolume=Math.max(0,Math.min(1,Math.round((narrationVolume+delta)*100)/100));storageSet('varsha-voice-volume',String(narrationVolume));if(narrator)narrator.setVolume(narrationVolume);var output=document.getElementById('narration-volume');if(output)output.textContent=Math.round(narrationVolume*100)+'%';}
+  window.addEventListener('varsha-narration-status',updateNarrationStatus);
   function drawReader() {
+    if(reader.renderedPage!==undefined && reader.renderedPage!==reader.page)stopNarration('Narration stopped when changing page.');
+    reader.renderedPage=reader.page;
     var doc = reader.doc;
     var last = reader.page === reader.pages.length - 1;
     var pinned = state.pins.indexOf(doc.id) >= 0;
     var asset = doc.asset && /^\/assets\/[a-zA-Z0-9_./-]+$/.test(doc.asset) && doc.asset.indexOf('..') < 0 ? './' + doc.asset.slice(1) : '';
-    var html = '<div class="reader-top"><span class="eyebrow">' + esc(doc.id) + ' / ' + esc(doc.type || 'CASE RECORD') + '</span><div>' + button(pinned ? 'Unpin' : 'Pin +', 'reader-pin', 'data-doc="' + esc(doc.id) + '" aria-pressed="' + pinned + '"', 'small') + ' ' + button('Close', 'close', '', 'small') + '</div></div><div class="reader-content" tabindex="0"><span class="stamp">FICTIONAL RECORD · CREATED FOR PLAY</span><h2>' + esc(doc.title) + '</h2>' + (doc.subtitle ? '<div class="reader-subtitle">' + esc(doc.subtitle) + '</div>' : '') + (asset && reader.page === 0 ? '<img class="reader-asset" src="' + esc(asset) + '" alt="Supporting case illustration">' : '') + '<div class="reader-body">' + prose(reader.pages[reader.page]) + '</div></div><div class="reader-bottom">' + button('← Previous', 'reader-prev', reader.page === 0 ? 'disabled' : '') + '<span class="page-count">PAGE ' + (reader.page+1) + ' / ' + reader.pages.length + '</span>' + (last ? button(state.readIds.indexOf(doc.id) >= 0 ? 'Read · Close file' : 'Mark read & close ✓', 'reader-done', 'data-doc="' + esc(doc.id) + '"', 'primary') : button('Next page →', 'reader-next', '', 'primary')) + '</div>';
+    var briefing=reader.kind==='briefing';
+    var pinControl=briefing?'':button(pinned?'Unpin':'Pin +','reader-pin','data-doc="'+esc(doc.id)+'" aria-pressed="'+pinned+'"','small');
+    var listenControl=button(readerListenLabel(),'reader-listen','','small')+button('Browser voice: this page','reader-browser','hidden','small');
+    var finalLabel=briefing?'Back to the case':(state.readIds.indexOf(doc.id)>=0?'Read · Close file':'Mark read & close ✓');
+    var html='<div class="reader-top"><span class="eyebrow">'+esc(doc.id)+' / '+esc(doc.type || 'CASE RECORD')+'</span>'+button('Close','close','','small')+'</div><div class="reader-guide">↑↓ Scroll text · ←→ Turn pages · Select controls · Back closes</div><div class="reader-content" tabindex="0"><span class="stamp">FICTIONAL RECORD · CREATED FOR PLAY</span><h2>'+esc(doc.title)+'</h2>'+(doc.subtitle?'<div class="reader-subtitle">'+esc(doc.subtitle)+'</div>':'')+(asset && reader.page===0?'<img class="reader-asset" src="'+esc(asset)+'" alt="Supporting case illustration">':'')+'<div class="reader-body">'+prose(reader.pages[reader.page])+'</div></div><div class="reader-bottom">'+button('← Previous','reader-prev',reader.page===0?'disabled':'')+pinControl+listenControl+'<span class="page-count">PAGE '+(reader.page+1)+' / '+reader.pages.length+'</span>'+(last?button(finalLabel,'reader-done','data-doc="'+esc(doc.id)+'"','primary'):button('Next page →','reader-next','','primary'))+'<p class="narration-status" id="narration-status" role="status"></p></div>';
     showModal('reader', html, {reader:true,title:doc.title});
     var content = overlay.querySelector('.reader-content');
-    if (content) { content.scrollTop = 0; content.setAttribute('aria-label','Document text. Use Up and Down to scroll, and Back to close.');content.focus(); }
-    speakPage();
+    if (content) { content.scrollTop = 0; content.setAttribute('aria-label','Document text. Up and Down scroll without leaving the text. Left and Right turn pages. Select opens page controls. Back closes.');content.focus(); }
+    updateNarrationStatus();
   }
   function showHints() {
     var act = state.acts[state.actIndex];
@@ -323,26 +445,21 @@
     showModal('hints', dialogTop('A little light in the rain.') + '<span class="eyebrow">ENVELOPE 0' + (state.actIndex+1) + ' / ' + esc(modeLabel(state.difficulty)) + '</span><p>Hints are deliberate. Read one, return to the records, and give the table time to think.</p>' + (hints.length ? hints.map(function (hint,i) { return '<div class="hint-card"><span class="eyebrow">NUDGE 0' + (i+1) + '</span>' + prose(hint.text) + '</div>'; }).join('') : '<p class="caption">No hints opened for this envelope.</p>') + '<div class="dialog-actions">' + button('Back to the case', 'close') + button(hints.length ? 'Ask for the next nudge' : 'Open the first nudge', 'next-hint', '', 'primary') + '</div>', {title:'Case hints'});
   }
   function showSettings() {
+    var focusedAction=modal==='settings' && document.activeElement.dataset ? document.activeElement.dataset.action : '';
     var cinema = document.documentElement.classList.contains('cinema');
-    showModal('settings', dialogTop('Settle into the evening.') + '<div class="settings-row"><div><strong>Reading scale</strong><p>Larger type and fewer cards for a distant TV.</p></div>' + button(cinema ? 'Cinema' : 'Normal', 'font-scale') + '</div><div class="settings-row"><div><strong>Rain ambience</strong><p>Soft, generated rain. Starts only when you choose.</p></div>' + button(rainSource ? 'On · turn off' : 'Off · turn on', 'rain') + '</div><div class="settings-row"><div><strong>Read documents aloud</strong><p>' + (window.speechSynthesis ? 'Uses your browser’s available voice.' : 'Your browser does not offer narration.') + '</p></div>' + button(speechEnabled ? 'On' : 'Off', 'speech', window.speechSynthesis ? '' : 'disabled') + '</div><div class="settings-row"><div><strong>Case clock</strong><p>Pause the clock for a break. Records stay accessible.</p></div>' + button(state.paused ? 'Resume' : 'Pause', 'pause') + '</div><div class="settings-row"><div><strong>Your place at the table</strong><p>' + esc(myPlayer() ? myPlayer().name : 'Detective') + '</p></div>' + button('Choose', 'players') + '</div><p class="caption" style="margin-top:23px">Music is off. With a TV remote, use the direction keys to move, Enter to choose, and Back to close a document. Reduced motion follows your device setting.</p>' + (state.actIndex === 2 && !state.solved && !state.revealed ? button('End case & reveal…', 'confirm-reveal', '', 'text small') : '') + '<div class="dialog-actions">' + button('Leave this room', 'leave', '', 'danger small') + button('Back to the case', 'close', '', 'primary') + '</div>', {title:'Case settings'});
+    var unavailable = !sound || !sound.getStatus().available;
+    var disabled = unavailable ? 'disabled' : '';
+    var audioRows = '<p class="caption sound-status" id="sound-status" role="status">'+esc(soundStatusText())+'</p><div class="settings-row"><div><strong>Music</strong><p>An original score that follows each envelope.</p></div>'+button(soundPrefs.music?'On':'Off','music',disabled+' aria-pressed="'+soundPrefs.music+'"')+'</div><div class="settings-row"><div><strong>Sound effects</strong><p>Paper, deductions and the opening of a new envelope.</p></div>'+button(soundPrefs.effects?'On':'Off','effects',disabled+' aria-pressed="'+soundPrefs.effects+'"')+'</div><div class="settings-row"><div><strong>Rain ambience</strong><p>A soft layer of rain, separate from the score.</p></div>'+button(soundPrefs.ambience?'On':'Off','rain',disabled+' aria-pressed="'+soundPrefs.ambience+'"')+'</div><div class="settings-row volume-row"><div><strong>Music, effects &amp; rain volume</strong><p>Saved on this device. Phones begin quietly with sound off.</p></div><div class="volume-control">'+button('−','volume-down',disabled+' aria-label="Lower sound volume"')+'<output id="sound-volume">'+Math.round(soundPrefs.volume*100)+'%</output>'+button('+','volume-up',disabled+' aria-label="Raise sound volume"')+'<input id="volume-slider" type="range" min="0" max="100" step="5" value="'+Math.round(soundPrefs.volume*100)+'" aria-label="Sound volume" tabindex="-1" '+disabled+'></div></div>';
+    var roomRows = state ? '<div class="settings-row"><div><strong>Case clock</strong><p>Pause the clock and sound for a break. Records stay accessible.</p></div>'+button(state.paused?'Resume':'Pause','pause')+'</div><div class="settings-row"><div><strong>Your place at the table</strong><p>'+esc(myPlayer()?myPlayer().name:'Detective')+'</p></div>'+button('Choose','players')+'</div>' : '';
+    var voiceRow='<div class="settings-row volume-row"><div><strong>Narration volume</strong><p>Recorded voice and browser voice. Music softens while narration plays.</p></div><div class="volume-control voice-volume">'+button('-','voice-down','aria-label="Lower narration volume"')+'<output id="narration-volume">'+Math.round(narrationVolume*100)+'%</output>'+button('+','voice-up','aria-label="Raise narration volume"')+'</div></div>';
+    showModal('settings',dialogTop('Settle into the evening.')+audioRows+'<div class="settings-row"><div><strong>Reading scale</strong><p>Larger type and fewer cards for a distant TV.</p></div>'+button(cinema?'Cinema':'Normal','font-scale')+'</div>'+voiceRow+roomRows+'<p class="caption" style="margin-top:23px">Narration plays only when you choose Listen, and stops on a page change or break. With a TV remote, use the direction keys to move, Enter to choose, and Back to close a document.</p>'+(state && state.actIndex===2 && !state.solved && !state.revealed?button('End case & reveal...','confirm-reveal','','text small'):'')+'<div class="dialog-actions">'+(state?button('Leave this room','leave','','danger small'):'')+button(state?'Back to the case':'Back to setup','close','','primary')+'</div>',{title:'Sound and reading settings'});
+    if(focusedAction){var control=overlay.querySelector('[data-action="'+focusedAction+'"]');if(control)control.focus();}
   }
-  function toggleRain() {
-    if (rainSource) { rainSource.stop(); rainSource = null; if (audioContext) audioContext.suspend(); showSettings(); return; }
-    try {
-      var Audio = window.AudioContext || window.webkitAudioContext;
-      if (!Audio) { notify('Rain ambience is not supported by this browser.', 'info'); return; }
-      if (!audioContext) audioContext = new Audio();
-      audioContext.resume();
-      var buffer = audioContext.createBuffer(1, audioContext.sampleRate * 4, audioContext.sampleRate);
-      var channel = buffer.getChannelData(0);
-      var previous = 0;
-      for (var i=0;i<channel.length;i++) { previous = (previous + Math.random() * 0.04 - 0.02) / 1.02; channel[i] = previous * 3.5; }
-      rainSource = audioContext.createBufferSource(); rainSource.buffer = buffer; rainSource.loop = true;
-      var filter = audioContext.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 1700;
-      rainGain = audioContext.createGain(); rainGain.gain.value = 0.22;
-      rainSource.connect(filter); filter.connect(rainGain); rainGain.connect(audioContext.destination); rainSource.start();
-      showSettings();
-    } catch (error) { rainSource = null; notify('Rain ambience could not start on this device.', 'info'); }
+  function changeVolume(delta) {
+    soundPrefs.volume=Math.max(0,Math.min(1,Math.round((soundPrefs.volume+delta)*100)/100));
+    saveSound();
+    var output=document.getElementById('sound-volume');if(output)output.textContent=Math.round(soundPrefs.volume*100)+'%';
+    var slider=document.getElementById('volume-slider');if(slider)slider.value=Math.round(soundPrefs.volume*100);
   }
   function confirmReveal() {
     showModal('reveal-confirm', dialogTop(state.solved ? 'Open the resolution?' : 'End the investigation?') + '<p>' + (state.solved ? 'Your charge sheet is supported. The resolution explains the complete case and its misleading threads.' : 'This opens the full solution for everyone in this room. Return to the evidence if you want to keep investigating.') + '</p><p class="caption">The reveal cannot be put back in its envelope.</p><div class="dialog-actions">' + button('Keep investigating', 'close') + button(state.solved ? 'Read the resolution' : 'Reveal the full solution', 'reveal', '', 'danger') + '</div>', {title:'Confirm case resolution'});
@@ -352,41 +469,56 @@
     window.print();
   }
   function copyText(value) {
-    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(value).then(function () { notify('Companion link copied. Open it on your phone.'); }).catch(function () { copyFallback(value); }); }
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(value).then(function () { notify('Link copied.'); }).catch(function () { copyFallback(value); }); }
     else copyFallback(value);
   }
   function copyFallback(value) {
     var el = document.createElement('textarea'); el.value = value; overlay.querySelector('.dialog').appendChild(el); el.focus(); el.select();
-    try { if (document.execCommand('copy')) { el.remove(); notify('Companion link copied.'); } else notify('Select and copy the link shown in this field.', 'info'); } catch (ignore) { notify('Select and copy the link shown in this field.', 'info'); }
+    try { if (document.execCommand('copy')) { el.remove(); notify('Link copied.'); } else notify('Select and copy the link shown in this field.', 'info'); } catch (ignore) { notify('Select and copy the link shown in this field.', 'info'); }
   }
   document.addEventListener('click', function (event) {
     var el = event.target.closest('[data-action]');
     if (!el || el.disabled) return;
+    unlockSound();
     var action = el.dataset.action;
     if (action === 'count') { rememberNames(); playerCount = Number(el.dataset.count); renderSetup(); }
     else if (action === 'difficulty') { rememberNames(); difficulty = el.dataset.mode; renderSetup(); }
     else if (action === 'resume-room') joinRoom(el.dataset.room);
     else if (action === 'close') closeModal();
     else if (action === 'share') showShare();
+    else if (action === 'share-game') showShare(true);
+    else if (action === 'native-share') nativeShare(el.dataset.url,el.dataset.roomShare==='1');
     else if (action === 'players') showPlayers();
     else if (action === 'select-player') { activePlayer = el.dataset.player; storageSet(ownPlayerKey, activePlayer); closeModal(); renderGame(); }
     else if (action === 'copy') copyText(el.dataset.url);
-    else if (action === 'view') { view = el.dataset.view; renderGame(); window.scrollTo(0,0); var heading = document.getElementById('desk-content'); heading.setAttribute('tabindex','-1'); heading.focus({preventScroll:true}); }
-    else if (action === 'act') { selectedAct = Number(el.dataset.act); view = 'files'; renderGame(); }
+    else if (action === 'view') { stopNarration(); view = el.dataset.view; renderGame(); window.scrollTo(0,0); var heading = document.getElementById('desk-content'); heading.focus({preventScroll:true}); heading.scrollIntoView({block:'start'}); }
+    else if (action === 'act') { stopNarration(); selectedAct = Number(el.dataset.act); view = 'files'; renderGame(); focusDeskReading(); }
     else if (action === 'read') openReader(el.dataset.doc);
+    else if (action === 'briefing-read') openBriefing(false);
+    else if (action === 'briefing-listen') openBriefing(true);
+    else if (action === 'reader-browser' && reader) listenToReader(true);
+    else if (action === 'act-listen') showIntroduction(Number(el.dataset.act));
+    else if (action === 'intro-play') playIntroduction(Number(el.dataset.act));
+    else if (action === 'narration-stop') stopNarration('Narration stopped.');
+    else if (action === 'reader-listen' && reader) listenToReader(false);
     else if (action === 'pin') perform({type:'pin',documentId:el.dataset.doc});
     else if (action === 'reader-pin') perform({type:'pin',documentId:el.dataset.doc}, function () { if (reader) drawReader(); });
     else if (action === 'reader-next' && reader) { reader.page++; drawReader(); }
     else if (action === 'reader-prev' && reader) { reader.page--; drawReader(); }
-    else if (action === 'reader-done') { var id = el.dataset.doc; closeModal(); if (state.readIds.indexOf(id) < 0) perform({type:'read',documentId:id}); }
+    else if (action === 'reader-done') { var id = el.dataset.doc;var briefing=reader && reader.kind==='briefing'; closeModal(); if (!briefing && state.readIds.indexOf(id) < 0) perform({type:'read',documentId:id}); }
     else if (action === 'answer') perform({type:'answer',questionId:el.dataset.question,optionId:el.dataset.option});
-    else if (action === 'advance') perform({type:'advance'}, function (data) { selectedAct = data.actIndex; view = 'files'; renderGame(); window.scrollTo(0,0); });
+    else if (action === 'advance') perform({type:'advance'}, function (data) { selectedAct = data.actIndex; view = 'files'; renderGame(); focusDeskReading(); });
     else if (action === 'hints') showHints();
     else if (action === 'next-hint') perform({type:'hint'}, function () { showHints(); });
     else if (action === 'settings') showSettings();
     else if (action === 'font-scale') { document.documentElement.classList.toggle('cinema'); storageSet('varsha-cinema',document.documentElement.classList.contains('cinema') ? '1' : '0'); pendingRender = true; showSettings(); }
-    else if (action === 'rain') toggleRain();
-    else if (action === 'speech') { speechEnabled = !speechEnabled; if (!speechEnabled && window.speechSynthesis) window.speechSynthesis.cancel(); showSettings(); }
+    else if (action === 'music') { soundPrefs.music=!soundPrefs.music;saveSound();showSettings(); }
+    else if (action === 'effects') { soundPrefs.effects=!soundPrefs.effects;saveSound();showSettings(); }
+    else if (action === 'rain') { soundPrefs.ambience=!soundPrefs.ambience;saveSound();showSettings(); }
+    else if (action === 'volume-down') changeVolume(-0.05);
+    else if (action === 'volume-up') changeVolume(0.05);
+    else if (action === 'voice-down') changeNarrationVolume(-0.05);
+    else if (action === 'voice-up') changeNarrationVolume(0.05);
     else if (action === 'pause') perform({type:state.paused ? 'resume' : 'pause'}, showSettings);
     else if (action === 'print') printFiles();
     else if (action === 'confirm-reveal') confirmReveal();
@@ -397,6 +529,7 @@
     var form = event.target;
     if (['setup-form','join-form','note-form','accuse-form'].indexOf(form.id) < 0) return;
     event.preventDefault();
+    unlockSound();
     if (busy) return;
     if (form.id === 'setup-form') {
       rememberNames(); busy=true;
@@ -415,10 +548,11 @@
     }
   });
   document.addEventListener('change', function (event) {
+    if(event.target.id==='volume-slider') { unlockSound();soundPrefs.volume=Number(event.target.value)/100;saveSound();var output=document.getElementById('sound-volume');if(output)output.textContent=event.target.value+'%'; }
     if (event.target.name === 'evidence') { var count = document.querySelectorAll('input[name=evidence]:checked').length; var el=document.getElementById('citation-count'); if(el) el.textContent=count+' evidence citation'+(count === 1 ? '' : 's')+' selected'; }
   });
   function focusable(root) {
-    return Array.prototype.slice.call(root.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex="0"]')).filter(function (el) { return el.getBoundingClientRect().width > 0 && el.getBoundingClientRect().height > 0; });
+    return Array.prototype.slice.call(root.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex="0"]')).filter(function (el) { return el.getAttribute('tabindex') !== '-1' && el.getBoundingClientRect().width > 0 && el.getBoundingClientRect().height > 0; });
   }
   document.addEventListener('keydown', function (event) {
     var active = document.activeElement;
@@ -430,16 +564,22 @@
       else if(!event.shiftKey && active === list[list.length-1]) {event.preventDefault();list[0].focus();}
       return;
     }
-    if (editing || event.altKey || event.ctrlKey || event.metaKey || ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].indexOf(event.key) < 0) return;
+    if(event.altKey || event.ctrlKey || event.metaKey)return;
+    if(active && active.id==='desk-content') {
+      if(event.key==='ArrowUp' || event.key==='ArrowDown'){event.preventDefault();window.scrollBy(0,(event.key==='ArrowDown'?1:-1)*Math.max(100,window.innerHeight*0.55));return;}
+      if(event.key==='Enter' || event.key==='ArrowRight'){event.preventDefault();focusDeskControls();return;}
+      if(event.key==='ArrowLeft'){event.preventDefault();var section=app.querySelector('.tab.active');if(section){section.focus();section.scrollIntoView({block:'nearest'});}return;}
+    }
+    if(active && active.classList.contains('reader-content') && event.key==='Enter'){event.preventDefault();var control=overlay.querySelector('.reader-bottom .primary');if(control){control.focus();control.scrollIntoView({block:'nearest'});}return;}
+    if(modal==='reader' && active && active.closest('.reader-bottom') && event.key==='ArrowUp'){event.preventDefault();var paper=overlay.querySelector('.reader-content');if(paper)paper.focus();return;}
+    if (editing || ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].indexOf(event.key) < 0) return;
     if (active && active.classList.contains('reader-content')) {
       event.preventDefault();
       if (event.key === 'ArrowDown') {
-        if(active.scrollTop + active.clientHeight < active.scrollHeight - 3)active.scrollTop += Math.max(80,active.clientHeight * 0.5);
-        else { var next=overlay.querySelector('.reader-bottom .primary');if(next)next.focus(); }
+        active.scrollTop += Math.max(80,active.clientHeight * 0.5);
       } else if (event.key === 'ArrowUp') {
-        if(active.scrollTop > 0)active.scrollTop -= Math.max(80,active.clientHeight * 0.5);
-        else { var topButton=overlay.querySelector('.reader-top button');if(topButton)topButton.focus(); }
-      } else { var pageButton=overlay.querySelector('[data-action="'+(event.key==='ArrowLeft'?'reader-prev':'reader-next')+'"]:not([disabled])');if(pageButton)pageButton.focus(); }
+        active.scrollTop -= Math.max(80,active.clientHeight * 0.5);
+      } else if(reader) {var targetPage=reader.page+(event.key==='ArrowLeft'?-1:1);if(targetPage>=0 && targetPage<reader.pages.length){reader.page=targetPage;drawReader();}}
       return;
     }
     var candidates = focusable(modal ? overlay : app);
@@ -459,7 +599,7 @@
     var code=state.code;
     api('/'+encodeURIComponent(code)).then(function (data) { if(!state||state.code!==code)return;online=true;applyState(data,false);var dots=document.querySelectorAll('.connection');for(var i=0;i<dots.length;i++)dots[i].classList.remove('offline'); }).catch(function () {online=false;var dots=document.querySelectorAll('.connection');for(var i=0;i<dots.length;i++)dots[i].classList.add('offline');}).then(function(){pollBusy=false;});
   }
-  document.addEventListener('visibilitychange',function(){if(!document.hidden)poll();});
+  document.addEventListener('visibilitychange',function(){if(sound)sound.setPaused(document.hidden || !!(state && state.paused));updateSoundStatus();if(!document.hidden)poll();});
   setInterval(poll,3000);
   api('').then(function (data) { caseData=data; if(roomFromUrl)joinRoom(roomFromUrl);else renderSetup(); }).catch(function (error) { renderSetup();notify(error.message,'error'); });
 }());
