@@ -13,6 +13,12 @@
   var difficulty = 'standard';
   var activePlayer = '';
   var modal = '';
+  var rulesVersion = '2026-10-22';
+  var tableAccepted = false;
+  var roomGeneration = 0;
+  var consentPromise = null;
+  var consentResolve = null;
+  try { var consent = JSON.parse(storageGet('responsible-table') || 'null'); tableAccepted = !!(consent && consent.adultConfirmed === true && consent.rulesVersion === rulesVersion && consent.rulesAccepted === true); } catch (ignore) {}
   var reader = null;
   var returnFocus = null;
   var busy = false;
@@ -100,7 +106,8 @@
   function focusDeskControls() {var area=document.getElementById('desk-content');if(!area)return;var control=area.querySelector('[data-action="briefing-read"],.document-main,.answer-options button,#note-player,#killer') || focusable(area)[0];if(control){control.focus();control.scrollIntoView({block:'nearest'});}}
   function roleLabel(role) { return String(role || 'Detective').replace(/[_-]/g, ' '); }
   function modeLabel(mode) { return mode ? mode.charAt(0).toUpperCase() + mode.slice(1) : 'Standard'; }
-  function fictionFooter() { return '<footer class="footer"><span>THE VARSHA HOUSE FILES · AN ORIGINAL FICTIONAL MYSTERY</span><span>All people, records and events are fictional. Evidence is created for play.</span></footer>'; }
+  function policyLinks() { return '<a href="./terms.html">Table rules</a> &middot; <a href="./privacy.html">Privacy</a> · <a href="./support.html">Help &amp; support</a>'; }
+  function fictionFooter() { return '<footer class="footer"><span>THE VARSHA HOUSE FILES · AN ORIGINAL FICTIONAL MYSTERY</span><span>All people, records and events are fictional. Evidence is created for play.</span><span>' + policyLinks() + '</span></footer>'; }
   function notify(message, kind) {
     clearTimeout(feedbackTimer);
     feedback.textContent = message;
@@ -108,13 +115,43 @@
     feedback.hidden = false;
     feedbackTimer = setTimeout(function () { feedback.hidden = true; }, kind === 'error' ? 9000 : 5500);
   }
+  function tableRulesText() {
+    return '<p>This fictional mystery is for adults aged 18 or over. Keep names and notes about the game: no harassment, hate, sexual exploitation, threats or private information about real people.</p><p>Share a room code only with your group. Anyone holding it can edit progress, remove notes or report and hide notes or names for everyone. <a href="./terms.html">Full table rules</a> &middot; <a href="./privacy.html">Privacy</a></p>';
+  }
+  function confirmTable() {
+    if (tableAccepted) return Promise.resolve(true);
+    if (consentPromise) return consentPromise;
+    consentPromise = new Promise(function (resolve) { consentResolve = resolve; });
+    showModal('responsible-table', '<span class="eyebrow">BEFORE YOU JOIN THE TABLE</span><h2>For adult detectives.</h2>' + tableRulesText() + '<form id="table-confirm-form"><label class="table-check"><input type="checkbox" id="adult-confirm" required autofocus><span>I confirm that I am 18 or older.</span></label><label class="table-check"><input type="checkbox" id="rules-confirm" required><span>I accept the table rules for names and shared notes.</span></label><div class="dialog-actions">' + button('Decline & back to setup','decline-table') + '<button type="submit" class="primary">Confirm & continue</button></div></form>', {title:'Adult confirmation and table rules'});
+    return consentPromise;
+  }
+  function showTableRules() {
+    showModal('table-rules', dialogTop('Respect your table.') + tableRulesText() + '<p class="caption">Confirmation is a declaration on this device. It does not verify your age or identity. Resetting it returns this device to setup; the shared room stays available to your group.</p><div class="dialog-actions">' + (tableAccepted ? button('Reset this device confirmation','reset-table') : '') + button('Back','close','','primary') + '</div>', {title:'Table rules and adult confirmation'});
+  }
+  function backToSetup() {
+    stopNarration();
+    roomGeneration++;
+    state = null; view = 'briefing'; roomFromUrl = '';
+    history.replaceState(null, '', location.pathname + (companion ? '?companion=1' : ''));
+    renderSetup(); window.scrollTo(0,0);
+  }
   function api(path, body) {
-    var options = { headers: { 'Accept': 'application/json' }, cache: 'no-store' };
-    if (body) { options.method = 'POST'; options.headers['Content-Type'] = 'application/json'; options.body = JSON.stringify(body); }
-    return fetch(apiBase + path, options).then(function (response) {
-      return response.json().catch(function () { throw new Error('The case desk could not be reached. Please try again.'); }).then(function (data) {
-        if (!response.ok) throw new Error(data.error || 'The case desk could not complete that action.');
-        return data;
+    var requestGeneration = roomGeneration;
+    return (body ? confirmTable() : Promise.resolve(true)).then(function (accepted) {
+      if (!accepted) { var cancelled = new Error('No room action was sent. You can confirm the table rules when you are ready.'); cancelled.cancelled = true; throw cancelled; }
+      if (requestGeneration !== roomGeneration) throw new Error('Return to the room after confirming the table rules to check saved progress.');
+      var options = { headers: { 'Accept': 'application/json' }, cache: 'no-store' };
+      if (body) {
+        if (!tableAccepted) throw new Error('Please confirm the table rules before continuing.');
+        var payload = Object.assign({}, body, {adultConfirmed:true, rulesVersion:rulesVersion});
+        options.method = 'POST'; options.headers['Content-Type'] = 'application/json'; options.body = JSON.stringify(payload);
+      }
+      return fetch(apiBase + path, options).then(function (response) {
+        return response.json().catch(function () { throw new Error('The case desk could not be reached. Please try again.'); }).then(function (data) {
+          if (requestGeneration !== roomGeneration) throw new Error('That request finished after you returned to setup. Confirm the table rules and resume the room to check saved progress.');
+          if (!response.ok) throw new Error(data.error || 'The case desk could not complete that action.');
+          return data;
+        });
       });
     });
   }
@@ -129,6 +166,7 @@
     app.innerHTML = '<main class="setup-shell"><section class="setup-hero"><div class="brand">AN EVENING IN THREE ENVELOPES</div><div class="hero-copy"><div class="case-tag">CASE NO. VH–017 / CLOSED CIRCLE</div><h1>Varsha<br>House<em>.</em></h1><span class="eyebrow">A MONSOON MURDER</span><p>A secluded hotel. A night of relentless rain. One death, five people with something to hide. The case is yours to close.</p><div class="hero-meta"><span>1–6 DETECTIVES</span><span>45–75 MINUTES</span><span>ONE SHARED CASE</span></div></div></section><section class="setup-form"><span class="eyebrow">YOUR TABLE IS READY</span><h2>Stay in. Solve something.</h2><p class="intro">Put the case on your TV. Share the reading on your phones. Open each envelope together and follow the paper trail.</p><form id="setup-form"><div class="section-label">01 / WHO IS INVESTIGATING?</div><div class="count-picker" aria-label="Number of detectives">' + [1,2,3,4,5,6].map(function (n) { return button(String(n), 'count', 'data-count="' + n + '" aria-pressed="' + (n === playerCount) + '" aria-label="' + n + ' detective' + (n > 1 ? 's' : '') + '"', n === playerCount ? 'selected' : ''); }).join('') + '</div><div class="names-grid">' + names.slice(0, playerCount).map(function (name, i) { return '<div><label for="name-' + i + '">Detective ' + (i+1) + '</label><input id="name-' + i + '" data-detective-name="' + i + '" value="' + esc(name) + '" maxlength="30" autocomplete="off" required></div>'; }).join('') + '</div><div class="section-label">02 / CHOOSE YOUR CHALLENGE</div><div class="mode-picker">' + modes.map(function (mode) { return button('<strong>' + mode[1] + '</strong><span>' + esc(mode[2]) + '</span>', 'difficulty', 'data-mode="' + mode[0] + '" aria-pressed="' + (difficulty === mode[0]) + '"', 'mode ' + (difficulty === mode[0] ? 'selected' : '')); }).join('') + '</div><button class="primary start-button" type="submit">Break the first seal <span aria-hidden="true">→</span></button></form><div class="section-label">ALREADY HAVE A CASE?</div><form id="join-form" class="join-line"><label class="visually-hidden" for="join-code" hidden>Room code</label><input id="join-code" aria-label="Room code" placeholder="ROOM CODE" maxlength="12" autocapitalize="characters" autocomplete="off" required><button type="submit">Join room</button></form>' + (resumeCode ? button('Resume case ' + esc(resumeCode) + ' →', 'resume-room', 'data-room="' + esc(resumeCode) + '"', 'text small') : '') + '<div class="setup-foot">Your room saves automatically.<br>Fictional case · No real crime imagery · Best with the sound of rain.</div></section></main>';
     var tools=document.createElement('div');tools.className='setup-tools';tools.innerHTML=button('Share this game','share-game','','small')+button('Sound settings','settings','','small');
     app.querySelector('.setup-form').insertBefore(tools,app.querySelector('.setup-foot'));
+    app.querySelector('.setup-foot').insertAdjacentHTML('beforeend','<br>'+policyLinks());
   }
   function elapsedLabel() {
     if (!state) return '00:00';
@@ -203,7 +241,7 @@
   }
   function renderNotes() {
     var mine = myPlayer();
-    return '<section><div class="content-heading"><div><span class="eyebrow">THE TABLE’S WORKING THEORY</span><h2>Put it in the notebook.</h2><p class="caption">Shared observations, contradictions, and things to come back to.</p></div></div><div class="notes-layout"><form class="note-form" id="note-form"><label for="note-player">Writing as</label><select id="note-player">' + state.players.map(function (p) { return '<option value="' + esc(p.id) + '" ' + (mine && mine.id === p.id ? 'selected' : '') + '>' + esc(p.name) + ' · ' + esc(roleLabel(p.role)) + '</option>'; }).join('') + '</select><label for="note-text" style="margin-top:18px">Your observation</label><textarea id="note-text" maxlength="2000" placeholder="Which fact does not fit? What would explain it?" required></textarea><button type="submit" class="primary">Add to shared notebook</button></form><div aria-live="off">' + (state.notes.length ? state.notes.slice().reverse().map(function (note) { var player = state.players.filter(function (p) { return p.id === note.playerId; })[0]; return '<article class="note-card"><span class="eyebrow">' + esc(player ? player.name : 'Detective') + '</span><p>' + esc(note.text) + '</p><time>' + esc(note.at ? new Date(note.at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) : '') + '</time></article>'; }).join('') : '<div class="empty-state"><h3>A fresh page.</h3><p>Your table’s first theory belongs here.</p></div>') + '</div></div></section>';
+    return '<section><div class="content-heading"><div><span class="eyebrow">THE TABLE’S WORKING THEORY</span><h2>Put it in the notebook.</h2><p class="caption">Notes about the fictional case only. Everyone in this room can remove or report a note for the whole group.</p></div></div><div class="notes-layout"><form class="note-form" id="note-form"><label for="note-player">Writing as</label><select id="note-player">' + state.players.map(function (p) { return '<option value="' + esc(p.id) + '" ' + (mine && mine.id === p.id ? 'selected' : '') + '>' + esc(p.name) + ' · ' + esc(roleLabel(p.role)) + '</option>'; }).join('') + '</select><label for="note-text" style="margin-top:18px">Your observation</label><textarea id="note-text" maxlength="2000" placeholder="Which fact does not fit? What would explain it?" required></textarea><button type="submit" class="primary">Add to shared notebook</button></form><div aria-live="off">' + (state.notes.length ? state.notes.slice().reverse().map(function (note) { var player = state.players.filter(function (p) { return p.id === note.playerId; })[0]; return '<article class="note-card" data-note-id="' + esc(note.id) + '"><span class="eyebrow">' + esc(player ? player.name : 'Detective') + '</span><p>' + esc(note.text) + '</p><time>' + esc(note.at ? new Date(note.at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) : '') + '</time>' + (note.id ? '<div class="note-actions">' + button('Report &amp; hide','report-note','data-note="' + esc(note.id) + '"','small') + button('Remove for everyone','remove-note','data-note="' + esc(note.id) + '"','small') + '</div>' : '') + '</article>'; }).join('') : '<div class="empty-state"><h3>A fresh page.</h3><p>Your table’s first theory belongs here.</p></div>') + '</div></div></section>';
   }
   function optionHtml(options, placeholder) {
     return '<option value="">' + esc(placeholder) + '</option>' + (options || []).map(function (option) { return '<option value="' + esc(option.id) + '">' + esc(option.label || option.name) + '</option>'; }).join('');
@@ -301,7 +339,7 @@
     if (!/^[A-Z0-9-]{3,12}$/.test(code)) { notify('Enter the room code shown on your case screen.', 'error'); return; }
     if (busy) return;
     busy = true;
-    api('/' + encodeURIComponent(code)).then(activateRoom).catch(function (error) { notify(error.message, 'error'); if (!state) renderSetup(); }).then(function () { busy = false; });
+    confirmTable().then(function (accepted) { if (!accepted) return null; return api('/' + encodeURIComponent(code)); }).then(function (data) { if (data) activateRoom(data); }).catch(function (error) { notify(error.message, 'error'); if (!state) renderSetup(); }).then(function () { busy = false; });
   }
   function showModal(name, html, options) {
     options = options || {};
@@ -317,7 +355,9 @@
     stopNarration();
     overlay.hidden = true;
     overlay.innerHTML = '';
+    var declined = modal === 'responsible-table' && consentResolve;
     modal = '';
+    if (declined) { consentResolve = null; consentPromise = null; backToSetup(); declined(false); }
     reader = null;
     document.body.style.overflow = '';
     if (pendingRender && state) renderGame();
@@ -347,7 +387,7 @@
     navigator.share({title:'Varsha House — A Monsoon Murder',text:room?'Join our Varsha House investigation. This room invitation includes access to our shared notes.':'A monsoon murder mystery for a rainy evening. Start your own case.',url:url}).catch(function(error){if(error.name!=='AbortError')notify('Sharing is unavailable here. You can copy the link instead.','info');});
   }
   function showPlayers() {
-    showModal('players', dialogTop('Which detective are you?') + '<p>Pick your place at the table. Roles suggest how to divide the reading; everyone can examine every record.</p><div class="role-options">' + state.players.map(function (p) { return button('<strong>' + esc(p.name) + '</strong><span>' + esc(roleLabel(p.role)) + (activePlayer === p.id ? ' · SELECTED' : '') + '</span>', 'select-player', 'data-player="' + esc(p.id) + '"'); }).join('') + '</div>', {title:'Choose detective'});
+    showModal('players', dialogTop('Which detective are you?') + '<p>Pick your place at the table. Roles suggest how to divide the reading; everyone can examine every record. Report &amp; hide replaces a name for the whole room; it does not ban a person or revoke their room code.</p><div class="role-options">' + state.players.map(function (p) { return '<div class="player-row">' + button('<strong>' + esc(p.name) + '</strong><span>' + esc(roleLabel(p.role)) + (activePlayer === p.id ? ' · SELECTED' : '') + '</span>', 'select-player', 'data-player="' + esc(p.id) + '"') + button('Report &amp; hide name','report-player','data-player="' + esc(p.id) + '"','small') + '</div>'; }).join('') + '</div>', {title:'Choose detective'});
   }
   function splitPages(body) {
     var blocks = paragraphs(body);
@@ -453,7 +493,15 @@
     var roomRows = state ? '<div class="settings-row"><div><strong>Case clock</strong><p>Pause the clock and sound for a break. Records stay accessible.</p></div>'+button(state.paused?'Resume':'Pause','pause')+'</div><div class="settings-row"><div><strong>Your place at the table</strong><p>'+esc(myPlayer()?myPlayer().name:'Detective')+'</p></div>'+button('Choose','players')+'</div>' : '';
     var voiceRow='<div class="settings-row volume-row"><div><strong>Narration volume</strong><p>Recorded voice and browser voice. Music softens while narration plays.</p></div><div class="volume-control voice-volume">'+button('-','voice-down','aria-label="Lower narration volume"')+'<output id="narration-volume">'+Math.round(narrationVolume*100)+'%</output>'+button('+','voice-up','aria-label="Raise narration volume"')+'</div></div>';
     showModal('settings',dialogTop('Settle into the evening.')+audioRows+'<div class="settings-row"><div><strong>Reading scale</strong><p>Larger type and fewer cards for a distant TV.</p></div>'+button(cinema?'Cinema':'Normal','font-scale')+'</div>'+voiceRow+roomRows+'<p class="caption" style="margin-top:23px">Narration plays only when you choose Listen, and stops on a page change or break. With a TV remote, use the direction keys to move, Enter to choose, and Back to close a document.</p>'+(state && state.actIndex===2 && !state.solved && !state.revealed?button('End case & reveal...','confirm-reveal','','text small'):'')+'<div class="dialog-actions">'+(state?button('Leave this room','leave','','danger small'):'')+button(state?'Back to the case':'Back to setup','close','','primary')+'</div>',{title:'Sound and reading settings'});
+    overlay.querySelector('.dialog-actions').insertAdjacentHTML('afterbegin',button('Table rules','table-rules')+button('Help & privacy','support'));
     if(focusedAction){var control=overlay.querySelector('[data-action="'+focusedAction+'"]');if(control)control.focus();}
+  }
+  function moderateContent(type, id) {
+    var removing = type === 'remove-note';
+    var player = type === 'report-player';
+    var explanation = removing ? 'Remove this note for everyone in the room? This cannot be undone.' : (player ? 'Report this detective name and replace it with a default alias for everyone? This does not ban anyone or revoke the room code.' : 'Report and hide this note for everyone in the room?');
+    var reasons = '<label for="report-reason">Reason</label><select id="report-reason"><option value="other">Other unsuitable content</option><option value="harassment">Harassment or threats</option><option value="hate">Hate</option><option value="sexual">Sexual exploitation or content</option><option value="personal-data">Private information about a real person</option></select>';
+    showModal('moderation', dialogTop(removing ? 'Remove this note?' : 'Report & hide?') + '<p>' + explanation + '</p>' + (removing ? '' : '<p class="caption">The operator can review reports privately. Avoid repeating the content in a support message.</p>' + reasons) + '<div class="dialog-actions">' + button('Cancel','close') + button(removing ? 'Remove for everyone' : 'Report &amp; hide','confirm-moderation','data-type="' + esc(type) + '" data-id="' + esc(id) + '"','danger') + '</div>', {title:removing ? 'Confirm note removal for everyone' : 'Confirm report and hide for everyone'});
   }
   function changeVolume(delta) {
     soundPrefs.volume=Math.max(0,Math.min(1,Math.round((soundPrefs.volume+delta)*100)/100));
@@ -484,7 +532,17 @@
     if (action === 'count') { rememberNames(); playerCount = Number(el.dataset.count); renderSetup(); }
     else if (action === 'difficulty') { rememberNames(); difficulty = el.dataset.mode; renderSetup(); }
     else if (action === 'resume-room') joinRoom(el.dataset.room);
-    else if (action === 'close') closeModal();
+    else if (action === 'close' || action === 'decline-table') closeModal();
+    else if (action === 'table-rules') showTableRules();
+    else if (action === 'reset-table') { tableAccepted = false; storageSet('responsible-table',''); closeModal(); backToSetup(); notify('Adult and table-rules confirmation reset on this device.'); }
+    else if (action === 'report-note' || action === 'remove-note') moderateContent(action,el.dataset.note);
+    else if (action === 'report-player') moderateContent(action,el.dataset.player);
+    else if (action === 'confirm-moderation') {
+      var moderation = {type:el.dataset.type};
+      moderation[el.dataset.type === 'report-player' ? 'playerId' : 'noteId'] = el.dataset.id;
+      if (el.dataset.type !== 'remove-note') moderation.reason = document.getElementById('report-reason').value;
+      perform(moderation, function () { closeModal(); renderGame(); notify(moderation.type === 'remove-note' ? 'Note removed for everyone.' : 'Reported and hidden for everyone.'); });
+    }
     else if (action === 'share') showShare();
     else if (action === 'share-game') showShare(true);
     else if (action === 'native-share') nativeShare(el.dataset.url,el.dataset.roomShare==='1');
@@ -511,6 +569,7 @@
     else if (action === 'hints') showHints();
     else if (action === 'next-hint') perform({type:'hint'}, function () { showHints(); });
     else if (action === 'settings') showSettings();
+    else if (action === 'support') location.assign('./support.html');
     else if (action === 'font-scale') { document.documentElement.classList.toggle('cinema'); storageSet('varsha-cinema',document.documentElement.classList.contains('cinema') ? '1' : '0'); pendingRender = true; showSettings(); }
     else if (action === 'music') { soundPrefs.music=!soundPrefs.music;saveSound();showSettings(); }
     else if (action === 'effects') { soundPrefs.effects=!soundPrefs.effects;saveSound();showSettings(); }
@@ -523,10 +582,17 @@
     else if (action === 'print') printFiles();
     else if (action === 'confirm-reveal') confirmReveal();
     else if (action === 'reveal') perform({type:'reveal',confirm:true}, function (data) { if (data.revealed) { view='accuse'; closeModal(); renderGame(); window.scrollTo(0,0); } });
-    else if (action === 'leave') { closeModal(); state=null; view='briefing'; companion=false; history.replaceState(null,'',location.pathname); renderSetup(); window.scrollTo(0,0); }
+    else if (action === 'leave') { roomGeneration++; closeModal(); state=null; view='briefing'; companion=false; history.replaceState(null,'',location.pathname); renderSetup(); window.scrollTo(0,0); }
   });
   document.addEventListener('submit', function (event) {
     var form = event.target;
+    if (form.id === 'table-confirm-form') {
+      event.preventDefault();
+      if (!document.getElementById('adult-confirm').checked || !document.getElementById('rules-confirm').checked || !consentResolve) return;
+      tableAccepted = true;
+      storageSet('responsible-table',JSON.stringify({adultConfirmed:true,rulesAccepted:true,rulesVersion:rulesVersion}));
+      var accepted = consentResolve; consentResolve = null; consentPromise = null; closeModal(); accepted(true); return;
+    }
     if (['setup-form','join-form','note-form','accuse-form'].indexOf(form.id) < 0) return;
     event.preventDefault();
     unlockSound();
@@ -573,6 +639,13 @@
     if(active && active.classList.contains('reader-content') && event.key==='Enter'){event.preventDefault();var control=overlay.querySelector('.reader-bottom .primary');if(control){control.focus();control.scrollIntoView({block:'nearest'});}return;}
     if(modal==='reader' && active && active.closest('.reader-bottom') && event.key==='ArrowUp'){event.preventDefault();var paper=overlay.querySelector('.reader-content');if(paper)paper.focus();return;}
     if(modal==='reader' && active && active.closest('.reader-bottom') && (event.key==='ArrowLeft' || event.key==='ArrowRight')){event.preventDefault();var controls=focusable(active.closest('.reader-bottom')).filter(function(el){return el.tagName==='BUTTON';});var nextControl=controls[controls.indexOf(active)+(event.key==='ArrowLeft'?-1:1)];if(nextControl){nextControl.focus();nextControl.scrollIntoView({block:'nearest',inline:'nearest'});}return;}
+    if (modal === 'responsible-table' && active && active.type === 'checkbox' && event.key === 'Enter') { event.preventDefault(); active.checked = !active.checked; return; }
+    if (modal === 'responsible-table' && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].indexOf(event.key) >= 0 && active.tagName !== 'A') {
+      event.preventDefault();
+      var tableControls = focusable(overlay); var tableIndex = tableControls.indexOf(active);
+      var tableNext = tableControls[Math.max(0,Math.min(tableControls.length-1,tableIndex + (event.key === 'ArrowDown' || event.key === 'ArrowRight' ? 1 : -1)))];
+      if (tableNext) { tableNext.focus(); tableNext.scrollIntoView({block:'nearest'}); } return;
+    }
     if (editing || ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].indexOf(event.key) < 0) return;
     if (active && active.classList.contains('reader-content')) {
       event.preventDefault();
@@ -602,5 +675,5 @@
   }
   document.addEventListener('visibilitychange',function(){if(sound)sound.setPaused(document.hidden || !!(state && state.paused));updateSoundStatus();if(!document.hidden)poll();});
   setInterval(poll,3000);
-  api('').then(function (data) { caseData=data; if(roomFromUrl)joinRoom(roomFromUrl);else renderSetup(); }).catch(function (error) { renderSetup();notify(error.message,'error'); });
+  api('').then(function (data) { caseData=data; renderSetup(); if(roomFromUrl)joinRoom(roomFromUrl); }).catch(function (error) { renderSetup();notify(error.message,'error'); });
 }());
