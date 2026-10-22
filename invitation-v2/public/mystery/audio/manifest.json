@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "composition": "Original synthesis; no sampled or third-party material.",
+  "tempoBpm": 60,
+  "loopSeconds": 32,
+  "tracks": [
+    {
+      "peak": 0.504683,
+      "rms": 0.117839,
+      "seamStep": 0.007119,
+      "nearSeamMaxStep": 0.011972,
+      "seamCurvature": 0.000542,
+      "nearSeamMaxCurvature": 0.000998,
+      "file": "act1.wav",
+      "seconds": 32,
+      "sampleRate": 22050,
+      "channels": 1,
+      "bytes": 1411244,
+      "title": "Lanterns in the Rain"
+    },
+    {
+      "peak": 0.518795,
+      "rms": 0.11825,
+      "seamStep": 0.003475,
+      "nearSeamMaxStep": 0.013229,
+      "seamCurvature": 3.3e-05,
+      "nearSeamMaxCurvature": 0.001051,
+      "file": "act2.wav",
+      "seconds": 32,
+      "sampleRate": 22050,
+      "channels": 1,
+      "bytes": 1411244,
+      "title": "Footsteps Beyond the Veranda"
+    },
+    {
+      "peak": 0.550116,
+      "rms": 0.136579,
+      "seamStep": 0.004126,
+      "nearSeamMaxStep": 0.010626,
+      "seamCurvature": 0.0003,
+      "nearSeamMaxCurvature": 0.000968,
+      "file": "act3.wav",
+      "seconds": 32,
+      "sampleRate": 22050,
+      "channels": 1,
+      "bytes": 1411244,
+      "title": "The Weight of Paper"
+    },
+    {
+      "peak": 0.6,
+      "rms": 0.128667,
+      "seamStep": 0.013723,
+      "nearSeamMaxStep": 0.016365,
+      "seamCurvature": 0.000738,
+      "nearSeamMaxCurvature": 0.001364,
+      "file": "resolution.wav",
+      "seconds": 32,
+      "sampleRate": 22050,
+      "channels": 1,
+      "bytes": 1411244,
+      "title": "What the House Remembers"
+    }
+  ],
+  "effectsAudit": {
+    "cues": {
+      "enter": {
+        "default25PercentPeakDbfs": -28.42,
+        "activeRmsDbfs": -42.31
+      },
+      "file": {
+        "default25PercentPeakDbfs": -26.42,
+        "activeRmsDbfs": -44.81
+      },
+      "deduction": {
+        "default25PercentPeakDbfs": -29.87,
+        "activeRmsDbfs": -43.53
+      },
+      "unlock": {
+        "default25PercentPeakDbfs": -29.87,
+        "activeRmsDbfs": -42.7
+      },
+      "resolution": {
+        "default25PercentPeakDbfs": -29.96,
+        "activeRmsDbfs": -43.19
+      }
+    },
+    "denseBurstFullVolumePreLimiterPeakBound": 0.56971,
+    "preview": "cue-preview.wav",
+    "previewVolume": 0.25,
+    "previewOrder": [
+      "enter",
+      "file",
+      "deduction",
+      "unlock",
+      "resolution"
+    ]
+  }
+}
