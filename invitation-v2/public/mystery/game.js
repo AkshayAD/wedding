@@ -233,6 +233,7 @@
     ownPlayerKey = 'varsha-player-' + data.code;
     activePlayer = storageGet(ownPlayerKey) || '';
     history.replaceState(null, '', location.pathname + '?room=' + encodeURIComponent(data.code) + (companion ? '&companion=1' : ''));
+    if (document.activeElement && app.contains(document.activeElement)) document.activeElement.blur();
     applyState(data, true);
     if (companion && !data.players.some(function (p) { return p.id === activePlayer; })) showPlayers();
   }
