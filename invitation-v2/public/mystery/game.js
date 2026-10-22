@@ -590,7 +590,7 @@
     var vertical = event.key === 'ArrowUp' || event.key === 'ArrowDown';
     var sign = event.key === 'ArrowDown' || event.key === 'ArrowRight' ? 1 : -1;
     var best=null; var bestScore=Infinity;
-    candidates.forEach(function (el) { if(el===active)return;var r=el.getBoundingClientRect();var dx=r.left+r.width/2-x;var dy=r.top+r.height/2-y;var forward=(vertical?dy:dx)*sign;var cross=Math.abs(vertical?dx:dy);if(forward<5)return;var score=forward+cross*2.5+(cross>forward*2?300:0);if(score<bestScore){bestScore=score;best=el;} });
+    candidates.forEach(function (el) { if(el===active)return;var r=el.getBoundingClientRect();var dx=r.left+r.width/2-x;var dy=r.top+r.height/2-y;var forward=(vertical?dy:dx)*sign;var cross=vertical?Math.max(0,r.left-x,x-r.right):Math.max(0,r.top-y,y-r.bottom);if(forward<5)return;var score=forward+cross*2.5+(cross>forward*2?300:0);if(score<bestScore){bestScore=score;best=el;} });
     if(best){event.preventDefault();best.focus();best.scrollIntoView({block:'nearest',inline:'nearest'});}
   });
   function poll() {
